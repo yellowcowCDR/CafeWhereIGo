@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="/cafeManager/userinfo" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-점포관리자" />
+		<put-attribute name="body" value="/WEB-INF/views/cafeManager/userinfo.jsp" />
+	</definition>
+	<definition name="/cafeManager/cafeManagement" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-점포관리자" />
+		<put-attribute name="body" value="/WEB-INF/views/cafeManager/cafeManagement.jsp" />
+	</definition>
+	<definition name="/cafeManager/orderReservationList" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-점포관리자" />
+		<put-attribute name="body" value="/WEB-INF/views/cafeManager/orderReservationList.jsp" />
+	</definition>
+	<definition name="/cafeManager/addCafeForm" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-점포관리자" />
+		<put-attribute name="body" value="/WEB-INF/views/cafeManager/addCafeForm.jsp" />
+	</definition>
+	<definition name="/cafeManager/modifyCafeForm" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-점포관리자" />
+		<put-attribute name="body" value="/WEB-INF/views/cafeManager/modifyCafeForm.jsp" />
+	</definition>
+</tiles-definitions>

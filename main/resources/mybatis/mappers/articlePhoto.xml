@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.articlephoto">
+<!-- 리절트 맵 정의 -->	
+	<resultMap id="articlephotoResult" type="ArticlePhotoVO">
+		<result property="article_article_id" column="article_article_id" />
+		<result property="photo_location" column="photo_location" />		
+	</resultMap>	
+	
+	<insert id="uploadOne" parameterType="ArticlePhotoVO">
+		<selectKey resultType="_int" keyProperty="article_article_id" order="BEFORE">
+			<![CDATA[
+				select max(`article_id`) from `article`
+			]]>		
+		</selectKey>
+	    <![CDATA[
+			insert into `articlephoto`(Article_article_id, filename)
+			values(#{article_article_id}, #{filename})		 
+		]]>
+	</insert>
+	<insert id="uploadMultiple" parameterType="ArticlePhotoVO">
+
+	    <![CDATA[
+			insert into `articlephoto`(article_article_id, filename)
+			values(#{article_article_id}, #{filename})		 
+		]]>
+	</insert>
+	<select id="download" resultMap="articlephotoResult"  parameterType="string">
+	    <![CDATA[
+			select * from `articlephoto` 
+			 where article_article_id=#{article_article_id}				 
+		]]>
+	</select>
+	<update id="update" parameterType="ArticlePhotoVO">
+		<![CDATA[
+			update `articlephoto`
+			set filename=#{filename}
+			where article_article_id=#{article_article_id}
+		]]>
+	</update>
+	<delete id="delete"  parameterType="string">
+	    <![CDATA[
+			delete from `articlephoto`
+			where article_article_id=#{article_article_id}
+		]]>
+	</delete>
+</mapper>

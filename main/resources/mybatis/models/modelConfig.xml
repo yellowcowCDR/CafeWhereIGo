@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <typeAliases>
+    <typeAlias type="com.ubo.CafeWhereIGo.user.vo.UserVO" alias="userVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.userProfilePhoto.vo.UserProfilePhotoVO" alias="userProfilePhotoVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO" alias="articlePhotoVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.article.vo.ArticleVO" alias="articleVO" />
+     <typeAlias type="com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO" alias="articleReplyVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO" alias="likedArticleVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.article.vo.SearchConditionVO" alias="SearchConditionVO" />
+  </typeAliases>
+</configuration>
+
+
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="/user/loginform" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-로그인" />
+		<put-attribute name="body" value="/WEB-INF/views/user/loginform.jsp" />
+	</definition>
+	<definition name="/user/registerform" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-회원가입" />
+		<put-attribute name="body" value="/WEB-INF/views/user/registerform.jsp" />
+	</definition>
+	
+
+</tiles-definitions>

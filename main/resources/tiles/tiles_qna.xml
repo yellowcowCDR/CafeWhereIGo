@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="/qna/search" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-QnA" />
+		<put-attribute name="body" value="/WEB-INF/views/qna/search.jsp" />
+	</definition>
+	<definition name="/qna/addArticleForm" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-QnA" />
+		<put-attribute name="body" value="/WEB-INF/views/qna/addArticleForm.jsp" />
+	</definition>
+	<definition name="/qna/detail" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-QnA" />
+		<put-attribute name="body" value="/WEB-INF/views/qna/detail.jsp" />
+	</definition>
+	<definition name="/qna/modifyArticleForm" extends="baseLayout">
+		<put-attribute name="title" value="카페어디가-QnA" />
+		<put-attribute name="body" value="/WEB-INF/views/qna/modifyArticleForm.jsp" />
+	</definition>
+</tiles-definitions>
