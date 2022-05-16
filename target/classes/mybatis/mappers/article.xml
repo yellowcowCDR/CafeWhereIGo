@@ -40,6 +40,21 @@
 					and user_user_id = #{searchWords}
 				</if>
 			</if>
+			
+			<if test="sortingOption != null">
+				<if test="sortingOption == 'recent'">
+					order by `created_date` desc
+				</if>
+				<if test="sortingOption == 'old'">
+					order by `created_date` asc
+				</if>
+				<if test="sortingOption == 'like'">
+					order by `like_count` desc
+				</if>
+				<if test="sortingOption == 'view'">
+					order by `view_count` desc
+				</if>
+			</if>
 		) t, (select @rownum := 0) B
 		) C							
 		where
@@ -50,20 +65,7 @@
 			rownum between (1-1)*50+ (1-1)*10+1 and (1-1)*50+(1)*10
 		</if>
 		
-		<if test="sortingOption != null">
-			<if test="sortingOption == 'recent'">
-				order by `created_date` desc
-			</if>
-			<if test="sortingOption == 'old'">
-				order by `created_date` asc
-			</if>
-			<if test="sortingOption == 'like'">
-				order by `like_count` desc
-			</if>
-			<if test="sortingOption == 'view'">
-				order by `view_count` desc
-			</if>
-		</if>
+		
 	</select>
 	
 	<select id="selectArticle" resultType="ArticleVO" parameterType="_int">
