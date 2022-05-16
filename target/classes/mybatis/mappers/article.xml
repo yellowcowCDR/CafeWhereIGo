@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.article">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="articleResult" type="ArticleVO">
+		<result property="search_result_no" column="rownum"/>
+		<result property="article_id" column="article_id" />
+		<result property="cafe_name" column="cafe_name" />
+		<result property="article_title" column="article_title" />
+		<result property="article_content" column="article_content" />
+		<result property="created_date" column="created_date" />
+		<result property="view_count" column="view_count" />
+		<result property="user_user_id" column="user_user_id" />
+		<result property="ArticleType" column="ArticleType" />
+	</resultMap>	
+
+	<resultMap id="articleReplyResult" type="ArticleReplyVO">
+		<result property="reply_id" column="reply_id" />
+		<result property="reply_content" column="reply_content" />
+		<result property="Article_article_id" column="Article_article_id" />
+		<result property="user_user_id" column="user_user_id" />
+	</resultMap>
+
+	<select id="selectAllArticle" resultMap="articleResult" parameterType="searchConditionVO">
+		
+		 select * from (
+		select @rownum := @rownum+1 as rownum, t.* 
+		from(
+			select *, getLikeCount(article_id) as like_count from article
+			where article_type=#{articleType}
+			
+			<if test="searchWords !=null and searchWords!=''">
+				<if test="searchCondition == 'title'">
+					and article_title like concat('%',#{searchWords},'%')
+				</if>
+				<if test="searchCondition == 'writer'">
+					and user_user_id = #{searchWords}
+				</if>
+			</if>
+		) t, (select @rownum := 0) B
+		) C							
+		where
+		<if test="(chapter!=null and chapter!=0) and (pageNum!=null and pageNum!=0)">				
+			rownum between (#{chapter}-1)*50+ (#{pageNum}-1)*10+1 and (#{chapter}-1)*50+(#{pageNum})*10
+		</if>
+		<if test="(chapter==null or chapter==0) or (pageNum==null or pageNum==0)">
+			rownum between (1-1)*50+ (1-1)*10+1 and (1-1)*50+(1)*10
+		</if>
+		
+		<if test="sortingOption != null">
+			<if test="sortingOption == 'recent'">
+				order by `created_date` desc
+			</if>
+			<if test="sortingOption == 'old'">
+				order by `created_date` asc
+			</if>
+			<if test="sortingOption == 'like'">
+				order by `like_count` desc
+			</if>
+			<if test="sortingOption == 'view'">
+				order by `view_count` desc
+			</if>
+		</if>
+	</select>
+	
+	<select id="selectArticle" resultType="ArticleVO" parameterType="_int">
+		select * from article
+		where article_id = #{article_id}
+	</select>
+	
+	<select id="searchArticle" resultMap="articleResult" parameterType="SearchConditionVO">
+		select * from article
+		where
+		<if test="searchCondition == 'all'">
+			user_user_id = #{searchWords}
+			and
+			article_title like '%#{searchWords}%'
+		</if>
+		<if test="searchCondition == 'title'">
+			article_title like '%#{searchWords}%'
+		</if>
+		<if test="searchCondition == 'writer'">
+			user_user_id = #{searchWords}
+		</if>
+	</select>
+	
+	<select id="insertArticle" parameterType = "ArticleVO">
+		insert into article(
+			article_id,
+			cafe_name,
+			article_title,
+			article_content,
+			user_user_id,
+			article_type
+		)
+		values(
+			#{article_id},
+			#{cafe_name},
+			#{article_title},
+			#{article_content},
+			#{user_user_id},
+			#{ArticleType}
+		)
+		
+	</select>
+	
+	<update id="updateArticle" parameterType="ArticleVO">
+		update article
+		set  
+		cafe_name = #{cafe_name},
+		article_title = #{article_title},
+		article_content = #{article_content},
+	</update>
+	
+	<delete id="deleteArticle" parameterType="_int">
+		delete from article
+		where
+		article_id =#{article_id}
+	</delete>
+	
+	<select id="getNextArticleId" resultType="_int">
+	    <![CDATA[
+			SELECT AUTO_INCREMENT
+			FROM information_schema.tables
+			WHERE table_name = 'article'
+			AND table_schema = DATABASE()
+		]]>
+	</select>
+
+	<select id="getLastArticleId" resultType="_int">
+	    <![CDATA[
+			select max(article_id)
+			from article
+		]]>
+	</select>
+
+	<insert id="addLike" parameterType="LikedArticleVO">
+		<![CDATA[
+			insert LikedArticle(user_user_id, Article_article_id) 
+			values(#{user_user_id}, #{Article_article_id})
+		]]>
+	</insert>
+	<select id="isLiked" parameterType="LikedArticleVO" resultType="boolean">
+		<![CDATA[
+			select if(count(*)>0,'true','false')
+			from likedarticle
+			where Article_article_id=#{Article_article_id} and user_user_id=#{user_user_id};
+		]]>
+	</select>
+	<delete id="deleteLike" parameterType="LikedArticleVO">
+		<![CDATA[
+			delete from LikedArticle 
+			where user_user_id=#{user_user_id} and Article_article_id = #{article_article_id}
+		]]>
+	</delete>
+	
+	<select id="getArticleLikeCount" parameterType="_int" resultType="_int">
+		<![CDATA[
+			select count(*)
+			from likedarticle
+			where Article_article_id=#{article_id};
+		]]>
+	</select>
+	
+	<update id="updateViewCount" parameterType="_int">		
+		<![CDATA[
+			update article
+			set view_count= getPreviousViewCount(#{article_no})+1
+			where article_id = #{article_no}
+		]]>
+	</update>
+	
+	<select id="getViewCount" parameterType="_int">
+		<![CDATA[
+			select view_count
+			from article
+			where article_id = #{article_no}
+		]]>
+	</select>
+	
+	<insert id="insertArticleReply" parameterType="ArticleReplyVO">
+		<![CDATA[
+			insert into articlereply(`reply_content`, `Article_article_id`, `user_user_id`)
+			values(#{reply_content}, #{Article_article_id}, #{user_user_id})
+		]]>
+	</insert>
+	
+	<select id="selectReplies" parameterType="_int" resultMap="articleReplyResult">
+		<![CDATA[
+			select *
+			from ArticleReply
+			where Article_article_id = #{Article_article_id}
+		]]>
+	</select>
+	
+	<delete id="deleteReplies" parameterType="_int">
+		<![CDATA[
+			delete
+			from ArticleReply
+			where Article_article_id = #{Article_article_id}
+		]]>
+	</delete>
+	 
+	<delete id="deleteReply" parameterType="_int">
+		<![CDATA[
+			delete
+			from ArticleReply
+			where reply_id = #{reply_id}
+		]]>
+	</delete>
+</mapper>

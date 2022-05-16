@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.userProfilePhoto">
+<!-- 리절트 맵 정의 -->	
+	<resultMap id="userProfilePhotoResult" type="UserProfilePhotoVO">
+		<result property="user_user_id" column="user_user_id" />
+		<result property="filename" column="filename" />		
+	</resultMap>	
+	<insert id="upload" parameterType="UserProfilePhotoVO">
+	    <![CDATA[
+			insert into `userprofilephoto`
+			values(#{user_user_id}, #{filename})		 
+		]]>
+	</insert>
+	
+	<select id="download" resultMap="userProfilePhotoResult"  parameterType="string">
+	    <![CDATA[
+			select * from `userprofilephoto` 
+			 where user_user_id=#{user_user_id}				 
+		]]>
+	</select>
+	<update id="update" parameterType="UserProfilePhotoVO">
+		<![CDATA[
+			update `userprofilephoto`
+			set filename=#{filename}
+			where user_user_id=#{user_user_id}
+		]]>
+	</update>
+	<delete id="delete"  parameterType="string">
+	    <![CDATA[
+			delete from `userprofilephoto`
+			where user_user_id=#{user_user_id}
+		]]>
+	</delete>
+</mapper>
