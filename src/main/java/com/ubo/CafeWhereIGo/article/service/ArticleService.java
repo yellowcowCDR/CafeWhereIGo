@@ -12,7 +12,7 @@ import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
 public interface ArticleService {
 	public int registerArticle(ArticleVO articleVO, List<ArticlePhotoVO> articlePhotoVOList);
 	public void deleteArticle(int articleNO);
-	public void modifyArticle(ArticleVO articleVO);
+	public void modifyArticle(ArticleVO articleVO, List<ArticlePhotoVO> articlePhotoVOList);
 	public List<ArticleVO> getArticleList(SearchConditionVO condition);
 	public List<ArticleVO> getArticleList(int startArticleNO, int endArticleNO);
 	public List<ArticleVO> searchArticle(SearchConditionVO searchConditionVO);
@@ -27,4 +27,9 @@ public interface ArticleService {
 	public void addReply(ArticleReplyVO articleReplyVO);
 	public List<ArticleReplyVO> getReplies(int article_id);
 	public void deleteReply(int reply_id);
+	public void updateReply(ArticleReplyVO articleReplyVO);
+	public List<ArticlePhotoVO> getFiles(int article_id);
+	public void deleteWithPhotoId(int article_photo_id);
+	public void updateOne(ArticlePhotoVO articlePhotoVO);
+	boolean isFileExists(int article_photo_id);
 }

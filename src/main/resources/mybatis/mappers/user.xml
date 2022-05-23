@@ -78,4 +78,16 @@
 			where user_id=#{user_id};
 		]]>
 	</select>
+	<select id="selectAllUser" resultMap="userResult" parameterType="string">
+		<![CDATA[
+			select * 
+			from `user`
+		]]>
+		<if test="user_role!=null and user_role!=''"> 
+			<![CDATA[
+				where user_role=#{user_role};
+			]]>
+		</if>
+	
+	</select>
 </mapper>

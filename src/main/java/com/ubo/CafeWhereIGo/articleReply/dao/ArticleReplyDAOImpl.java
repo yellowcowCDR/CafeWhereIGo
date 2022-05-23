@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 
+@Repository
 public class ArticleReplyDAOImpl implements ArticleReplyDAO{
 	@Autowired
 	private SqlSession sqlSession;
@@ -20,7 +22,7 @@ public class ArticleReplyDAOImpl implements ArticleReplyDAO{
 	@Override
 	public void updateReply(ArticleReplyVO articleReplyVO) {
 		// TODO Auto-generated method stub
-		sqlSession.update("mapper.article.updateArticleReply", articleReplyVO);
+		sqlSession.update("mapper.article.updateReply", articleReplyVO);
 	}
 
 	@Override

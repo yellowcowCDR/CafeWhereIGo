@@ -41,10 +41,37 @@
 			where article_article_id=#{article_article_id}
 		]]>
 	</update>
+	<update id="updateOne" parameterType="ArticlePhotoVO">
+		<![CDATA[
+			update `articlephoto`
+			set filename=#{filename}
+			where article_photo_id=#{article_photo_id}
+		]]>
+	</update>
 	<delete id="delete"  parameterType="string">
 	    <![CDATA[
 			delete from `articlephoto`
 			where article_article_id=#{article_article_id}
 		]]>
 	</delete>
+	<delete id="deleteWithPhotoId" parameterType="int">
+		<![CDATA[
+			delete from `articlephoto`
+			where article_photo_id=#{article_photo_id}
+		]]>
+	</delete>
+	<select id="selectFiles" parameterType="int" resultMap="articlephotoResult">
+		<![CDATA[
+			select *
+			from `articlephoto`
+			where `article_article_id` = #{article_id}
+		]]>
+	</select>
+	<select id="isFileExists" parameterType="int" resultType="boolean">
+		<![CDATA[
+			select if(count(*)>0, 1, 0)
+			from `articlephoto`
+			where `article_photo_id` = #{article_photo_id}
+		]]>
+	</select>
 </mapper>

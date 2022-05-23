@@ -171,6 +171,9 @@
 				height:30px;
 				object-fit: scale-down;
 			}
+			.uploadedImageFilename{
+				display:inline;
+			}
 		</style>
 		<script>
 			var img_count=${articlePhotoList.size()};
@@ -278,7 +281,7 @@
 				img_delete_button.setAttribute("onclick","del_img_input(this)");
 				
 				var thumbnail_img = document.createElement("img");
-				thumnail_img.setAttribute("class", "thumbnail-image");
+				thumbnail_img.setAttribute("class", "thumbnail-image");
 				
 				img_td.setAttribute("id","img"+String(img_count)+"_td");
 				img_td.appendChild(img_input_box);
@@ -408,7 +411,7 @@
 			<div id="mainContentWrapper">
 				<h1 id="pageTitle">Q&A</h1>
 				<div id="formWrapper">
-					<form method="post" action="${contextPath}/qna/addArticle.do" enctype="multipart/form-data">
+					<form method="post" action="${contextPath}/qna/modifyArticle.do" enctype="multipart/form-data">
 						<div id="formContentWrapper">
 							<div id="top_formWrapper">
 								<input id="text_input" name="cafe_name" class="text_input cafename" type="text" value="${article.cafe_name}" placeholder="카페명">
@@ -453,17 +456,21 @@
 						</div>
 						<table id="img_input_table">
 							<c:forEach var="photo" items="${articlePhotoList}" varStatus="status">
-								<tr id="img_row${status.index}">	
-									<td id="img${status.index}_td">
-										<input type="file" id="img${status.index}" value="${photo.filename }" accept="image/*" onchange="add_img(this)"/>
-										<button id="img${status.index}_delButton" onclick="del_img_input(input)" >삭제</button>
+								<tr id="img_row${status.index+1}">	
+									<td id="img${status.index+1}_td">
+										<%-- <input type="file" id="img${status.index}" value="${photo.filename }" accept="image/*" onchange="add_img(this)"/> --%>
+										<p id="img${status.index+1}" class="uploadedImageFilename">${photo.filename}</p>
+										<button id="img${status.index+1}_delButton" onclick="del_img_input(this)">삭제</button>
+										<input type="hidden" name="fileID_${photo.article_photo_id}" value="${photo.article_photo_id}">
 									</td>
 								</tr>
 							</c:forEach>
 						</table>
+						<input type="hidden" name="article_id" value="${article.article_id}">
 						<div id="submitWrapper">
 							<input id="submitButton" type="submit" value="글쓰기">
 						</div>
+						
  					</form>
 				</div>
 			</div>

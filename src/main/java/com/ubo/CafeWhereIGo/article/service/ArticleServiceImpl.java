@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ubo.CafeWhereIGo.article.dao.ArticleDAO;
 import com.ubo.CafeWhereIGo.article.vo.ArticleVO;
 import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.articleReply.dao.ArticleReplyDAO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.articlephoto.dao.ArticlePhotoDAO;
 import com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO;
@@ -21,6 +22,9 @@ import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
 public class ArticleServiceImpl implements ArticleService{
 	@Autowired
 	private ArticleDAO articleDAO;
+	
+	@Autowired
+	private ArticleReplyDAO articleReplyDAO;
 	
 	@Autowired
 	private ArticlePhotoDAO articlePhotoDAO;
@@ -50,9 +54,10 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public void modifyArticle(ArticleVO articleVO) {
+	public void modifyArticle(ArticleVO articleVO,List<ArticlePhotoVO> articlePhotoVOList) {
 		// TODO Auto-generated method stub
-		
+		articlePhotoDAO.upload(articlePhotoVOList);
+		articleDAO.updateArticle(articleVO);
 	}
 
 	@Override
@@ -155,6 +160,37 @@ public class ArticleServiceImpl implements ArticleService{
 		// TODO Auto-generated method stub
 		articleDAO.deleteReply(reply_id);
 	}
+
+	@Override
+	public void updateReply(ArticleReplyVO articleReplyVO) {
+		// TODO Auto-generated method stub
+		articleReplyDAO.updateReply(articleReplyVO);
+	}
 	
+	@Override
+	public List<ArticlePhotoVO> getFiles(int article_id) {
+		// TODO Auto-generated method stub
+		List<ArticlePhotoVO> files = articlePhotoDAO.getFiles(article_id);
+		
+		return files;
+	}
+	
+	@Override
+	public boolean isFileExists(int article_photo_id) {
+		boolean isFileExists=articlePhotoDAO.isFileExists(article_photo_id);
+		return isFileExists;
+	}
+	
+	@Override
+	public void updateOne(ArticlePhotoVO articlePhotoVO) {
+		// TODO Auto-generated method stub
+		articlePhotoDAO.modifyOne(articlePhotoVO);
+	}
+
+	@Override
+	public void deleteWithPhotoId(int article_photo_id) {
+		// TODO Auto-generated method stub
+		articlePhotoDAO.deleteWithPhotoId(article_photo_id);
+	}
 	
 }

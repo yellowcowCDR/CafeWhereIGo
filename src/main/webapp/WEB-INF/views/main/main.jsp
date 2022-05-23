@@ -60,6 +60,14 @@
 			}
 			
 		</style>
+		<c:if test="${msgList != null}">
+		<c:forEach var="msg" items="${msgList}">
+			<script>				
+				alert("${msg}");
+			</script>
+		</c:forEach>
+		</c:if>
+		
 	</head>
 	<body>
 		<section class="body_container">

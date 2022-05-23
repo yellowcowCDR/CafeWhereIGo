@@ -1,5 +1,6 @@
 package com.ubo.CafeWhereIGo.user.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -75,6 +76,18 @@ public class UserDAOImpl implements UserDAO{
 		// TODO Auto-generated method stub
 		String user_pw=(String) sqlSession.selectOne("mapper.user.getUserPassword",user_id);
 		return user_pw;
+	}
+	@Override
+	public List<UserVO> getUserList(String user_role) {
+		// TODO Auto-generated method stub
+		List<UserVO> userList = sqlSession.selectList("mapper.selectAllUser",user_role); 
+		return userList;
+	}
+	@Override
+	public List<UserVO> getUserList() {
+		// TODO Auto-generated method stub
+		List<UserVO> userList = sqlSession.selectList("mapper.selectAllUser"); 
+		return userList;
 	}
 	
 	

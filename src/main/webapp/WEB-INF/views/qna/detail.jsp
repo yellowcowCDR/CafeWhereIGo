@@ -22,7 +22,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-		
+		<script type="text/javascript" src="${contextPath}/resources/js/article.js"></script>
 		<style>
 			#top_menu{
 				display:flex;
@@ -152,7 +152,7 @@
 			}
 			#article_body{
 				overflow: scroll;
-				width: 100%;
+				width: 99%;
 				height: 400px;
 				-ms-overflow-style: none;
 				margin-left:10px;
@@ -330,20 +330,7 @@
 					}
 				});
 			}
-			function deleteReply(reply_id){
-				var deleteRequestUrl = "${contextPath}/qna/deleteReply.do";
-				$.ajax({
-					url: deleteRequestUrl,
-					method: "POST",
-					data:{"reply_id":reply_id},
-					success:function(){
-						location.reload();
-					},
-					error:function(jqXHR, textStatus, errorThrown){
-						alert("댓글 등록에 실패하였습니다. 에러코드 "+jqXHR.status);	
-					}
-				});
-			}
+			
 			
 			function dropdownClicked(event){
 				document.getElementById("myDropdown").classList.toggle("show");
@@ -417,30 +404,16 @@
 											<p class="reply_body">${reply.reply_content}</p>
 										</td>
 										<td style="width:4%" class="reply_modify_button_td">
-											<button class="replyModifyButton">수정</button>
+											<button class="replyModifyButton" onclick="changeToModifyReplyForm(this.parentNode.parentNode)">수정</button>
 										</td>
 										<td style="width:4%" class="reply_delete_button_td">
-											<button class="replyDeleteButton" onclick="deleteReply(${reply.reply_id})">삭제</button>
+											<button class="replyDeleteButton" onclick="deleteReply(this.parentNode.parentNode)">삭제</button>
 										</td>
+										<td>
+							                <input type="hidden" name="ariticle_id" value="${reply.reply_id}">
+							            </td>
 									</tr>
 								</c:forEach>
-								<tr>
-									<td class="profile_picture_td">
-										<img class="profile_picture" src="${contextPath}/resources/image/blank-profile-picture.svg">
-									</td>
-									<td style="width:10%" class="reply_writer_id_td">
-										<p class="reply_writer_id">dltnstlasdfasdfasdfSZDs12</p>
-									</td>
-									<td style="width:82%" class="reply_body_td">
-										<p class="reply_body">와우.. 한번 가보고 싶네요.</p>
-									</td>
-									<td style="width:4%" class="reply_modify_button_td">
-										<button class="replyModifyButton">수정</button>
-									</td>
-									<td style="width:4%" class="reply_delete_button_td">
-										<button class="replyDeleteButton">삭제</button>
-									</td>
-								</tr>
 							</table>
 						</div>
 					

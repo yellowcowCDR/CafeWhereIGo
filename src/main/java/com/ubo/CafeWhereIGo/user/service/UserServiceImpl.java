@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ubo.CafeWhereIGo.user.dao.UserDAO;
-import com.ubo.CafeWhereIGo.user.dao.UserDAOImpl;
 import com.ubo.CafeWhereIGo.user.vo.UserVO;
 import com.ubo.CafeWhereIGo.userProfilePhoto.dao.UserProfilePhotoDAO;
 import com.ubo.CafeWhereIGo.userProfilePhoto.vo.UserProfilePhotoVO;

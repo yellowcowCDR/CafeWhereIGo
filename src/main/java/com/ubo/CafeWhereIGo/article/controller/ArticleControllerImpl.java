@@ -1,15 +1,19 @@
-package com.ubo.CafeWhereIGo.article.base;
+package com.ubo.CafeWhereIGo.article.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +42,11 @@ import com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO;
 import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
 import com.ubo.CafeWhereIGo.user.vo.UserVO;
 
+
 @Controller("articleController")
-public class ArticleController {	
+public class ArticleControllerImpl implements ArticleController {	
 	protected static String CURR_IMAGE_REPO_PATH = "/Users/choedaelyeon/server_data/cafe/file_repo/photo/articlePhoto/";
-	Logger logger = LoggerFactory.getLogger(ArticleController.class);
+	Logger logger = LoggerFactory.getLogger(ArticleControllerImpl.class);
 	@Autowired
 	private ArticleService articleService;
 	
@@ -68,6 +73,7 @@ public class ArticleController {
 		out.close();
 	}
 	
+	@Override
 	@RequestMapping(value= "/*/addArticleForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView addArticleForm(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView mav=new ModelAndView();
@@ -79,6 +85,7 @@ public class ArticleController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/*/modifyArticleForm.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView modifyArticleForm(@RequestParam("article_id") int article_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		ModelAndView mav=new ModelAndView();
@@ -94,6 +101,106 @@ public class ArticleController {
 		return mav;
 	}
 	
+	@Override
+	@RequestMapping(value="/*/modifyArticle.do", method={RequestMethod.POST})
+	public ModelAndView modifyArticle(@RequestParam Map<String, String> paramMap, MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
+		multipartRequest.setCharacterEncoding("utf-8");
+		
+		ArticleVO articleVO = new ArticleVO();
+		ArticlePhotoVO articlePhotoVO;
+		List<ArticlePhotoVO> articlePhotoVOList = new ArrayList<ArticlePhotoVO>();
+		List<Integer> fileIDs = new ArrayList<Integer>();
+		Enumeration enu=multipartRequest.getParameterNames();
+		int article_id = Integer.parseInt(paramMap.get("article_id"));
+		logger.debug("[@ArticleController/modifyArticle.do] article_id: "+article_id);
+		List<ArticlePhotoVO> files = articleService.getFiles(article_id);
+		while(enu.hasMoreElements()) {
+			String name = (String)enu.nextElement();
+			String value=multipartRequest.getParameter(name);
+			if(name.equals("cafe_name")) {
+				articleVO.setCafe_name(value);
+			}else if(name.equals("article_title")) {
+				articleVO.setArticle_title(value);
+			}else if(name.equals("article_body")) {
+				articleVO.setArticle_content(value);
+			}else if(name.startsWith("fileID_")) {
+				//fileIDs.add(Integer.parseInt(value));
+				logger.debug("[@ArticleController/modifyArticle.do] fileId: "+value);
+			}
+			logger.debug("[@ArticleController/modifyArticle.do] parameter name: "+name);
+			
+		}
+		if(paramMap.isEmpty()) {
+			logger.debug("[@ArticleController/modifyArticle.do] parameter map empty!!");
+		}
+		Set keySet=paramMap.keySet();
+		Object[] objectArray = keySet.toArray();
+		String[] keyArray= Arrays.copyOf(objectArray,objectArray.length, String[].class);
+		List<String> keyList = new ArrayList<String>();
+		for(String key:keyArray) {
+			logger.debug("[@ArticleController/modifyArticle.do] field Key: "+key);
+			if(key.startsWith("fileID_")) {
+				logger.debug("[@ArticleController/modifyArticle.do] fileId Key: "+key);
+				int fileId = Integer.parseInt(paramMap.get(key));
+				logger.debug("[@ArticleController/modifyArticle.do] fileId: "+fileId);
+				fileIDs.add(fileId);
+			}
+		}
+		
+		if(fileIDs.size()>=0) {
+			hableDeletedImage(article_id, fileIDs, files);
+		}
+		
+		HttpSession session = multipartRequest.getSession();
+		UserVO userInfo = (UserVO)session.getAttribute("loginSession");
+		String writer_id = userInfo.getUser_id();
+		articleVO.setUser_user_id(writer_id);
+		
+		//get article type
+		String uri = multipartRequest.getRequestURI().toString();
+		String articleType = getArticleType(uri);
+		articleVO.setArticleType(articleType);
+		
+		
+		Map<String,String> uuidMap = new HashMap<String,String>();
+		List<String> fileList = new ArrayList<String>();
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		while(fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			String orginalFilename = mFile.getOriginalFilename();
+			if(!orginalFilename.equals("") && orginalFilename!=null)
+			{	
+				UUID uuid = UUID.randomUUID();
+				uuidMap.put(mFile.getOriginalFilename(), uuid.toString());
+				fileList.add(uuid.toString()+"_"+mFile.getOriginalFilename());
+			}
+		}
+		for(int i=0; i<fileList.size();i++) {
+			String filename = fileList.get(i);
+			
+			articlePhotoVO = new ArticlePhotoVO();
+			articlePhotoVO.setFilename(filename);
+			
+			articlePhotoVOList.add(articlePhotoVO);
+		}
+		articleVO.setArticle_id(article_id);
+		articleService.modifyArticle(articleVO, articlePhotoVOList);
+		
+		
+		if(fileList != null && fileList.size()>0) {
+			fileProcess(multipartRequest, article_id, uuidMap);
+		}
+		ModelAndView mav = new ModelAndView();
+		
+		
+		String viewName = "redirect:/"+articleType+"/detail.do?article_id="+article_id;
+		mav.setViewName(viewName);
+		
+		return mav;
+	}
+	
+	@Override
 	@RequestMapping(value="/*/addArticle.do" ,method = RequestMethod.POST)
 	public ModelAndView addArticle(MultipartHttpServletRequest multipartRequest, HttpServletResponse response) throws Exception {
 		multipartRequest.setCharacterEncoding("utf-8");
@@ -127,7 +234,7 @@ public class ArticleController {
 		articleVO.setArticleType(articleType);
 		
 		
-		
+		Map<String,String> uuidMap = new HashMap<String,String>();
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		while(fileNames.hasNext()) {
@@ -135,8 +242,10 @@ public class ArticleController {
 			MultipartFile mFile = multipartRequest.getFile(fileName);
 			String orginalFilename = mFile.getOriginalFilename();
 			if(!orginalFilename.equals("") && orginalFilename!=null)
-			{
-				fileList.add(mFile.getOriginalFilename());
+			{	
+				UUID uuid = UUID.randomUUID();
+				uuidMap.put(mFile.getOriginalFilename(), uuid.toString());
+				fileList.add(uuid.toString()+"_"+mFile.getOriginalFilename());
 			}
 		}
 		for(int i=0; i<fileList.size();i++) {
@@ -150,7 +259,7 @@ public class ArticleController {
 		int article_id = articleService.registerArticle(articleVO, articlePhotoVOList);
 		
 		if(fileList != null && fileList.size()>0) {
-			fileProcess(multipartRequest, article_id);
+			fileProcess(multipartRequest, article_id, uuidMap);
 		}
 		ModelAndView mav = new ModelAndView();
 		
@@ -160,6 +269,7 @@ public class ArticleController {
 		
 		return mav;
 	}
+	@Override
 	@RequestMapping(value= "/*/deleteArticle.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView deleteArticle(@RequestParam("article_id") int article_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		deletePhotos(article_id);
@@ -173,6 +283,7 @@ public class ArticleController {
 		
 		return mav;
 	}
+	@Override
 	@RequestMapping(value= "/*/search.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView search(@ModelAttribute SearchConditionVO condition, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
@@ -197,6 +308,7 @@ public class ArticleController {
 		return mav;
 	}
 	
+	@Override
 	@RequestMapping(value= "/*/detail.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView detail(@RequestParam("article_id") int article_id, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("utf-8");
@@ -226,7 +338,7 @@ public class ArticleController {
 		return mav;
 	}
 	
-	protected List<String> fileProcess(MultipartHttpServletRequest multipartRequest, int article_id) throws Exception{ 
+	protected List<String> fileProcess(MultipartHttpServletRequest multipartRequest, int article_id, Map<String,String> uuidMap) throws Exception{ 
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+article_id;
@@ -236,14 +348,16 @@ public class ArticleController {
 			String originalFileName = mFile.getOriginalFilename();
 			if(!originalFileName.equals("") || originalFileName!=null) {
 				fileList.add(originalFileName);
-				File file = new File(CURR_IMAGE_DIR+"/"+fileName);
+				String uuid = uuidMap.get(originalFileName);
+				File file = new File(CURR_IMAGE_DIR+"/"+uuid+"_"+fileName);
 				if(mFile.getSize()>0) {
 					if(!file.exists()) {
 						if(file.getParentFile().mkdirs()) {
 							file.createNewFile();
 						}
 					}
-					mFile.transferTo((new File(CURR_IMAGE_DIR+"/"+originalFileName)));
+					
+					mFile.transferTo((new File(CURR_IMAGE_DIR+"/"+uuid+"_"+originalFileName)));
 				}
 			
 			}
@@ -272,7 +386,7 @@ public class ArticleController {
 		return filenameValidation;
 	}
 	
-	private void deletePhotos(int article_id) {
+	private void deletePhotos(int article_id) throws IOException{
 		final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+article_id;
 		logger.debug("delete Image Dir: " + CURR_IMAGE_DIR);
 		File dir = new File(CURR_IMAGE_DIR);
@@ -288,6 +402,23 @@ public class ArticleController {
 		
 	}
 	
+	private void deletePhotos(int article_id, List<String> filenameList) {
+		final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+article_id;
+		logger.debug("delete Image Dir: " + CURR_IMAGE_DIR);
+		
+		String filepath = null;
+		for(int i=0; i<filenameList.size(); i++) {	
+			try {
+				filepath = CURR_IMAGE_DIR + "/" + filenameList.get(i);
+				File file = new File(filepath);
+				file.delete();
+			}catch(Exception e) {
+				logger.debug("[@ArticleController] failed to delete aritcle image file, " + filepath);
+			}
+		}
+	}
+		
+	
 	protected String getArticleType(String uri) {
 		String articleType = null;
 		
@@ -301,6 +432,31 @@ public class ArticleController {
 		}
 		
 		return articleType;
+	}
+	
+	protected void hableDeletedImage(int article_id, List<Integer> fileIDs, List<ArticlePhotoVO> articlePhotoVOList){
+		final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+article_id;
+		
+		logger.debug("[@ArticleController, handleDeletedImage] size of fileIDs: "+fileIDs.size());
+		for(int i =0; i<fileIDs.size(); i++) {
+			logger.debug("[@ArticleController, handleDeletedImage] Elememt of fileIDs: "+fileIDs.get(i));
+		}
+		
+		Iterator it = articlePhotoVOList.iterator();
+		
+		while(it.hasNext()) {
+			ArticlePhotoVO photoVO = (ArticlePhotoVO) it.next();
+			int article_photo_id = photoVO.getArticle_photo_id();
+			if(!fileIDs.contains(article_photo_id)) {
+				
+				articleService.deleteWithPhotoId(article_photo_id);
+				String filename = photoVO.getFilename();
+				String filepath = CURR_IMAGE_DIR+"/"+filename;
+				File file = new File(filepath);
+				file.delete();
+			}
+		}
+		
 	}
 	
 	@RequestMapping(value="/*/addReply.do", method={RequestMethod.POST})
@@ -331,6 +487,15 @@ public class ArticleController {
 		
 		return resEntity;
 	}
+	@RequestMapping(value="/*/modifyReply.do", method={RequestMethod.POST})
+	protected ResponseEntity modifyReply(@ModelAttribute ArticleReplyVO articleReplyVO) {
+		articleService.updateReply(articleReplyVO);
+		
+		String result = "ok";
+		ResponseEntity resEntity =new ResponseEntity(result, HttpStatus.OK);
+		return resEntity;		
+	}
+	
 	@RequestMapping(value="/*/like.do", method={RequestMethod.POST})
 	protected ResponseEntity like(@RequestParam("article_id") int article_id, @RequestParam("user_id") String user_id, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		request.setCharacterEncoding("utf-8");
@@ -342,7 +507,7 @@ public class ArticleController {
 		
 		String result = "ok";
 		ResponseEntity resEntity =new ResponseEntity(result, HttpStatus.OK);
-		return resEntity;	
+		return resEntity;
 	}
 
 	

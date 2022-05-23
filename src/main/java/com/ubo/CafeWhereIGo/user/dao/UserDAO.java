@@ -1,5 +1,6 @@
 package com.ubo.CafeWhereIGo.user.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ubo.CafeWhereIGo.user.vo.UserVO;
@@ -9,4 +10,6 @@ public interface UserDAO {
 	public void register(Map<String,String> userInfo) ;
 	public String overlapped(String user_id);
 	public String getUserPassword(String user_id);
+	public List<UserVO> getUserList(String user_role);
+	public List<UserVO> getUserList();
 }

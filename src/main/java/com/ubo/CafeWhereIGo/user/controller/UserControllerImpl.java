@@ -2,7 +2,6 @@ package com.ubo.CafeWhereIGo.user.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,8 +90,10 @@ public class UserControllerImpl extends BaseController implements UserController
 		System.out.println("isLogin: "+isLoginSuccess);
 		
 		ModelAndView mav=new ModelAndView();
+		
 		String viewName = "/main/main";
 		mav.setViewName(viewName);
+		
 		mav.addObject("isLoginSuccess", isLoginSuccess);
 		return mav;
 	}
@@ -162,6 +164,10 @@ public class UserControllerImpl extends BaseController implements UserController
 		multipartRequest.setAttribute("alertMsg", "ȸ�������� �Ϸ�Ǿ����ϴ�.");
 		
 		ModelAndView mav = new ModelAndView();
+		List<String> msgList = new ArrayList<String>();
+		String msg="회원가입이 완료되었습니다.";
+		msgList.add(msg);
+		mav.addObject(msgList);
 		mav.addObject("map", map);
 		mav.setViewName("/main/main");
 		return mav;

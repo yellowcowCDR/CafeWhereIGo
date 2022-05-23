@@ -1,5 +1,6 @@
 package com.ubo.CafeWhereIGo.articlephoto.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -37,10 +38,23 @@ public class ArticlePhotoDAOImpl implements ArticlePhotoDAO{
 		sqlSession.delete("mapper.articlephoto.delete", article_id);
 	}
 
+	
+	@Override
+	public void deleteWithPhotoId(int article_photo_id) {
+		// TODO Auto-generated method stub
+		sqlSession.delete("mapper.articlephoto.deleteWithPhotoId", article_photo_id);
+	}
+
 	@Override
 	public void modify(ArticlePhotoVO articlePhotoVO) {
 		// TODO Auto-generated method stub
 		sqlSession.update("mapper.articlephoto.update", articlePhotoVO);
+	}
+	
+	@Override
+	public void modifyOne(ArticlePhotoVO articlePotoVO) {
+		// TODO Auto-generated method stub
+		sqlSession.update("mapper.articlephoto.updateOne", articlePotoVO);
 	}
 
 	@Override
@@ -52,6 +66,23 @@ public class ArticlePhotoDAOImpl implements ArticlePhotoDAO{
 			logger.debug("[@ArticlePhotoDAO] is Photo null? : " + (articlePhotoList.get(i)==null));
 		}
 		return articlePhotoList;
+	}
+
+	
+	@Override
+	public List<ArticlePhotoVO> getFiles(int article_id) {
+		// TODO Auto-generated method stub
+		List<ArticlePhotoVO> files = (List<ArticlePhotoVO>) sqlSession.selectList("mapper.articlephoto.selectFiles", article_id);
+		
+		return files;
+	}
+
+	@Override
+	public boolean isFileExists(int article_photo_id) {
+		// TODO Auto-generated method stub
+		boolean isFileExists = (boolean) sqlSession.selectOne("mapper.articlephoto.isFileExists", article_photo_id);
+		
+		return isFileExists;
 	}
 	
 	

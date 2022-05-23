@@ -110,11 +110,12 @@
 	</select>
 	
 	<update id="updateArticle" parameterType="ArticleVO">
-		update article
+		update `article`
 		set  
-		cafe_name = #{cafe_name},
-		article_title = #{article_title},
-		article_content = #{article_content},
+		`cafe_name` = #{cafe_name},
+		`article_title` = #{article_title},
+		`article_content` = #{article_content}
+		where article_id = #{article_id}
 	</update>
 	
 	<delete id="deleteArticle" parameterType="_int">
@@ -193,7 +194,7 @@
 	<select id="selectReplies" parameterType="_int" resultMap="articleReplyResult">
 		<![CDATA[
 			select *
-			from ArticleReply
+			from articlereply
 			where Article_article_id = #{Article_article_id}
 		]]>
 	</select>
@@ -213,4 +214,11 @@
 			where reply_id = #{reply_id}
 		]]>
 	</delete>
+	<update id="updateReply" parameterType="ArticleReplyVO">
+		<![CDATA[
+			update articlereply
+			set reply_content=#{reply_content}
+			where reply_id=#{reply_id}
+		]]>
+	</update>
 </mapper>
