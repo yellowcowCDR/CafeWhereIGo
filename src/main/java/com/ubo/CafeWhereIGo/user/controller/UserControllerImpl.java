@@ -167,7 +167,7 @@ public class UserControllerImpl extends BaseController implements UserController
 		List<String> msgList = new ArrayList<String>();
 		String msg="회원가입이 완료되었습니다.";
 		msgList.add(msg);
-		mav.addObject(msgList);
+		mav.addObject("msgList",msgList);
 		mav.addObject("map", map);
 		mav.setViewName("/main/main");
 		return mav;

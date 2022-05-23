@@ -60,13 +60,15 @@
 			}
 			
 		</style>
-		<c:if test="${msgList != null}">
-		<c:forEach var="msg" items="${msgList}">
-			<script>				
-				alert("${msg}");
-			</script>
-		</c:forEach>
-		</c:if>
+		<script>
+			window.onload=function(){
+				<c:if test="${msgList != null}">
+					<c:forEach var="msg" items="${msgList}">			
+							alert("${msg}");
+					</c:forEach>
+				</c:if>
+			}
+		</script>
 		
 	</head>
 	<body>

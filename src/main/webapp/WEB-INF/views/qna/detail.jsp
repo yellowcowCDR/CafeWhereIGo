@@ -263,72 +263,87 @@
 			}
 		</style>
 		<script>
-			var isLike = ${isLiked};
+			var article_writer_id = "${article.user_user_id}"
 			
-			window.onload=function(){
-				var likeIcon = document.getElementById("thumbs_up_icon");
+			<c:if test="${loginSession ne null}">
+				var isLike = ${isLiked};
 				
-				var title = document.getElementById("article_subject").textContent;
-				if(isLike){
-					likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_blue.svg";			
+				window.onload=function(){
+					var likeIcon = document.getElementById("thumbs_up_icon");
+					
+					var title = document.getElementById("article_subject").textContent;
+					if(isLike){
+						likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_blue.svg";			
+					}
+					else{
+						likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_empty.svg";
+					}
 				}
-				else{
-					likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_empty.svg";
-				}
-			}
+			</c:if>
 			
-			function onLikeClick(){
-				var likeIcon = document.getElementById("thumbs_up_icon");
-				var user_id= "${loginSession.user_id}";
-				var article_id ="${article.article_id}";
-				if(!isLike){					
-					$.ajax({
-						method: "POST",
-						data: {"user_id": user_id, "article_id": article_id},
-						url: "${contextPath}/qna/like.do",
-						success: function(data){
-							likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_blue.svg";
-							isLike=true;
-						},
-						error:function(jqXHR, textStatus, errorThrown){
-							alert("좋아요에 실패하였습니다. 에러코드 "+jqXHR.status);	
+				function onLikeClick(){
+					<c:if test="${loginSession != null}">
+						var likeIcon = document.getElementById("thumbs_up_icon");
+						var user_id= "${loginSession.user_id}";
+						var article_id ="${article.article_id}";
+						if(!isLike){					
+							$.ajax({
+								method: "POST",
+								data: {"user_id": user_id, "article_id": article_id},
+								url: "${contextPath}/qna/like.do",
+								success: function(data){
+									likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_blue.svg";
+									isLike=true;
+								},
+								error:function(jqXHR, textStatus, errorThrown){
+									alert("좋아요에 실패하였습니다. 에러코드 "+jqXHR.status);	
+								}
+							});
 						}
-					});
+						else{
+							
+							$.ajax({
+								method: "POST",
+								data: {"user_id": user_id, "article_id": article_id},
+								url: "${contextPath}/qna/like.do",
+								success: function(data){
+									likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_empty.svg";
+									isLike=false;
+								},
+								error:function(jqXHR, textStatus, errorThrown){
+									alert("좋아요 취소에 실패하였습니다. 에러코드 "+jqXHR.status);	
+								}
+							});
+						}
+					</c:if>
+					<c:if test="${loginSession == null}">
+						alert("로그인 후 이용해주세요");
+					</c:if>
 				}
-				else{
+			
+			
+			function addReply(){
+				<c:if test="${loginSession != null}">
+					var replyTextInput = document.getElementById("replyTextInput");
+					var replyText = replyTextInput.value;
+					var user_id= "${loginSession.user_id}";
+					var article_id ="${article.article_id}";
 					
 					$.ajax({
 						method: "POST",
-						data: {"user_id": user_id, "article_id": article_id},
-						url: "${contextPath}/qna/like.do",
+						data: {"user_id": user_id, "article_id": article_id, "replyText": replyText},
+						url: "${contextPath}/qna/addReply.do",
 						success: function(data){
-							likeIcon.src="${contextPath}/resources/image/thumbs_up_icon_empty.svg";
-							isLike=false;
+							location.reload();
 						},
 						error:function(jqXHR, textStatus, errorThrown){
-							alert("좋아요 취소에 실패하였습니다. 에러코드 "+jqXHR.status);	
+							alert("댓글 등록에 실패하였습니다. 에러코드 "+jqXHR.status);	
 						}
 					});
-				}
-			}
-			
-			function addReply(){
-				var replyTextInput = document.getElementById("replyTextInput");
-				var replyText = replyTextInput.value;
-				var user_id= "${loginSession.user_id}";
-				var article_id ="${article.article_id}";
-				
-				$.ajax({
-					method: "POST",
-					data: {"user_id": user_id, "article_id": article_id, "replyText": replyText},
-					url: "${contextPath}/qna/addReply.do",
-					success: function(data){
-						location.reload();
-					},
-					error:function(jqXHR, textStatus, errorThrown){
-						alert("댓글 등록에 실패하였습니다. 에러코드 "+jqXHR.status);	
-					}
-				});
+				</c:if>
+				<c:if test="${loginSession==null}">
+					alert("로그인 후 이용해주세요");
+				</c:if>
 			}
 			
 			
@@ -347,6 +362,32 @@
 				    }
 				  }
 				}
+			function goToModifyForm(){
+				<c:if test="${loginSession != null}">
+					if("${loginSession.user_id}" == article_writer_id){
+						var url = "${contextPath}/qna/modifyArticleForm.do?article_id=${article.article_id}"	
+						location.href=url;
+					}else{
+						alert("작성자만 수정할 수 있습니다");
+					}
+				</c:if>
+				<c:if test="${loginSession == null}">
+					alert("로그인 후 이용해주세요");
+				</c:if>
+			}
+			function articleDelete(){
+				<c:if test="${loginSession != null}">
+					if("${loginSession.user_id}" == article_writer_id){
+						var url = "${contextPath}/qna/deleteArticle.do?article_id=${article.article_id}"	
+						location.href=url;
+					}else{
+						alert("작성자만 삭제할 수 있습니다");
+					}
+				</c:if>
+				<c:if test="${loginSession == null}">
+					alert("로그인 후 이용해주세요");
+				</c:if>
+			}
 		</script>
 	</head>
 	
@@ -370,8 +411,8 @@
 									<div class="dropdown">
 										<button class="dropbtn" onclick="dropdownClicked(event)">⋮</button>
 										<div id="myDropdown" class="dropdown-content">
-										  <a href="${contextPath}/qna/modifyArticleForm.do?article_id=${article.article_id}">수정</a>
-										  <a href="${contextPath}/qna/deleteArticle.do?article_id=${article.article_id}">삭제</a>
+										  <a href="#" onclick="goToModifyForm();">수정</a>
+										  <a href="#" onclick="articleDelete();">삭제</a>
 										</div>
 									</div>
 								</div>
@@ -404,10 +445,31 @@
 											<p class="reply_body">${reply.reply_content}</p>
 										</td>
 										<td style="width:4%" class="reply_modify_button_td">
-											<button class="replyModifyButton" onclick="changeToModifyReplyForm(this.parentNode.parentNode)">수정</button>
+											<c:if test="${loginSession != null}">
+												<c:if test="${loginSession.user_id== article.user_user_id}">
+													<button class="replyModifyButton" onclick="changeToModifyReplyForm(this.parentNode.parentNode,${article.user_user_id},${loginSession.user_id}})">수정</button>
+												</c:if>
+												<c:if test="${loginSession.user_id== article.user_user_id}">
+													<button class="replyModifyButton" onclick="alert('작성자만 수정할 수 있습니다')">수정</button>
+												</c:if>
+											</c:if>
+											
+											<c:if test="${loginSession == null}">
+												<button class="replyModifyButton" onclick="alert('로그인 후 이용해주세요')">수정</button>
+											</c:if>
 										</td>
 										<td style="width:4%" class="reply_delete_button_td">
-											<button class="replyDeleteButton" onclick="deleteReply(this.parentNode.parentNode)">삭제</button>
+											<c:if test="${loginSession != null}">
+												<c:if test="${loginSession.user_id== article.user_user_id}">
+													<button class="replyDeleteButton" onclick="deleteReply(this.parentNode.parentNode)">삭제</button>
+												</c:if>
+												<c:if test="${loginSession.user_id== article.user_user_id}">
+													<button class="replyModifyButton" onclick="alert('작성자만 삭제할 수 있습니다')">수정</button>
+												</c:if>
+											</c:if>
+											<c:if test="${loginSession == null}">
+												<button class="replyModifyButton" onclick="alert('로그인 후 이용해주세요')">수정</button>
+											</c:if>
 										</td>
 										<td>
 							                <input type="hidden" name="ariticle_id" value="${reply.reply_id}">

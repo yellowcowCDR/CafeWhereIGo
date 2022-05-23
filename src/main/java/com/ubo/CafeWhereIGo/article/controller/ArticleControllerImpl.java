@@ -315,13 +315,8 @@ public class ArticleControllerImpl implements ArticleController {
 		response.setContentType("text/html;charset=utf-8");
 		HttpSession session = request.getSession();
 		
-		UserVO userInfo = (UserVO) session.getAttribute("loginSession");
-		String user_id = userInfo.getUser_id();
+		
 		List<ArticleReplyVO> replies = articleService.getReplies(article_id); 
-		
-		LikedArticleVO likedArticleVO = new LikedArticleVO(user_id, article_id);
-		boolean isLiked = articleService.isLiked(likedArticleVO);
-		
 		Map<String,Object> articleMap = articleService.getArticle(article_id);
 		articleMap.put("replies", replies);
 		ArticleVO article = (ArticleVO)articleMap.get("article");
@@ -333,7 +328,15 @@ public class ArticleControllerImpl implements ArticleController {
 		String viewName = "/"+articleType+"/detail";
 		mav.setViewName(viewName);
 		mav.addObject("articleMap", articleMap);
-		mav.addObject("isLiked", isLiked);
+		
+		UserVO userInfo = (UserVO) session.getAttribute("loginSession");
+		if(userInfo != null) {
+			String user_id = userInfo.getUser_id();
+			
+			LikedArticleVO likedArticleVO = new LikedArticleVO(user_id, article_id);
+			boolean isLiked = articleService.isLiked(likedArticleVO);
+			mav.addObject("isLiked", isLiked);
+		}
 		mav.addObject("article_body_texts", article_body_texts);
 		return mav;
 	}
