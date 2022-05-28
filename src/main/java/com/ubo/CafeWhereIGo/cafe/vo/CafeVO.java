@@ -1,8 +1,10 @@
 package com.ubo.CafeWhereIGo.cafe.vo;
 
-import java.time.LocalTime;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CafeVO {
 	private int cafe_id;
 	private String cafe_name;
@@ -16,6 +18,162 @@ public class CafeVO {
 	private Date created_date;
 	private String business_state;
 	private Date shutdown_date;
-	private LocalTime open_time;
-	private LocalTime close_time;
+	private String open_time;
+	private String close_time;
+	
+	public CafeVO() {
+		super();
+	}
+
+	public CafeVO(String cafe_name, String cafe_location1, String cafe_location2, int number_of_seat,
+			String user_user_id, String phonenum1, String phonenum2, String phonenum3, Date created_date,
+			String business_state, Date shutdown_date, String open_time, String close_time) {
+		super();
+		this.cafe_name = cafe_name;
+		this.cafe_location1 = cafe_location1;
+		this.cafe_location2 = cafe_location2;
+		this.number_of_seat = number_of_seat;
+		this.user_user_id = user_user_id;
+		this.phonenum1 = phonenum1;
+		this.phonenum2 = phonenum2;
+		this.phonenum3 = phonenum3;
+		this.created_date = created_date;
+		this.business_state = business_state;
+		this.shutdown_date = shutdown_date;
+		this.open_time = open_time;
+		this.close_time = close_time;
+	}
+
+	public CafeVO(int cafe_id, String cafe_name, String cafe_location1, String cafe_location2, int number_of_seat,
+			String user_user_id, String phonenum1, String phonenum2, String phonenum3, Date created_date,
+			String business_state, Date shutdown_date, String open_time, String close_time) {
+		super();
+		this.cafe_id = cafe_id;
+		this.cafe_name = cafe_name;
+		this.cafe_location1 = cafe_location1;
+		this.cafe_location2 = cafe_location2;
+		this.number_of_seat = number_of_seat;
+		this.user_user_id = user_user_id;
+		this.phonenum1 = phonenum1;
+		this.phonenum2 = phonenum2;
+		this.phonenum3 = phonenum3;
+		this.created_date = created_date;
+		this.business_state = business_state;
+		this.shutdown_date = shutdown_date;
+		this.open_time = open_time;
+		this.close_time = close_time;
+	}
+
+	public int getCafe_id() {
+		return cafe_id;
+	}
+
+	public void setCafe_id(int cafe_id) {
+		this.cafe_id = cafe_id;
+	}
+
+	public String getCafe_name() {
+		return cafe_name;
+	}
+
+	public void setCafe_name(String cafe_name) {
+		this.cafe_name = cafe_name;
+	}
+
+	public String getCafe_location1() {
+		return cafe_location1;
+	}
+
+	public void setCafe_location1(String cafe_location1) {
+		this.cafe_location1 = cafe_location1;
+	}
+
+	public String getCafe_location2() {
+		return cafe_location2;
+	}
+
+	public void setCafe_location2(String cafe_location2) {
+		this.cafe_location2 = cafe_location2;
+	}
+
+	public int getNumber_of_seat() {
+		return number_of_seat;
+	}
+
+	public void setNumber_of_seat(int number_of_seat) {
+		this.number_of_seat = number_of_seat;
+	}
+
+	public String getUser_user_id() {
+		return user_user_id;
+	}
+
+	public void setUser_user_id(String user_user_id) {
+		this.user_user_id = user_user_id;
+	}
+
+	public String getPhonenum1() {
+		return phonenum1;
+	}
+
+	public void setPhonenum1(String phonenum1) {
+		this.phonenum1 = phonenum1;
+	}
+
+	public String getPhonenum2() {
+		return phonenum2;
+	}
+
+	public void setPhonenum2(String phonenum2) {
+		this.phonenum2 = phonenum2;
+	}
+
+	public String getPhonenum3() {
+		return phonenum3;
+	}
+
+	public void setPhonenum3(String phonenum3) {
+		this.phonenum3 = phonenum3;
+	}
+
+	public Date getCreated_date() {
+		return created_date;
+	}
+
+	public void setCreated_date(Date created_date) {
+		this.created_date = created_date;
+	}
+
+	public String getBusiness_state() {
+		return business_state;
+	}
+
+	public void setBusiness_state(String business_state) {
+		this.business_state = business_state;
+	}
+
+	public Date getShutdown_date() {
+		return shutdown_date;
+	}
+
+	public void setShutdown_date(Date shutdown_date) {
+		this.shutdown_date = shutdown_date;
+	}
+
+	public String getOpen_time() {
+		return open_time;
+	}
+
+	public void setOpen_time(String open_time) {
+		this.open_time = open_time;
+	}
+
+	public String getClose_time() {
+		return close_time;
+	}
+
+	public void setClose_time(String close_time) {
+		this.close_time = close_time;
+	}
+	
 }

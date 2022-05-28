@@ -22,7 +22,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-		<script type="text/javascript" src="${contextPath}/resources/js/article.js"></script>
+		<script type="text/javascript" src="${contextPath}/resources/js/article/article.js"></script>
 		<style>
 			#top_menu{
 				display:flex;
@@ -438,18 +438,18 @@
 										<td class="profile_picture_td">
 											<img class="profile_picture" src="${contextPath}/user/download.do?user_id=${reply.user_user_id}" onerror="this.src='${contextPath}/resources/image/blank-profile-picture.svg'">
 										</td>
-										<td style="width:10%" class="reply_writer_id_td">
+										<td style="width:166px" class="reply_writer_id_td">
 											<p class="reply_writer_id">${reply.user_user_id}</p>
 										</td>
-										<td style="width:82%" class="reply_body_td">
+										<td style="width:1360px" class="reply_body_td">
 											<p class="reply_body">${reply.reply_content}</p>
 										</td>
-										<td style="width:4%" class="reply_modify_button_td">
+										<td style="width:45px" class="reply_modify_button_td">
 											<c:if test="${loginSession != null}">
-												<c:if test="${loginSession.user_id== article.user_user_id}">
-													<button class="replyModifyButton" onclick="changeToModifyReplyForm(this.parentNode.parentNode,${article.user_user_id},${loginSession.user_id}})">수정</button>
+												<c:if test="${loginSession.user_id== reply.user_user_id}">
+													<button class="replyModifyButton" onclick="changeToModifyReplyForm(this.parentNode.parentNode,'${reply.user_user_id}','${loginSession.user_id}')">수정</button>
 												</c:if>
-												<c:if test="${loginSession.user_id== article.user_user_id}">
+												<c:if test="${loginSession.user_id!= reply.user_user_id}">
 													<button class="replyModifyButton" onclick="alert('작성자만 수정할 수 있습니다')">수정</button>
 												</c:if>
 											</c:if>
@@ -458,21 +458,21 @@
 												<button class="replyModifyButton" onclick="alert('로그인 후 이용해주세요')">수정</button>
 											</c:if>
 										</td>
-										<td style="width:4%" class="reply_delete_button_td">
+										<td style="width:45px" class="reply_delete_button_td">
 											<c:if test="${loginSession != null}">
-												<c:if test="${loginSession.user_id== article.user_user_id}">
+												<c:if test="${loginSession.user_id== reply.user_user_id}">
 													<button class="replyDeleteButton" onclick="deleteReply(this.parentNode.parentNode)">삭제</button>
 												</c:if>
-												<c:if test="${loginSession.user_id== article.user_user_id}">
-													<button class="replyModifyButton" onclick="alert('작성자만 삭제할 수 있습니다')">수정</button>
+												<c:if test="${loginSession.user_id!= reply.user_user_id}">
+													<button class="replyDeleteButton" onclick="alert('작성자만 삭제할 수 있습니다')">삭제</button>
 												</c:if>
 											</c:if>
 											<c:if test="${loginSession == null}">
-												<button class="replyModifyButton" onclick="alert('로그인 후 이용해주세요')">수정</button>
+												<button class="replyDeleteButton" onclick="alert('로그인 후 이용해주세요')">삭제</button>
 											</c:if>
 										</td>
-										<td>
-							                <input type="hidden" name="ariticle_id" value="${reply.reply_id}">
+										<td style="width:0px">
+							                <input type="hidden" name="reply_id" value="${reply.reply_id}">
 							            </td>
 									</tr>
 								</c:forEach>

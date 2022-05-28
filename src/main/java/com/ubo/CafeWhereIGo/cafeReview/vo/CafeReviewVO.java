@@ -2,6 +2,9 @@ package com.ubo.CafeWhereIGo.cafeReview.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CafeReviewVO {
 	private int review_id;
 	private String review_content;

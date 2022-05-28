@@ -228,7 +228,7 @@ public class ArticleControllerImpl implements ArticleController {
 		String writer_id = userInfo.getUser_id();
 		articleVO.setUser_user_id(writer_id);
 		
-		//article type ����
+		//get article type
 		String uri = multipartRequest.getRequestURI().toString();
 		String articleType = getArticleType(uri);
 		articleVO.setArticleType(articleType);

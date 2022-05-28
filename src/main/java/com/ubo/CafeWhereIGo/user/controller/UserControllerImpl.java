@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,13 +87,22 @@ public class UserControllerImpl extends BaseController implements UserController
 			isLoginSuccess = "not exist";
 		}
 		System.out.println("isLogin: "+isLoginSuccess);
-		
+		List<String> msgList = new ArrayList<String>();
 		ModelAndView mav=new ModelAndView();
-		
-		String viewName = "/main/main";
+		String viewName = "/user/loginform";
+		if(isLoginSuccess.equals("success")) {
+			viewName = "/main/main";
+			
+		}else if(isLoginSuccess.equals("not match")) {
+			msgList.add("ID 또는 비밀번호가 일치하지 않습니다");
+			viewName = "/user/loginform";
+		}else{
+			msgList.add("존재하지 않는 계정입니다");
+			viewName = "/user/loginform";
+		}
 		mav.setViewName(viewName);
-		
 		mav.addObject("isLoginSuccess", isLoginSuccess);
+		mav.addObject("msgList",msgList);
 		return mav;
 	}
 	
@@ -150,18 +158,43 @@ public class UserControllerImpl extends BaseController implements UserController
 				map.put(name, value);
 			}
 		}
-		logger.debug("[@UserService] company_registration_number: " + map.get("bussiness_number"));
-		String user_id = (String)map.get("user_id");
-		final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+user_id;
 		
-		List<String> fileList = fileProcess(multipartRequest, user_id);
-		String filename = fileList.get(0);
-		String filepath = CURR_IMAGE_DIR + "/" + filename;
-		map.put("filename", filename);
+		String user_id = (String)map.get("user_id");
+		
+		Map<String, MultipartFile> fileMap=multipartRequest.getFileMap();
+		List fileNameList = new ArrayList<>(fileMap.values());
+		Iterator it = fileNameList.iterator();
+		if(it.hasNext()){
+			MultipartFile multipartFile = (MultipartFile) it.next();
+			String multipartFilename =multipartFile.getOriginalFilename();
+			logger.debug("[@UserController, registerUser] fileNames: "+ multipartFilename);
+			if(multipartFilename!=null && !multipartFilename.equals("")) {
+				final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+user_id;
+				
+				List<String> fileList = fileProcess(multipartRequest, user_id);
+				String filename = fileList.get(0);
+				String filepath = CURR_IMAGE_DIR + "/" + filename;
+				
+				map.put("filename", filename);
+			}
+		}
+		
+		//logger.debug("[@UserService] company_registration_number: " + map.get("bussiness_number"));
+		
+
+		
+
+//		if(false){
+//			final String CURR_IMAGE_DIR = CURR_IMAGE_REPO_PATH+"/"+user_id;
+//			
+//			List<String> fileList = fileProcess(multipartRequest, user_id);
+//			String filename = fileList.get(0);
+//			String filepath = CURR_IMAGE_DIR + "/" + filename;
+//			
+//			map.put("filename", filename);
+//		}
 		map.put("join_state", "joined");
 		userService.register(map);
-		
-		multipartRequest.setAttribute("alertMsg", "ȸ�������� �Ϸ�Ǿ����ϴ�.");
 		
 		ModelAndView mav = new ModelAndView();
 		List<String> msgList = new ArrayList<String>();

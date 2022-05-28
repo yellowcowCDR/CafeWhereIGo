@@ -50,11 +50,13 @@ public class UserServiceImpl implements UserService {
 		logger.debug("[@UserService] company_registration_number: " + userInfo.get("bussiness_number"));
 		userInfo.remove("filename");
 		userDAO.register(userInfo);
-
-		Map<String, String> userProfilePhotoInfo = new HashMap<String, String>();
-		userProfilePhotoInfo.put("user_id", user_id);
-		userProfilePhotoInfo.put("filename", filename);
-		userProfilePhotoDAO.upload(userProfilePhotoInfo);
+		
+		if(filename!=null && !filename.equals("")){
+			Map<String, String> userProfilePhotoInfo = new HashMap<String, String>();
+			userProfilePhotoInfo.put("user_id", user_id);
+			userProfilePhotoInfo.put("filename", filename);
+			userProfilePhotoDAO.upload(userProfilePhotoInfo);
+		}
 	}
 
 	@Override

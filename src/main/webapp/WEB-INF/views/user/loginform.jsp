@@ -109,6 +109,15 @@
 				background-color:#19CE60;
 			}
 		</style>
+		<script>
+			window.onload=function(){
+				<c:if test="${msgList != null}">
+					<c:forEach var="msg" items="${msgList}">			
+							alert("${msg}");
+					</c:forEach>
+				</c:if>
+			}
+		</script>
 	</head>
 	
 	<body>

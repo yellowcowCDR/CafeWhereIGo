@@ -2,12 +2,21 @@ package com.ubo.CafeWhereIGo.likedArticle.vo;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class LikedArticleVO {
 	private int liked_article_id;
 	private String user_user_id;
 	private int Article_article_id;
 	private Date created_date;
 	
+	
+	
+	public LikedArticleVO() {
+		super();
+	}
+
 	public LikedArticleVO(int liked_article_id, String user_user_id, int article_article_id, Date created_date) {
 		super();
 		this.liked_article_id = liked_article_id;

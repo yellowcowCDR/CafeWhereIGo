@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class TestControllerImpl {
 	@RequestMapping(value= "/test/test.do" ,method={RequestMethod.POST,RequestMethod.GET})
 	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
 		ModelAndView mav=new ModelAndView();
 		String viewName = "/test/test";
 		mav.setViewName(viewName);

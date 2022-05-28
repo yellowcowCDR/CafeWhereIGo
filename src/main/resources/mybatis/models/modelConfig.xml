@@ -11,6 +11,15 @@
     <typeAlias type="com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO" alias="articleReplyVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO" alias="likedArticleVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.article.vo.SearchConditionVO" alias="searchConditionVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.vo.CafeVO" alias="cafeVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.facilityInfo.vo.FacilityInfoVO" alias="facilityInfoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafeHomeArticle.vo.CafeHomeArticleVO" alias="cafeHomeArticleVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.parkinglot.vo.ParkingLotVO" alias="parkingLotVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.goods.vo.GoodsVO" alias="goodsVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.goodsphoto.vo.GoodsPhotoVO" alias="goodsPhotoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.groupseat.vo.GroupSeatVO" alias="groupSeatVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.groupseatphoto.vo.GroupSeatPhotoVO" alias="groupSeatPhotoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafePhotoVO.vo.CafePhotoVO" alias="cafePhotoVO" />
   </typeAliases>
 </configuration>
 

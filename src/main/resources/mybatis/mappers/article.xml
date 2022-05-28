@@ -24,8 +24,7 @@
 		<result property="user_user_id" column="user_user_id" />
 	</resultMap>
 
-	<select id="selectAllArticle" resultMap="articleResult" parameterType="searchConditionVO">
-		
+	<select id="selectAllArticle" resultMap="articleResult" parameterType="searchConditionVO">	
 		 select * from (
 		select @rownum := @rownum+1 as rownum, t.* 
 		from(
@@ -64,8 +63,6 @@
 		<if test="(chapter==null or chapter==0) or (pageNum==null or pageNum==0)">
 			rownum between (1-1)*50+ (1-1)*10+1 and (1-1)*50+(1)*10
 		</if>
-		
-		
 	</select>
 	
 	<select id="selectArticle" resultType="ArticleVO" parameterType="_int">

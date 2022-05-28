@@ -52,4 +52,5 @@ public class CafeManagerController {
 		
 		return mav;
 	}
+	
 }

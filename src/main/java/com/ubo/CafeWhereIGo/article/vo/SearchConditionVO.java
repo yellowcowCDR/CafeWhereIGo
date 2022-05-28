@@ -1,5 +1,8 @@
 package com.ubo.CafeWhereIGo.article.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SearchConditionVO {
 	private String searchCondition="all";
 	private String searchWords;

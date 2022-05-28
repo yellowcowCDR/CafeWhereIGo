@@ -14,7 +14,12 @@
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 	    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	    
 		<script type="text/javascript" src="${contextPath}/resources/js/getGeometricInfo.js"></script>
+		
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script type="text/javascript" charset="utf-8" src="${contextPath}/resources/js/cafe/addCafe.js"></script>
+		
 		<style>
 			#register_section{
 				margin-left:150px;
@@ -114,7 +119,7 @@
 			#submit_button_wrapper{
 				display:flex;
 				justify-content:center;
-				margin-top:10px;
+				margin-top:50px;
 			}
 			.input_container_inner{
 				width:95%;
@@ -180,7 +185,7 @@
 				margin-bottom:0px;
 				
 			}
-			#orderTable{
+			.inputTable{
 				margin-top:20px;
 				width:95%;
 			}
@@ -246,6 +251,9 @@
 			.photo_file_input{
 				display:none;
 			}
+			.numberInput{
+				width:70px;
+			}
 		</style>
 		
 		<script>
@@ -296,247 +304,287 @@
 						</ul>
 					</div>
 					<div class="form_wrapper">
-						<form id="register_form">
-						<div class="form_wrapper-inner">		
-								<div class="image_container">
-									<a href="javascript:select_profilePhoto();">
-										<img id="profilePhoto_preview" class="profilePhoto_preview" name="profilePhoto_preview" src="${contextPath}/resources/image/add_picture.svg">
-									</a>
-								</div>
-							<div class="input_container_outer">
-							<div class="input_container">
-								<div class="input_container_inner">
-									<table id="userinfo_input_table">
-										<tr>
-											<td>
-												<input type="file" id="profilePhoto" name="profilePhoto" onchange="on_profilePhoto_changed(this)">
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<label class="register_label" for="cafe_name">점포명</label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<input type="text" id="cafe_name" class="input_box" disabled>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<label class="register_label" for="address1">주소</label>
-												
-											</td>
-										</tr>
-										<tr>
-											<td>
-												
-												<select id="region1" onchange="sidoChanged(this)">
-													<option>선택</option>
-												</select>
-												
-												<select id="region2" onchange="sigoonChanged(this)">
-													<option>선택</option>
-												</select>
-												
-												<select id="region3" onchange="dongChanged(this)">
-													<option>선택</option>
-												</select>
-												
-												<select id="region4">
-													<option>선택</option>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<input type="text" id="address1" class="input_box" placeholder="상세주소">
-											</td>
-										</tr>
-										
-										<tr>
-											<td>
-												<label class="register_label" for="user_name">이름</label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<input type="text" id="user_name" class="input_box">
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<label class="register_label">Phone</label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<select style="height:25px;" id="user_phone_number1" name="user_phone_num1">
-													<option value="010">010</option>
-													<option value="011">011</option>
-													<option value="016">016</option>
-													<option value="018">018</option>
-												</select>
-												-
-												<input class="phonenum-input" type="text" name="user_phone_num2" class="input_box">
-												-
-												<input class="phonenum-input" type="text" name="user_phone_num3" class="input_box">
-											</td>
-										</tr>	
-										<tr>
-											<td>
-												<label class="register_label" for="user_name">이용가능시설</label>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<label class="checkbox_label">주차장</label>
-												<input type="checkbox" value="parking_lot_exist">
-												<label class="checkbox_label">콘센트</label>
-												<input type="checkbox" value="plug_sokcet_exist">
-												<label class="checkbox_label">Wi-Fi</label>
-												<input type="checkbox" value="wifi_exist">
-											</td>
-										</tr>
-									</table>
-								</div>
-							</div>
-							</div>
-							<table align="center" id="orderTable">
-								<tr class="tableHeaderRow">
-									<th colspan="9" class="tableHeader">
-										<div class="tableTitleWrapper">
-											<h4 class="tableTitle no-margin">카페소개</h4>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<td><textarea rows="10" style="width:100%;"></textarea></td>
-								</tr>
-							</table>
-							<table align="center" id="orderTable">
-								<tr>
-									<th colspan=3 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black">
-											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>메뉴등록
+						<form id="register_form" enctype="multipart/form-data" method="post" action="${contextPath}/cafe/addCafe.do">
+							<div class="form_wrapper-inner">		
+									<div class="image_container">
+										<a href="javascript:select_profilePhoto();">
+											<img id="profilePhoto_preview" class="profilePhoto_preview" name="profilePhoto_preview" src="${contextPath}/resources/image/add_picture.svg">
 										</a>
-									</th>
-								</tr>
-								<tr class="tableHeaderRow">
-									<th colspan="3" class="tableHeader">
-										<div class="tableTitleWrapper">
-											<h4 class="tableTitle no-margin">메뉴</h4>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<td width="80px">
-										<a id="menu1" href="#" onclick="select_goods_photo(this); return false;">
-											<img class="product_image" id="menu1_img" src="${contextPath}/resources/image/add_picture.svg">
-										</a>
-										<input id="menu1_photo_file_input" class="photo_file_input" name="menu1_photo_file" type="file" onchange="on_goods_photo_changed(this)">
-									</td>
-									<td width="420px">
-										<div>
-											<input type="text" id="productName1" placeholder="상품명">
-											<input type="text" id="productPrice1" placeholder="상품가격(원)">
-											<textarea rows="2" style="width:100%; margin-top:5px" placeholder="상품설명"></textarea>
-										</div>
-									</td>									
-									
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
-							</table>
-							
-							<table align="center" id="orderTable">
-								<tr>
-									<th colspan=3 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" id="group_seat1" class="add_cafe_button no-text-decoration link-text-always-black">
-											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>단체석등록
-										</a>
-									</th>
-								</tr>
-								<tr class="tableHeaderRow">
-									<th colspan="3" class="tableHeader"><h4 class="tableTitle no-margin">단체석</h4></th>
-								</tr>
-								<tr>
-									<td width="80px">
-										<a id="groupSeat1" href="#" onclick="select_goods_photo(this); return false;">
-											<img id="groupSeat1_img" class="product_image" src="${contextPath}/resources/image/add_picture.svg">
-										</a>
-										<input id="groupSeat1_photo_file_input" class="photo_file_input" name="groupSeat1_photo_file_input" type="file" onchange="on_goods_photo_changed(this)">
-									</td>
-									<td width="420px">
-										<div>
-											<input type="text" id="groupSeatName1" placeholder="상품명">
-											<input type="text" id="groupSeatPrice1" placeholder="상품가격(원)">
-											<textarea rows="2" style="width:100%; margin-top:5px" placeholder="상품설명"></textarea>
-										</div>
-									</td>
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
-							</table>
-							<table align="center" id="orderTable">
-								<tr>
-									<th colspan=3 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black">
-											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>사진추가
-										</a>
-									</th>
-								</tr>
-								<tr class="tableHeaderRow">
-									<th colspan="3" class="tableHeader">
-										<div class="tableTitleWrapper">
-											<h4 class="tableTitle no-margin">사진</h4>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<td width="80px">
-										<a id="cafe1" href="#" onclick="select_goods_photo(this); return false;">
-											<img class="product_image" id="cafe1_img" src="${contextPath}/resources/image/add_picture.svg">
-										</a>
-										<input id="cafe1_photo_file_input"  name="cafe1_photo_file" type="file" onchange="on_goods_photo_changed(this)">
-									</td>
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
-							</table>
-							<table align="center" id="orderTable">
-								<tr>
-									<th colspan=2 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black">
-											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>주차장추가
-										</a>
-									</th>
-								</tr>
-								<tr class="tableHeaderRow">
-									<th colspan="2" class="tableHeader">
-										<div class="tableTitleWrapper">
-											<h4 class="tableTitle no-margin">주차장정보</h4>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<td width="80px">
-										<table width="550px">
-											<tr><td><h3 class="productName no-top_bottom_margin margin-left-10px">주차장1</h3></td></tr>
-											<tr><td><input type="text" width="550px" class="address_input_box" placeholder="주차장명"></td></tr>
-											<tr><td><input type="text" width="550px" class="address_input_box" placeholder="주소"><button onclick="return false;">주소찾기</button></td></tr>
-											<tr><td><input type="text" width="100%" class="address_input_box" placeholder="상세주소"></td></tr>
-												
+									</div>
+								<div class="input_container_outer">
+								<div class="input_container">
+									<div class="input_container_inner">
+										<table id="userinfo_input_table">
+											<tr>
+												<td>
+													<input type="file" id="profilePhoto" name="cafeMainPhoto" onchange="on_profilePhoto_changed(this)">
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="register_label" for="cafe_name">점포명</label>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<input type="text" id="cafe_name" name="cafe_name" class="input_box">
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="register_label" for="address1">주소</label>
+													
+												</td>
+											</tr>
+											<tr>
+												<td>
+													
+													<select id="region1" onchange="sidoChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region1" name="cafe_region1">
+													
+													<select id="region2" onchange="sigoonChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region2" name="cafe_region2">
+													
+													<select id="region3" onchange="dongChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region3" name="cafe_region3">
+													
+													<select id="region4"  onchange="leeChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region4" name="cafe_region4">
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<input type="text" id="address2" name="cafe_location2" class="input_box" placeholder="상세주소">
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="register_label">Phone</label>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<select style="height:25px;" id="phone_number1" name="phonenum1">
+														<option value="010">010</option>
+														<option value="011">011</option>
+														<option value="016">016</option>
+														<option value="018">018</option>
+														<option value="02">02</option>
+														<option value="031">031</option>
+														<option value="032">032</option>
+														<option value="051">051</option>
+														<option value="052">052</option>
+														<option value="053">053</option>
+														<option value="054">054</option>
+														<option value="055">055</option>
+														<option value="033">033</option>
+														<option value="042">042</option>
+														<option value="041">041</option>
+														<option value="043">043</option>
+														<option value="062">062</option>
+														<option value="061">061</option>
+														<option value="063">063</option>
+														<option value="064">064</option>
+													</select>
+													-
+													<input class="phonenum-input" type="text" name="phonenum2" class="input_box">
+													-
+													<input class="phonenum-input" type="text" name="phonenum3" class="input_box">
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="register_label">영업시간</label>
+													
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<input type="number" style="display:inline-block;" name="openTime1" value="0" min="0" max="12">:
+													<input type="number" style="display:inline-block;" name="openTime2" value="0" min="0" max="59">
+													<select style="display:inline-block;" name="openTime3">
+														<option value="am">am</option>
+														<option value="pm">pm</option>
+													</select>
+													
+													~
+													<input type="number" style="display:inline-block;" name="closeTime1" value="0" min="0" max="12">:
+													<input type="number" style="display:inline-block;" name="closeTime2" value="0" min="0" max="59">
+													<select style="display:inline-block;" name="closeTime3">
+														<option value="am">am</option>
+														<option value="pm">pm</option>
+													</select>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="register_label" for="user_name">이용가능시설</label>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="checkbox_label">주차장</label>
+													<input type="checkbox" name="parking_lot">
+													<label class="checkbox_label">콘센트</label>
+													<input type="checkbox" name="power_plug">
+													<label class="checkbox_label">Wi-Fi</label>
+													<input type="checkbox" name="wifi">
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<label class="register_label">좌석수</label>
+													<input type="number" class="numberInput" name="numberOfSeat" min=0 value=0>
+												</td>
+											</tr>
 										</table>
-									</td>
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
-							</table>
-							<div id="submit_button_wrapper">
-								<input class="submit_button" type="submit" value="점포정보수정">
-							</div>
-							</div>
+									</div>
+								</div>
+								</div>
+								<table align="center" id="homeArticleTable" class="inputTable">
+									<tr class="tableHeaderRow">
+										<th colspan="9" class="tableHeader">
+											<div class="tableTitleWrapper">
+												<h4 class="tableTitle no-margin">카페소개</h4>
+											</div>
+										</th>
+									</tr>
+									<tr>
+										<td><textarea rows="10" style="width:100%;" name="homeArticle_content"></textarea></td>
+									</tr>
+								</table>
+								<table align="center" id="menuTable" class="inputTable">
+									<tr>
+										<th colspan=3 style="text-align:right;">
+											<a href="#" class="add_cafe_button no-text-decoration link-text-always-black" onclick="addGoods('${contextPath}',this.parentNode.parentNode.parentNode);return false;">
+												<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>메뉴등록
+											</a>
+										</th>
+									</tr>
+									<tr class="tableHeaderRow">
+										<th colspan="3" class="tableHeader">
+											<div class="tableTitleWrapper">
+												<h4 class="tableTitle no-margin">메뉴</h4>
+											</div>
+										</th>
+									</tr>
+									<tr id="productRow1">
+										<td width="80px">
+											<a id="menu1" href="#" onclick="select_goods_photo(this); return false;">
+												<img class="product_image" id="menu1_img" src="${contextPath}/resources/image/add_picture.svg">
+											</a>
+											<input id="menu1_photo_file_input" class="photo_file_input" name="goodsphoto1" type="file" onchange="on_goods_photo_changed(this)">
+										</td>
+										<td width="420px">
+											<div>
+												<input type="text" id="productName1" name="goods1_name" placeholder="상품명">
+												<input type="text" id="productPrice1" name="goods1_price" placeholder="상품가격(원)">
+												<textarea rows="2" style="width:100%; margin-top:5px" name="goods1_description" placeholder="상품설명"></textarea>
+											</div>
+										</td>									
+										
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deleteGoods(this.parentNode.parentNode);" value="삭제"></td>	
+									</tr>
+								</table>
+								
+								<table align="center" id="groupSeatTable" class="inputTable">
+									<tr>
+										<th colspan=3 style="text-align:right;">
+											<a href="${contextPath}/cafeManager/addCafeForm.do" id="group_seat1" class="add_cafe_button no-text-decoration link-text-always-black" onclick="addGroupSeat('${contextPath}',this.parentNode.parentNode.parentNode);return false;">
+												<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>단체석등록
+											</a>
+										</th>
+									</tr>
+									<tr class="tableHeaderRow">
+										<th colspan="3" class="tableHeader"><h4 class="tableTitle no-margin">단체석</h4></th>
+									</tr>
+									<tr id="groupSeatRow1">
+										<td width="80px">
+											<a id="groupSeat1" href="#" onclick="select_goods_photo(this); return false;">
+												<img id="groupSeat1_img" class="product_image" src="${contextPath}/resources/image/add_picture.svg">
+											</a>
+											<input id="groupSeat1_photo_file_input" class="photo_file_input" name="groupSeatPhoto1" type="file" onchange="on_goods_photo_changed(this)">
+										</td>
+										<td width="420px">
+											<div>
+												<input type="text" id="groupSeat1_seatName" name="groupSeat1_name" placeholder="상품명">
+												<input type="text" id="groupSeat1_price" name="groupSeat1_price" placeholder="상품가격(원)">
+												<textarea rows="2" style="width:100%;  margin-top:5px" name="groupSeat1_description" placeholder="상품설명"></textarea>
+											</div>
+										</td>
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton"onclick="deleteGroupSeat(this.parentNode.parentNode);" value="삭제"></td>
+									</tr>
+								</table>
+								<table align="center" id="cafePhotoTable" class="inputTable">
+									<tr>
+										<th colspan=3 style="text-align:right;">
+											<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black" onclick="addPhoto('${contextPath}',this.parentNode.parentNode.parentNode);return false;">
+												<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>사진추가
+											</a>
+										</th>
+									</tr>
+									<tr class="tableHeaderRow">
+										<th colspan="3" class="tableHeader">
+											<div class="tableTitleWrapper">
+												<h4 class="tableTitle no-margin">사진</h4>
+											</div>
+										</th>
+									</tr>
+									<tr id="cafePhoto1">
+										<td width="80px">
+											<a id="cafe1" href="#" onclick="select_goods_photo(this); return false;">
+												<img class="product_image" id="cafe1_img" src="${contextPath}/resources/image/add_picture.svg">
+											</a>
+											
+										</td>
+										<td><input id="cafe1_photo_file_input"  name="cafe1_photo_file" type="file" name="cafePhoto1" onchange="on_goods_photo_changed(this)"></td>
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deletePhoto(this.parentNode.parentNode);" value="삭제"></td>
+									</tr>
+								</table>
+								<table align="center" id="parkingLotTable" class="inputTable">
+									<tr>
+										<th colspan=2 style="text-align:right;">
+											<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black" onclick="addParkingLot(this.parentNode.parentNode.parentNode);return false;">
+												<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>주차장추가
+											</a>
+										</th>
+									</tr>
+									<tr class="tableHeaderRow">
+										<th colspan="2" class="tableHeader">
+											<div class="tableTitleWrapper">
+												<h4 class="tableTitle no-margin">주차장정보</h4>
+											</div>
+										</th>
+									</tr>
+									<tr id="parkingLotRow1">
+										<td width="80px">
+											<table width="550px">
+												<tr><td><h3 class="productName no-top_bottom_margin margin-left-10px">주차장1</h3></td></tr>
+												<tr><td><input type="text" width="550px" class="address_input_box" name="parkingLot1_name" placeholder="주차장명"></td></tr>
+												<tr><td><input type="text" width="550px" id="parkingLot1_Address1" class="address_input_box" name="parkingLot1_location1" placeholder="주소" readonly><button onclick="setParkingLotAddress1(1);return false;">주소찾기</button></td></tr>
+												<tr><td><input type="text" width="100%" class="address_input_box" name="parkingLot1_location2" placeholder="상세주소"></td></tr>
+											</table>
+										</td>
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deleteParkingLot(this.parentNode.parentNode)" value="삭제"></td>
+										
+									</tr>
+								</table>
+								<div id="submit_button_wrapper">
+									<input class="submit_button" type="submit" value="점포등록">
+								</div>
+								</div>
+								<input type="hidden" id="goodsSize" name="goodsSize" value="1">
+								<input type="hidden" id="groupSeatSize" name="groupSeatSize" value="1">
+								<input type="hidden" id="photoSize" name="photoSize" value="1">
+								<input type="hidden" id="parkingLotSize" name="parkingLotSize" value="1">
 						</form>
 					</div>
 				</div>

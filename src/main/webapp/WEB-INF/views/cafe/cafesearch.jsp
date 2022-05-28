@@ -206,7 +206,7 @@
 									<p class="no-margin-top-bottom">대전 서구 둔산동</p>
 								</td>
 								<td>
-									<p class="no-margin-top-bottom">50+</p>
+									<p class="no-margin-top-bottom">50</p>
 								</td>
 								<td id="facilityInfo">
 									<img class="tiny_icon" src="${contextPath}/resources/image/parking_icon.svg">
