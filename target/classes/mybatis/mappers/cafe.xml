@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafe">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="cafeResult" type="CafeVO">
+		<result property="cafe_id" column="cafe_id"/>
+		<result property="cafe_name" column="cafe_name"/>
+		<result property="cafe_location1" column="cafe_location1"/>
+		<result property="cafe_location2" column="cafe_location2"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="phonenum1" column="phonenum1"/>
+		<result property="phonenum2" column="phonenum2"/>
+		<result property="phonenum3" column="phonenum3"/>
+		<result property="created_date" column="created_date"/>
+		<result property="business_state" column="business_state"/>
+		<result property="shutdown_date" column="shutdown_date"/>
+		<result property="open_time" column="open_time"/>
+		<result property="close_time" column="close_time"/>
+	</resultMap>	
+	
+	<resultMap id="cafeSearchResult" type="CafeSearchResultVO">
+		<result property="cafe_id" column="cafe_id"/>
+		<result property="cafe_name" column="cafe_name"/>
+		<result property="cafe_location1" column="cafe_location1"/>
+		<result property="cafe_location2" column="cafe_location2"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="phonenum1" column="phonenum1"/>
+		<result property="phonenum2" column="phonenum2"/>
+		<result property="phonenum3" column="phonenum3"/>
+		<result property="created_date" column="created_date"/>
+		<result property="business_state" column="business_state"/>
+		<result property="shutdown_date" column="shutdown_date"/>
+		<result property="open_time" column="open_time"/>
+		<result property="close_time" column="close_time"/>
+		
+		<result property="parking_lot" column="parking_lot"/>
+		<result property="power_plug" column="power_plug"/>
+		<result property="wifi" column="wifi"/>
+		<result property="mood_score" column="mood_score"/>
+		<result property="coffee_score" column="coffee_score"/>
+		<result property="drink_score" column="drink_score"/>
+		<result property="dessert_score" column="dessert_score"/>
+		<result property="quiet_score" column="quiet_score"/>
+		<result property="view_score" column="view_score"/>
+	</resultMap>
+	
+	<insert id="insertCafe" parameterType="CafeVO">
+		<![CDATA[insert into cafe(
+			cafe_name,
+			user_user_id,
+			cafe_location1,
+			cafe_location2,
+			number_of_seat,
+			phonenum1,
+			phonenum2,
+			phonenum3,
+			open_time,
+			close_time,
+			business_state
+		)
+		values(
+			#{cafe_name},
+			#{user_user_id},
+			#{cafe_location1},
+			#{cafe_location2},
+			#{number_of_seat},
+			#{phonenum1},
+			#{phonenum2},
+			#{phonenum3},
+			#{open_time},
+			#{close_time},
+			#{business_state}
+		)
+		]]>
+	</insert>
+	
+	<select id="selectCafeList" resultMap = "cafeSearchResult">
+		<![CDATA[
+			select c.*, f.parking_lot, f.power_plug, f.wifi, t.mood_score, t.coffee_score, t.drink_score, t.dessert_score, t.quiet_score, t.view_score
+			from cafe as c
+			left join 
+			(
+				select cafe_cafe_id, ROUND(AVG(mood_score)) mood_score, ROUND(AVG(coffee_score)) coffee_score, ROUND(AVG(drink_score)) drink_score, ROUND(AVG(dessert_score)) dessert_score, ROUND(AVG(quiet_score)) quiet_score, ROUND(AVG(view_score)) view_score
+			    from themescore
+			    group by cafe_cafe_id
+			) as t
+			on c.cafe_id = t.cafe_cafe_id
+			left join facilityinfo as f
+			on c.cafe_id = f.cafe_cafe_id
+		]]>
+	</select>
+	<select id="selectCafe" resultType = "CafeVO">
+		<![CDATA[
+			select *
+			from `cafe`
+			where cafe_id = #{cafe_id}
+		]]>
+	</select>
+	
+	<update id="updateCafe" parameterType="CafeVO">
+		update `cafe`
+		set
+		cafe_name=#{cafe_name}
+		cafe_location1=#{cafe_location1}
+		cafe_location2=#{cafe_location2}
+		phonenum1=#{phonenum1}
+		phonenum2=#{phonenum2}
+		phonenum3=#{phonenum3}
+		business_state=#{business_state}
+		open_time=#{open_time}
+		close_time=#{close_time}
+		where cafe_id = #{cafe_id}
+	</update>
+	<delete id="deleteCafe" parameterType="CafeVO">
+		delete 
+		from `cafe`
+		where cafe_id = #{cafe_id}
+	</delete>
+	
+	<select id="selectRecentCafeId" resultType="_int">
+		<![CDATA[
+			select cafe_id
+			from `cafe`
+			order by created_date desc
+			limit 1;
+		]]>
+	</select>
+</mapper>

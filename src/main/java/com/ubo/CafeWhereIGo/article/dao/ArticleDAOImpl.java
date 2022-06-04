@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ubo.CafeWhereIGo.article.vo.ArticleVO;
-import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
 
@@ -37,7 +37,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 	}
 
 	@Override
-	public List<ArticleVO> selectAllArticle(SearchConditionVO condition) {
+	public List<ArticleVO> selectAllArticle(ArticleSearchConditionVO condition) {
 		// TODO Auto-generated method stub
 		List<ArticleVO> articleList = (List<ArticleVO>) sqlSession.selectList("mapper.article.selectAllArticle", condition);
 
@@ -52,7 +52,7 @@ public class ArticleDAOImpl implements ArticleDAO{
 	}
 
 	@Override
-	public List<ArticleVO> selectArticles(SearchConditionVO searchConditionVO) {
+	public List<ArticleVO> selectArticles(ArticleSearchConditionVO searchConditionVO) {
 		// TODO Auto-generated method stub
 		List<ArticleVO> articleList = (List<ArticleVO>) sqlSession.selectList("mapper.article.selectArticles", searchConditionVO);
 		return articleList;

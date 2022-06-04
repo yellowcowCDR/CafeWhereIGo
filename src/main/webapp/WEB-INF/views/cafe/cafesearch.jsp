@@ -4,6 +4,7 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
@@ -96,7 +97,15 @@
 			.icon_text{
 				margin-right:5px;
 			}
+			.result_table .resultRow:hover{
+				background-color:#d2ebf7;
+			}
 		</style>
+		<script>
+			<c:if test="${cafeList eq null}">
+				alert("cafeLIst is Null");
+			</c:if>
+		</script>
 	</head>
 	
 	<body>
@@ -113,18 +122,22 @@
 										<select id="region1" onchange="sidoChanged(this)">
 											<option>선택</option>
 										</select>
+										<input type="hidden" id="cafe_region1">
 										<label id="inputLabel" for="region2">지역2</label>
 										<select id="region2" onchange="sigoonChanged(this)">
 											<option>선택</option>
 										</select>
+										<input type="hidden" id="cafe_region2">
 										<label id="inputLabel" for="region3">지역3</label>
 										<select id="region3" onchange="dongChanged(this)">
 											<option>선택</option>
 										</select>
+										<input type="hidden" id="cafe_region3">
 										<label id="inputLabel" for="region3">지역4</label>
 										<select id="region4">
 											<option>선택</option>
 										</select>
+										<input type="hidden" id="cafe_region4">
 									</td>
 								</tr>
 								<tr id="formRow">
@@ -198,7 +211,7 @@
 								<th>카페지수</th>
 								<th width="100px">등록일</th>
 							</tr>
-							<tr>
+							<tr class="resultRow">
 								<td>
 									<a class="no-margin-top-bottom" href="${contextPath}/cafe/cafe_detail.do">카페 블루</a>
 								</td>
@@ -216,16 +229,48 @@
 								<td style="width:120px;">
 									<div style="display:flex;">
 										<img class="theme_score_icon" src="${contextPath}/resources/image/coffee_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/drink_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
 										<img class="theme_score_icon" src="${contextPath}/resources/image/dessert_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
 										<img class="theme_score_icon" src="${contextPath}/resources/image/scenery_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-										<img class="theme_score_icon" src="${contextPath}/resources/image/socket_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-										<img class="theme_score_icon" src="${contextPath}/resources/image/wifi_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/atmosphere_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/mute_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
 									</div>
 								</td>
 								<td>
-									<p class="no-margin-top-bottom">2022.04.21</p>
+									<p class="no-margin-top-bottom">2022.04.22</p>
 								</td>
 							</tr>
+							<c:forEach var="cafe" items="${cafeList}">
+							<tr class="resultRow">
+								<td>
+									<a class="no-margin-top-bottom" href="${contextPath}/cafe/cafe_detail.do?cafe_id=${cafe.cafe_id}">${cafe.cafe_name}</a>
+								</td>
+								<td>
+									<p class="no-margin-top-bottom">${cafe.cafe_location1} ${cafe.cafe_location2}</p>
+								</td>
+								<td>
+									<p class="no-margin-top-bottom">${cafe.number_of_seat}</p>
+								</td>
+								<td id="facilityInfo">
+									<img class="tiny_icon" src="${contextPath}/resources/image/parking_icon.svg">
+									<img class="tiny_icon" src="${contextPath}/resources/image/socket_icon.svg">
+									<img class="tiny_icon" src="${contextPath}/resources/image/wifi_icon.svg">
+								</td>
+								<td style="width:120px;">
+									<div style="display:flex;">
+										<img class="theme_score_icon" src="${contextPath}/resources/image/coffee_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.coffee_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/drink_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.drink_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/dessert_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.dessert_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/scenery_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.view_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/atmosphere_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.mood_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/mute_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.quiet_score}</p>
+									</div>
+								</td>
+								<td>
+									<p class="no-margin-top-bottom"><fmt:formatDate value="${cafe.created_date}" pattern="YYYY.MM.dd"/></p>
+								</td>
+							</tr>
+							</c:forEach>
 						</table>
 						<div class="pagination_wrapper">
 							<ul class="pagination pagination-sm">

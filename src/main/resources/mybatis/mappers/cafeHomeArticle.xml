@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafeHomeArticle">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="cafeHomeArticleResult" type="cafeHomeArticleVO">
+		<result property="article_id" column="article_id"/>
+		<result property="article_content" column="article_content"/>
+		<result property="created_date" column="created_date"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="user_user_id" column="user_user_id"/>
+	</resultMap>	
+
+	<insert id="insertHomeArticle" parameterType="CafeHomeArticleVO">
+		<![CDATA[
+			insert into `cafehomearticle`(
+				`article_content`,
+				`cafe_cafe_id`,
+				`user_user_id`
+			)
+			values(
+				#{article_content},
+				#{cafe_cafe_id},
+				#{user_user_id}
+			)
+		]]>
+	</insert>
+	<select id="selectHomeArticle" parameterType="_int" resultType="CafeHomeArticleVO">
+		<![CDATA[
+			select *
+			from `cafehomearticle`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<update id="updateHomeArticle" parameterType="CafeHomeArticleVO">
+		<![CDATA[
+			update `cafehomearticle`
+			set `article_content`=#{article_content},
+				`cafe_cafe_id`=#{cafe_cafe_id},
+				`user_user_id`#{user_user_id}
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</update>
+	<delete id="deleteHomeArticle" parameterType="_int">
+		<![CDATA[
+			delete from `cafehomearticle`
+			where `cafe_cafe_id` = #{cafe_id}
+		]]>
+	</delete>
+</mapper>

@@ -24,7 +24,7 @@
 		<result property="user_user_id" column="user_user_id" />
 	</resultMap>
 
-	<select id="selectAllArticle" resultMap="articleResult" parameterType="searchConditionVO">	
+	<select id="selectAllArticle" resultMap="articleResult" parameterType="ArticleSearchConditionVO">	
 		 select * from (
 		select @rownum := @rownum+1 as rownum, t.* 
 		from(
@@ -70,7 +70,7 @@
 		where article_id = #{article_id}
 	</select>
 	
-	<select id="searchArticle" resultMap="articleResult" parameterType="SearchConditionVO">
+	<select id="searchArticle" resultMap="articleResult" parameterType="ArticleSearchConditionVO">
 		select * from article
 		where
 		<if test="searchCondition == 'all'">

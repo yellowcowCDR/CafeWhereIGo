@@ -3,15 +3,15 @@ package com.ubo.CafeWhereIGo.article.dao;
 import java.util.List;
 
 import com.ubo.CafeWhereIGo.article.vo.ArticleVO;
-import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
 
 public interface ArticleDAO {
 	public void insertArticle(ArticleVO articleVO);
-	public List<ArticleVO> selectAllArticle(SearchConditionVO condition);
+	public List<ArticleVO> selectAllArticle(ArticleSearchConditionVO condition);
 	public ArticleVO selectArticle(int article_id);
-	public List<ArticleVO> selectArticles(SearchConditionVO searchConditionVO);
+	public List<ArticleVO> selectArticles(ArticleSearchConditionVO searchConditionVO);
 	public void updateArticle(ArticleVO articleVO);
 	public void deleteArticle(int articleId);
 	public int getNextArticleNo();

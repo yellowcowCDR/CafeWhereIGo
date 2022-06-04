@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ubo.CafeWhereIGo.article.dao.ArticleDAO;
 import com.ubo.CafeWhereIGo.article.vo.ArticleVO;
-import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 import com.ubo.CafeWhereIGo.articleReply.dao.ArticleReplyDAO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.articlephoto.dao.ArticlePhotoDAO;
@@ -61,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public List<ArticleVO> getArticleList(SearchConditionVO condition) {
+	public List<ArticleVO> getArticleList(ArticleSearchConditionVO condition) {
 		// TODO Auto-generated method stub
 		List<ArticleVO> articleList=articleDAO.selectAllArticle(condition);
 		for(int i=0; i<articleList.size();i++) {
@@ -74,7 +74,7 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 	
 	@Override
-	public List<ArticleVO> searchArticle(SearchConditionVO searchConditionVO) {
+	public List<ArticleVO> searchArticle(ArticleSearchConditionVO searchConditionVO) {
 		// TODO Auto-generated method stub
 		return null;
 	}

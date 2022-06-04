@@ -1,5 +1,8 @@
 package com.ubo.CafeWhereIGo.articleReply.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ArticleReplyVO {
 	private int reply_id;
 	private String reply_content;

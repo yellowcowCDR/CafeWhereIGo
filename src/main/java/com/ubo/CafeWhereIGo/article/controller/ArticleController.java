@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 
 public interface ArticleController {
 
@@ -27,7 +27,7 @@ public interface ArticleController {
 	ModelAndView deleteArticle(int article_id, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
-	ModelAndView search(SearchConditionVO condition, HttpServletRequest request, HttpServletResponse response)
+	ModelAndView search(ArticleSearchConditionVO condition, HttpServletRequest request, HttpServletResponse response)
 			throws Exception;
 
 	ModelAndView detail(int article_id, HttpServletRequest request, HttpServletResponse response) throws Exception;

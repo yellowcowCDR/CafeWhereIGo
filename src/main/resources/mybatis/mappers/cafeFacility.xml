@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafeFacility">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="facilityResult" type="FacilityInfoVO">
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="parking_lot" column="parking_lot"/>
+		<result property="power_plug" column="power_plug"/>
+		<result property="wifi" column="wifi"/>
+	</resultMap>	
+
+	<insert id="insertFacility" parameterType="FacilityInfoVO">
+		<![CDATA[
+			insert into `facilityinfo`(
+				cafe_cafe_id,
+				parking_lot,
+				power_plug,
+				wifi
+			)
+			values(
+				#{cafe_cafe_id},
+				#{parking_lot},
+				#{power_plug},
+				#{wifi}
+			)
+		]]>
+	</insert>
+	<select id="selectFacility" parameterType="_int" resultMap="facilityResult">
+		<![CDATA[
+			select *
+			from `facilityinfo`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<update id="updateFacility" parameterType="FacilityInfoVO">
+		<![CDATA[
+			update `facilityinfo`
+			set parking_lot=#{parking_lot},
+				power_plug=#{power_plug},
+				wifi=#{wifi}
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</update>
+	<delete id="deleteFacility" parameterType="_int">
+		<![CDATA[
+			delete from `facilityinfo`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</delete>
+</mapper>

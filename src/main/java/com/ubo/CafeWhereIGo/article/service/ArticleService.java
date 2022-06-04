@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ubo.CafeWhereIGo.article.vo.ArticleVO;
-import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO;
 import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
@@ -13,9 +13,9 @@ public interface ArticleService {
 	public int registerArticle(ArticleVO articleVO, List<ArticlePhotoVO> articlePhotoVOList);
 	public void deleteArticle(int articleNO);
 	public void modifyArticle(ArticleVO articleVO, List<ArticlePhotoVO> articlePhotoVOList);
-	public List<ArticleVO> getArticleList(SearchConditionVO condition);
+	public List<ArticleVO> getArticleList(ArticleSearchConditionVO condition);
 	public List<ArticleVO> getArticleList(int startArticleNO, int endArticleNO);
-	public List<ArticleVO> searchArticle(SearchConditionVO searchConditionVO);
+	public List<ArticleVO> searchArticle(ArticleSearchConditionVO searchConditionVO);
 	public Map<String,Object> getArticle(int article_id);
 	public int getNextArticleNo();
 	public int getLastArticleNo();

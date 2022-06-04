@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafeGoodsPhoto">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="goodsPhotoResult" type="GoodsPhotoVO">
+		<result property="goods_goods_id" column="goods_goods_id"/>
+		<result property="filename" column="filename"/>
+	</resultMap>	
+
+	<insert id="insertGoodsPhoto" parameterType="GoodsPhotoVO">
+		<![CDATA[
+			insert into `goodsphoto`(
+				goods_goods_id,
+				filename
+			)
+			values(
+				#{goods_goods_id},
+				#{filename}
+			)
+		]]>
+	</insert>
+	<select id="selectGoodsPhoto" parameterType="_int" resultType="GoodsPhotoVO">
+		<![CDATA[
+			select *
+			from `goodsphoto`
+			where goods_goods_id = #{goods_id}
+		]]>
+	</select>
+	<update id="updateGoodsPhoto" parameterType="GoodsVO">
+		<![CDATA[
+			update `goodsphoto`
+			set filename=#{filename}
+			where goods_goods_id = #{goods_id}
+		]]>
+	</update>
+	<delete id="deleteGoodsPhoto" parameterType="_int">
+		<![CDATA[
+			delete from `goodsphoto`
+			where goods_goods_id = #{goods_id}
+		]]>
+	</delete>
+</mapper>

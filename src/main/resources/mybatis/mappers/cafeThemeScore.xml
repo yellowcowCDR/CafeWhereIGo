@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafeThemeScore">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="themeScoreResult" type="ThemeScoreVO">
+		<result property="theme_score_id" column="theme_score_id"/>	
+		<result property="coffee_score" column="coffee_score"/>
+		<result property="dessert_score" column="dessert_score"/>
+		<result property="drink_score" column="drink_score"/>
+		<result property="mood_score" column="mood_score"/>
+		<result property="quiet_score" column="quiet_score"/>
+		<result property="view_score" column="view_score"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="review_review_id" column="review_review_id"/>
+	</resultMap>	
+
+	<insert id="insertThemeScore" parameterType="ThemeScoreVO">
+		<![CDATA[
+			insert into `themescore`(
+				cafe_cafe_id,
+				review_review_id,
+				coffee_score,
+				dessert_score,
+				drink_score,
+				mood_score,
+				quiet_score,
+				view_score	
+			)
+			values(
+				#{cafe_cafe_id},
+				#{review_review_id},
+				#{coffee_score},
+				#{dessert_score},
+				#{drink_score},
+				#{mood_score},
+				#{quiet_score},
+				#{view_score}
+			)
+		]]>
+	</insert>
+	<select id="selectThemeScores" parameterType="_int" resultMap="themeScoreResult">
+		<![CDATA[
+			select *
+			from `themescore`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<select id="selectThemeScore" parameterType="_int" resultType="ThemeScoreVO">
+		<![CDATA[
+			select *
+			from `themescore`
+			where review_review_id = #{review_id}
+		]]>
+	</select>
+	<update id="updateThemeScore" parameterType="ThemeScoreVO">
+		<![CDATA[
+			update `themescore`
+			set 
+				coffee_score=#{coffee_score},
+				dessert_score=#{dessert_score},
+				drink_score=#{drink_score}
+				mood_score=#{mood_score},
+				quiet_score=#{quiet_score},
+				view_score=#{view_score}
+			where review_review_id = #{review_id}
+		]]>
+	</update>
+	<delete id="deleteThemeScore" parameterType="_int">
+		<![CDATA[
+			delete from `themescore`
+			where review_review_id = #{review_id}
+		]]>
+	</delete>
+	<delete id="deleteThemeScoreByCafeId" parameterType="_int">
+		<![CDATA[
+			delete from `themescore`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</delete>
+</mapper>

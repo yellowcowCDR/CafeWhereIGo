@@ -3,9 +3,9 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-	<definition name="/cart/cart" extends="baseLayout">
+	<definition name="/cart/cartform" extends="baseLayout">
 		<put-attribute name="title" value="카페어디가-오늘의카페" />
-		<put-attribute name="body" value="/WEB-INF/views/cart/cart.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/cart/cartform.jsp" />
 	</definition>
 
 </tiles-definitions>

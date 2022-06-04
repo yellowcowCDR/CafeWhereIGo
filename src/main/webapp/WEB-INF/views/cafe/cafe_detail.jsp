@@ -4,14 +4,18 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="user_id"  value="${loginSession.user_id}"  />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>카페어디가-카페상세</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ee71689aaa8aa4f420e61071a31891c"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6ee71689aaa8aa4f420e61071a31891c&libraries=services"></script>
+<script type="text/javascript" src="${contextPath}/resources/js/cafe/detail.js"></script>
+<script type="text/javascript" src="${contextPath}/resources/js/cart/addCart.js"></script>
+<script type="text/javascript" src="${contextPath}/resources/js/order/addOrder.js"></script>
 <style>
 	#mainContainer{
 		display:flex;
@@ -201,6 +205,19 @@
 </style>
 <script>
 	var isWished=false;
+	
+	let parkingLogNameList=[
+		<c:forEach var="parkingLot" items="${parkingLotList}">
+		'${parkingLot.parking_lot_name}',
+	</c:forEach>
+	];
+	
+	let addrList =[
+		<c:forEach var="parkingLot" items="${parkingLotList}">
+			'${parkingLot.parking_lot_location1}',
+		</c:forEach>
+	];
+	
 	function onWishClicked(){
 		var wishicon = document.getElementById("wish_icon");
 		if(!isWished){
@@ -221,58 +238,12 @@
 		     $(this).addClass('current');//커서 등록
 		     $("#"+tab_id).addClass('current');//커서 등록
 		     if(tab_id=="tab-6"){
-		    	parkinglot_tab_ciliked();
+		    	//parkinglot_tab_ciliked();
 		     }
 		})
 	})
 	
-	function parkinglot_tab_ciliked(){
-		var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-		var options = { //지도를 생성할 때 필요한 기본 옵션
-			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-			level: 3 //지도의 레벨(확대, 축소 정도)
-		};
-		
-		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-		
-		
-		var positions = [
-		    {
-		        title: '카카오', 
-		        latlng: new kakao.maps.LatLng(33.450705, 126.570677)
-		    },
-		    {
-		        title: '생태연못', 
-		        latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-		    },
-		    {
-		        title: '텃밭', 
-		        latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-		    },
-		    {
-		        title: '근린공원',
-		        latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-		    }
-		];
-		var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-		
-		for (var i = 0; i < positions.length; i ++) {
-		    
-		    // 마커 이미지의 이미지 크기 입니다
-		    var imageSize = new kakao.maps.Size(24, 35); 
-		    
-		    // 마커 이미지를 생성합니다    
-		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-		    
-		    // 마커를 생성합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map, // 마커를 표시할 지도
-		        position: positions[i].latlng, // 마커를 표시할 위치
-		        title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-		        image : markerImage // 마커 이미지 
-		    });
-		}
-	}
+	
 	function cafeScoreInputValidation(e){
 		var value =e.value;
 		if(value>100){
@@ -283,6 +254,9 @@
 			e.value=0;
 		}
 	}
+	function cacluateGoodsTotalPrice(){
+		
+	}
 </script>
 </head>
 <body>
@@ -290,18 +264,25 @@
 		 <div id="mainWrapper">
 		 	<div id="cafeinfoWrapper">
 		 		<div id="mainphotoWrapper">
-		 			<img id="mainImage" class="img_scaleDown" src="${contextPath}/resources/image/cafeImage/cafe1.jpg">
+		 			<%-- <img id="mainImage" class="img_scaleDown" src="${contextPath}/resources/image/cafeImage/cafe1.jpg"> --%>
+		 			<img id="mainImage" class="img_scaleDown" src="${contextPath}/cafe/downloadCafeMainImage.do?cafe_id=${cafeInfo.cafe_id}">
 		 		</div>
 		 		<div id="infowapper">
-	 					<h1 class="cafe_name">카페 블루</h1>
- 						<p>대전 서구 둔산동 1350</p>
- 						<p>Tel. 042-222-2222</p>
+		 				<input type="hidden" name="cafe_id" value="${cafeInfo.cafe_id}">
+	 					<h1 class="cafe_name">${cafeInfo.cafe_name}</h1>
+	 					<p>${cafeInfo.open_time}~${cafeInfo.close_time}</p>
+ 						<p>${cafeInfo.cafe_location1}</p>
+ 						<p>${cafeInfo.cafe_location2}</p>
+ 						
+ 						<p>Tel. ${cafeInfo.phonenum1}-${cafeInfo.phonenum2}-${cafeInfo.phonenum3}</p>
+ 						
  						<div style="display:flex;">
 								<img class="theme_score_icon" src="${contextPath}/resources/image/coffee_icon.svg"><p class="icon_text">70</p>
+								<img class="theme_score_icon" src="${contextPath}/resources/image/drink_icon.svg"><p class="icon_text">70</p>
 								<img class="theme_score_icon" src="${contextPath}/resources/image/dessert_icon.svg"><p class="icon_text">70</p>
 								<img class="theme_score_icon" src="${contextPath}/resources/image/scenery_icon.svg"><p class="icon_text">70</p>
-								<img class="theme_score_icon" src="${contextPath}/resources/image/socket_icon.svg"><p class="icon_text">70</p>
-								<img class="theme_score_icon" src="${contextPath}/resources/image/wifi_icon.svg"><p class="icon_text">70</p>
+								<img class="theme_score_icon" src="${contextPath}/resources/image/atmosphere_icon.svg"><p class="icon_text">70</p>
+								<img class="theme_score_icon" src="${contextPath}/resources/image/mute_icon.svg"><p class="icon_text">70</p>
 						</div>
  						<div style="display:flex;">
  							<img class="facility_icon" src="${contextPath}/resources/image/parking_icon.svg"><p class="icon_text">있음</p>
@@ -329,7 +310,9 @@
 				</ul>
 				
 				<div id="tab-1" class="tab-content scrollable current">
-					안녕하세요! 세계 바리스타 대회 우승자가 운영하는 카페 블루입니다!
+					<c:forEach var="article" items="${cafeHomeArticle}">
+						<p class="no-top_bottom_margin">${article}</p>
+					</c:forEach>
 				</div>
 				<div id="tab-2" class="tab-content scrollable">
 					<table width="100%">
@@ -347,6 +330,34 @@
 									<input type="checkbox" id="is_takeout" class="margin-right-10px" name="is_takeout"/>
 								</div>
 							</td>
+							<td width="70px">
+								<p class="no-top_bottom_margin">3500원</p>
+								
+							</td>
+							<td width="45px"><p class="no-top_bottom_margin">수량</p></td>
+							<td style="width:70px;">
+								<input style="width:100%;" class="numberInput" type="number" min=0 value=0>
+							</td>
+							<td width="70px"><p class="price-text no-top_bottom_margin">3500원</p></td>
+							<td width="28px"><input type="button" class="cartAddButton" value="담기"></td>
+							<td width="28px"><input type="button" class="orderAddButton" value="주문"></td>
+						</tr>
+						<tr><td colspan="100"><hr class="productrow_under_line"></td></tr>
+						<tr>
+							<td width="80px"><img class="product_image" src="${contextPath}/resources/image/americano.jpeg"></td>
+							<td width="500px">
+								<div>
+									
+									<h3 class="productName no-top_bottom_margin margin-left-10px">아메리카노(ice)</h3>
+									<p class="productDescription no-top_bottom_margin margin-left-10px">아라비카산 원두로 로스팅하여 만든 아메리카노</p>
+								</div>
+							</td>
+							<td>
+								<div style="display:flex; align-items:center;">
+									<p class="no-top_bottom_margin margin-right-5px">Take-Out</p>
+									<input type="checkbox" class="margin-right-10px" name="is_takeout"/>
+								</div>
+							</td>
 							<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
 							<td width="45px"><p class="no-top_bottom_margin">수량</p></td>
 							<td style="width:70px;">
@@ -368,7 +379,7 @@
 							<td>
 								<div style="display:flex; align-items:center;">
 									<p class="no-top_bottom_margin margin-right-5px">Take-Out</p>
-									<input type="checkbox" id="is_takeout" class="margin-right-10px" name="is_takeout"/>
+									<input type="checkbox" class="margin-right-10px" name="is_takeout"/>
 								</div>
 							</td>
 							<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
@@ -376,38 +387,56 @@
 							<td style="width:70px;">
 								<input style="width:100%;" class="numberInput" type="number" min=0 value=0>
 							</td>
-							<td width="70px"><p class="price-text no-top_bottom_margin">3500원</p></td>
+							<td width="70px"><p class="price-text no-top_bottom_margin">총 3500원</p></td>
 							<td width="28px"><input type="button" class="cartAddButton" value="담기"></td>
 							<td width="28px"><input type="button" class="orderAddButton" value="주문"></td>
 						</tr>
-						<tr><td colspan="100"><hr class="productrow_under_line"></td></tr>
-						<tr>
-							<td width="80px"><img class="product_image" src="${contextPath}/resources/image/americano.jpeg"></td>
-							<td width="500px">
-								<div>
-									<h3 class="productName no-top_bottom_margin margin-left-10px">아메리카노(ice)</h3>
-									<p class="productDescription no-top_bottom_margin margin-left-10px">아라비카산 원두로 로스팅하여 만든 아메리카노</p>
-								</div>
-							</td>
-							<td>
-								<div style="display:flex; align-items:center;">
-									<p class="no-top_bottom_margin margin-right-5px">Take-Out</p>
-									<input type="checkbox" id="is_takeout" class="margin-right-10px" name="is_takeout"/>
-								</div>
-							</td>
-							<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
-							<td width="45px"><p class="no-top_bottom_margin">수량</p></td>
-							<td style="width:70px;">
-								<input style="width:100%;" class="numberInput" type="number" min=0 value=0>
-							</td>
-							<td width="70px"><p class="price-text no-top_bottom_margin">3500원</p></td>
-							<td width="28px"><input type="button" class="cartAddButton" value="담기"></td>
-							<td width="28px"><input type="button" class="orderAddButton" value="주문"></td>
-						</tr>
+						<c:forEach var='goods' items="${goodsList}">
+							<tr>
+								<td colspan="100">
+									<hr class="productrow_under_line">
+								</td>
+							</tr>
+							<tr id="goodsRow">
+								<td width="80px">
+									<%-- <img class="product_image" src="${contextPath}/resources/image/americano.jpeg"> --%>
+									<input type="hidden" name="goods_id" value="${goods.goods_id}">
+									<img class="product_image" src="${contextPath}/cafe/downloadGoodsPhoto.do?cafe_id=${cafeInfo.cafe_id}&goods_id=${goods.goods_id}">
+								</td>
+								<td width="500px">
+									<div>
+										<h3 class="productName no-top_bottom_margin margin-left-10px">${goods.goods_name}</h3>
+										<p class="productDescription no-top_bottom_margin margin-left-10px">${goods.description}</p>
+									</div>
+									
+									
+								</td>
+								<td>
+									<div style="display:flex; align-items:center;">
+										<p class="no-top_bottom_margin margin-right-5px">Take-Out</p>
+										<input type="checkbox" id="checker" class="margin-right-10px" name="is_takeout" value="y"/>
+									</div>
+								</td>
+								<td width="70px">
+									<p class="no-top_bottom_margin">${goods.price}원</p>
+									<input type='hidden' name='unitPrice' value='${goods.price}'>
+								</td>
+								<td width="45px"><p class="no-top_bottom_margin">수량</p></td>
+								<td style="width:70px;">
+									<input style="width:100%;" class="numberInput" type="number" name="quantity" min=0 value=0 onchange="setTotalPrice(this.parentNode.parentNode)">
+								</td>
+								<td width="90px">
+									<p class="price-text no-top_bottom_margin">총 0원</p>
+									<input type='hidden' name="totalPrice" value="0">
+								</td>
+								<td width="28px"><input type="button" class="cartAddButton" onclick="addGoodsCart('${contextPath}',this.parentNode.parentNode)" value="담기"></td>
+								<td width="28px"><input type="button" class="orderAddButton" value="주문" onclick="sendOrderToOrderForm('${contextPath}',this.parentNode.parentNode)"></td>
+							</tr>		
+						</c:forEach>
 					</table>
 				</div>
 				<div id="tab-3" class="tab-content scrollable">
-					<table>
+					<table width="100%">
 						<tr>
 							<td width="80px"><img class="product_image" src="${contextPath}/resources/image/danchaeseat.jpeg"></td>
 							<td width="480px">
@@ -415,7 +444,7 @@
 									<h3 class="productName no-top_bottom_margin margin-left-10px">4인석</h3>
 								</div>
 							</td>
-							
+							<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
 							<td>
 								<table>
 									<tr>
@@ -424,20 +453,57 @@
 									</tr>
 									<tr>
 										<td>시작시간</td>
-										<td><input type="time"></td>
+										<td><input type="time" id="res_start_time"></td>
 									</tr>
 									<tr>
 										<td>종료시간</td>
-										<td><input type="time"></td>
+										<td><input type="time" id="res_close_time"></td>
 									</tr>
 								</table>
 							</td>
-							<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
+							<td width="90px"><p class="no-top_bottom_margin">총 3500원</p></td>
 							<td width="28px"><input type="button" class="cartAddButton" value="담기"></td>
 								<td width="28px"><input type="button" class="orderAddButton" value="주문"></td>
 							
 						</tr>
-						<tr><td colspan="100"><hr class="productrow_under_line"></td></tr>
+						<c:forEach var="groupSeat" items="${groupSeatList}">
+							<tr>
+								<td colspan="100">
+									<hr class="productrow_under_line">
+								</td>
+							</tr>
+							<tr>
+							<td width="80px"><img class="product_image" src="${contextPath}/cafe/downloadGroupSeatPhoto.do?cafe_id=${cafeInfo.cafe_id}&groupSeat_id=${groupSeat.groupseat_id}"></td>
+							<td width="480px">
+								<input type="hidden" name="groupseat_id" value="${groupSeat.groupseat_id}">
+								<div>
+									<h3 class="productName no-top_bottom_margin margin-left-10px">${groupSeat.seat_name}</h3>
+								</div>
+							</td>
+							<td width="70px"><p class="no-top_bottom_margin">${groupSeat.price}원</p></td>
+							<td>
+								<table>
+									<tr>
+										<td>날짜</td>
+										<td><input type="date" name="reservation_date"></td>
+									</tr>
+									<tr>
+										<td>시작시간</td>
+										<td><input type="time" name="start_time"></td>
+									</tr>
+									<tr>
+										<td>종료시간</td>
+										<td><input type="time" name="end_time"></td>
+									</tr>
+								</table>
+							</td>
+							<td width="90px"><p class="no-top_bottom_margin">총 3500원</p></td>
+							<td width="28px"><input type="button" class="cartAddButton" onclick="addGroupSeatCart('${contextPath}',this.parentNode.parentNode)" value="담기"></td>
+							<td width="28px"><input type="button" class="orderAddButton" value="주문"></td>
+							
+						</tr>
+							
+						</c:forEach>
 					</table>
 				</div>
 				<div id="tab-4" class="tab-content">
@@ -460,7 +526,25 @@
 								<td width="28px"><input type="button" class="cartAddButton" value="수정"></td>
 								<td width="28px"><input type="button" class="orderAddButton" value="삭제"></td>
 							</tr>
-							<tr><td colspan="100"><hr class="productrow_under_line"></td></tr>
+							<c:forEach var="cafeReview" items="${cafeReviewList}">
+								<tr><td colspan="100"><hr class="productrow_under_line"></td></tr>
+								<tr>
+								<td width="80px"><img class="product_image" src="${contextPath}/resources/image/americano.jpeg"></td>
+								<td width="900px" class="reply-content-td">
+									<p class="productDescription no-top_bottom_margin">
+										${cafeReview.review_content}
+									</p>
+								</td>
+								
+								<td width="100px">
+									<p class="productDescription no-top_bottom_margin margin-left-10px margin-right-10px">
+										${cafeReview.user_user_id}
+									</p>
+								</td>
+								<td width="28px"><input type="button" class="cartAddButton" value="수정"></td>
+								<td width="28px"><input type="button" class="orderAddButton" value="삭제"></td>
+							</tr>
+							</c:forEach>
 						</table>
 					</div>
 					<div class="bottom-content-wrapper">
@@ -469,28 +553,28 @@
           						<td>
           							<div style="display:flex; justify-content: flex-start; align-items:center;">
           								<p class="productDescription margin-right-10px no-top_bottom_margin">리뷰상품선택(최근순)</p>
-	          							<select>
-	          								<option>아메리카노 외 1건</option>
+	          							<select name="orderHistory">
+	          								<option value="1">아메리카노 외 1건</option>
 	          							</select>
 	          							<p class="productDescription margin-left-30px margin-right-10px no-top_bottom_margin">카페점수</p>
 	          							<p class="no-top_bottom_margin margin-right-5px">커피</p>
 	          							<input type="number" name="coffee_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
 	          							<p class="no-top_bottom_margin margin-left-10px margin-right-5px">음료</p>
-	          							<input type="number" name="coffee_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
+	          							<input type="number" name="drink_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
 	          							<p class="no-top_bottom_margin margin-left-10px margin-right-5px">디저트</p>
-	          							<input type="number" name="coffee_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
+	          							<input type="number" name="dessert_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
 	          							<p class="no-top_bottom_margin margin-left-10px margin-right-5px">뷰</p>
-	          							<input type="number" name="coffee_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
+	          							<input type="number" name="scenery_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
 	          							<p class="no-top_bottom_margin margin-left-10px margin-right-5px">분위기</p>
-	          							<input type="number" name="coffee_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
+	          							<input type="number" name="mood_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
 	          							<p class="no-top_bottom_margin margin-left-10px margin-right-5px">조용함</p>
-	          							<input type="number" name="coffee_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
+	          							<input type="number" name="mute_score" class="score_inputbox" min=0 max=100 value=0 onchange="cafeScoreInputValidation(this)">
           							</div>
           						</td>
           						<td></td>
           					</tr>
           					<tr>
-          						<td class="vertical-align-center"><textarea style="width:1099px; height:100px;"></textarea></td>
+          						<td class="vertical-align-center"><textarea name="review_content" style="width:1099px; height:100px;"></textarea></td>
           						<td class="vertical-align-center"><button style="height:100px;">글쓰기</button></td>
           					</tr>
           					<tr>
@@ -500,35 +584,9 @@
           			</div>
 				</div>
 				<div id="tab-5" class="tab-content scrollable">
-					<table align="center">
+					<table align="center">	
 						<tr>
 							<td><img class="cafe_photo" src="${contextPath}/resources/image/americano.jpeg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-						</tr>
-						<tr>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-							<td><div class="photo_spacer"></div></td>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
-						</tr>
-						<tr>
-							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
 							<td><div class="photo_spacer"></div></td>
 							<td><img class="cafe_photo" src="${contextPath}/resources/image/add_picture.svg"></td>
 							<td><div class="photo_spacer"></div></td>

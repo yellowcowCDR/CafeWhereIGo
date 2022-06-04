@@ -36,7 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ubo.CafeWhereIGo.article.service.ArticleService;
 import com.ubo.CafeWhereIGo.article.vo.ArticleVO;
-import com.ubo.CafeWhereIGo.article.vo.SearchConditionVO;
+import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO;
 import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
@@ -285,7 +285,7 @@ public class ArticleControllerImpl implements ArticleController {
 	}
 	@Override
 	@RequestMapping(value= "/*/search.do" ,method={RequestMethod.POST,RequestMethod.GET})
-	public ModelAndView search(@ModelAttribute SearchConditionVO condition, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public ModelAndView search(@ModelAttribute ArticleSearchConditionVO condition, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
