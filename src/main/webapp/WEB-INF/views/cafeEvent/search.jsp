@@ -4,7 +4,9 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -125,7 +127,65 @@
 			.article_subject{
 				text-decoration: none;
 			}
+			#add_article_link{
+				text-decoration: none;
+			}
+			#add_article_link{
+				text-decoration: none;
+			}
 		</style>
+
+		<script>
+			function goArticelForm(){ 
+				<c:if test="${loginSession ne null}">
+				location.href="${contextPath}/cafeEvent/addArticleForm.do"
+				</c:if>
+				<c:if test="${loginSession eq null}">
+				alert("로그인이 필요합니다.");
+				location.href="${contextPath}/user/loginform.do"
+				</c:if>
+			}
+			function onSortingOptionChanged(sortingOptions){
+				var sortingOption = sortingOptions.value;
+				console.log("sortingOption: " + sortingOption);
+				var chapter = "${searchCondition.chapter}";
+				var pageNum = "${searchCondition.pageNum}"
+				
+				location.href = "${contextPath}/cafeEvent/search.do?chapter="+chapter+"&pageNum="+pageNum+"&sortingOption="+sortingOption;
+			}
+			function initSortingOption(){
+				let sortingOptionSeletor= document.getElementById("sortingOptions");
+				let sortingOptions = sortingOptionSeletor.children;
+				let sortingOption = "${searchCondition.sortingOption}";
+			
+				for(var i=0;i<sortingOptions.length; i++){
+					if(sortingOptions[i].value == sortingOption){
+						sortingOptions[i].selected=true;
+					}
+				}
+				
+			}
+			function initSearchOption(){
+				let searchConditionSeletor= document.getElementById("searchConditions");
+				let searchConditions = searchConditionSeletor.children;
+				let searchCondition = "${searchCondition.searchCondition}";
+			
+				for(var i=0;i<searchConditions.length; i++){
+					if(searchConditions[i].value == searchCondition){
+						searchConditions[i].selected=true;
+					}
+				}
+			}
+			function initSearchWord(){
+				let searchKewordBox = document.getElementById("searchKewordBox");
+				searchKewordBox.value= "${searchCondition.searchWords}";
+			}
+			window.onload = function(){
+				initSortingOption();
+				initSearchWord();
+			}
+		</script>
+		
 	</head>
 	
 	<body>
@@ -134,65 +194,71 @@
 				<h1 id="pageTitle">이벤트</h1>
 				<div>
 					<div id="top_menu">
-						<select id="sortingOptions">
-							<option>게시일순</option>
-							<option>좋아요많은순</option>
-							<option>조회수많은순</option>
+						<select id="sortingOptions" name="sortingOption" onchange="onSortingOptionChanged(this);">
+							<option value="recent">최근순</option>
+							<option value="old">오래된순</option>
+							<option value="like">좋아요많은순</option>
+							<option value="view">조회수많은순</option>
 						</select>
-						<a href="${contextPath}/cafeEvent/addArticleForm.do"><button id="add_article_button">글쓰기</button></a>
+						<a id="add_article_link" href="javascript:goArticelForm()"><button id="add_article_button">글쓰기</button></a>
 					</div>
 					<div id="tableWrapper">
 						<table class="result_table">
 							<tr>
-								<th>No.</th>
+								<th width="50px">No.</th>
 								<th>제목</th>
-								<th>작성자</th>
-								<th>좋아요</th>
-								<th>조회수</th>
-								<th>게시일</th>
+								<th width="150px">작성자</th>
+								<th width="70px">좋아요</th>
+								<th width="70px">조회수</th>
+								<th width="90px">게시일</th>
 							</tr>
-							<tr>
-								<td>
-									<p>1</p>
-								</td>
-								<td>
-									<a class="article_subject" href="${contextPath}/cafeEvent/detail.do">[카페 광안] 여름맞이 스무디류 10% 할인</a>
-								</td>
-								<td>
-									<p>관리자</p>
-								</td>
-								<td>
-									10K
-								</td>
-								<td>
-									12K
-								</td>
-								<td>
-									<p>2022.04.21</p>
-								</td>
-							</tr>
+							<c:forEach var="article" items="${articleList}">
+								<tr>
+									<td>
+										<p>${article.search_result_no}</p>
+									</td>
+									<td>
+										<a class="article_subject" href="${contextPath}/cafeEvent/detail.do?article_id=${article.article_id}">[${article.cafe_name}] ${article.article_title}</a>
+									</td>
+									<td>
+										<p>${article.user_user_id}</p>
+									</td>
+									<td>
+										<p>${article.likeCount}</p>
+									</td>
+									<td>
+										<p>${article.view_count}</p>
+									</td>
+									<td>
+										<p><fmt:formatDate value="${article.created_date}" pattern="YYYY.MM.dd"/></p>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 						<form>
 							<div id="search_form_wrapper">
 								
-									<select>
-										<option>전체검색</option>
-										<option>제목</option>
-										<option>작성자</option>
+									<select id="searchConditions" name="searchCondition">
+										<option value="all">전체검색</option>
+										<option value="title">제목</option>
+										<option value="writer">작성자</option>
 									</select>
-									<input id="searchKewordBox" type="text">
+									<input id="searchKewordBox" name="searchWords" type="text">
 									<input id="searchButton" type="submit" value="검색">
 							</div>
 						</form>
 						<div class="pagination_wrapper">
 							<ul class="pagination pagination-sm">
-							    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							    <li class="page-item"><a class="page-link" href="#">1</a></li>
-							    <li class="page-item"><a class="page-link" href="#">2</a></li>
-							    <li class="page-item"><a class="page-link" href="#">3</a></li>
-							    <li class="page-item"><a class="page-link" href="#">4</a></li>
-							    <li class="page-item"><a class="page-link" href="#">5</a></li>
-							    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+								<c:if test="${searchCondition.chapter<=1}">
+							    	<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+							    </c:if>
+							    <c:if test="${searchCondition.chapter>1}">
+							    	<li class="page-item"><a class="page-link" href="${contextPath}/cafeEvent/search.do?chapter=${searchCondition.chapter-1}&pageNum=5">Previous</a></li>
+							    </c:if>
+							    <c:forEach begin="1" end="5" step="1" varStatus="status">
+							   		<li class="page-item"><a class="page-link" href="${contextPath}/cafeEvent/search.do?chapter=1&pageNum=${status.index}">${status.index}</a></li>
+							    </c:forEach>
+							    <li class="page-item"><a class="page-link" href="${contextPath}/cafeEvent/search.do?chapter=${searchCondition.chapter+1}&pageNum=1">Next</a></li>
 							</ul>
 						</div>
 					</div>

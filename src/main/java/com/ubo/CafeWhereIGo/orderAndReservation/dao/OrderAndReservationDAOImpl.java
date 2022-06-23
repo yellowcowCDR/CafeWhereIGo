@@ -1,6 +1,8 @@
 package com.ubo.CafeWhereIGo.orderAndReservation.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,13 @@ public class OrderAndReservationDAOImpl implements OrderAndReservationDAO{
 	}
 	
 	@Override
+	public OrderAndReservationVO selectOrderAndReservationByOrderId(int orderAndReservation_id) {
+		// TODO Auto-generated method stub
+		OrderAndReservationVO orderAndReservation=(OrderAndReservationVO)sqlSession.selectOne("mapper.orderAndReservation.selectOrderAndReservationByOrderId", orderAndReservation_id);
+		return orderAndReservation;
+	}
+
+	@Override
 	public void updateOrderAndReservation(OrderAndReservationVO orderAndReservation) {
 		// TODO Auto-generated method stub
 		sqlSession.update("mapper.orderAndReservation.updateOrderAndReservation", orderAndReservation);
@@ -41,9 +50,17 @@ public class OrderAndReservationDAOImpl implements OrderAndReservationDAO{
 	@Override
 	public void deleteOrderAndReservation(int orderAndReservation_id) {
 		// TODO Auto-generated method stub
-		sqlSession.delete("mapper.orderAndReservation.updateOrderAndReservation", orderAndReservation_id);
+		sqlSession.delete("mapper.orderAndReservation.deleteOrderAndReservation", orderAndReservation_id);
 	}
 
+	
+
+	@Override
+	public void updateOrderAndReservationStatus(int orderAndReservation_id, String order_status) {
+		// TODO Auto-generated method stub
+		OrderAndReservationVO orderAndReservation = new OrderAndReservationVO(orderAndReservation_id, order_status);  
+		sqlSession.update("mapper.orderAndReservation.updateOrderStatus", orderAndReservation);
+	}
 
 	@Override
 	public int getRecentOrderAndReservationId() {

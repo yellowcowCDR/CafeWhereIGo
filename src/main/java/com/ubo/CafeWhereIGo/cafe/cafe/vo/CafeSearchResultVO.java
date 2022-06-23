@@ -23,12 +23,12 @@ public class CafeSearchResultVO {
 	private boolean parking_lot;
 	private boolean power_plug;
 	private boolean wifi;
-	private int mood_score;
-	private int coffee_score;
-	private int drink_score;
-	private int dessert_score;
-	private int quiet_score;
-	private int view_score;
+	private double mood_score;
+	private double coffee_score;
+	private double drink_score;
+	private double dessert_score;
+	private double quiet_score;
+	private double view_score;
 	
 	
 	public CafeSearchResultVO() {
@@ -37,8 +37,8 @@ public class CafeSearchResultVO {
 
 	public CafeSearchResultVO(String cafe_name, String cafe_location1, String cafe_location2, String user_user_id,
 			String phonenum1, String phonenum2, String phonenum3, int number_of_seat, String business_state,
-			String open_time, String close_time, boolean parking_lot, boolean power_plug, boolean wifi, int mood_score,
-			int coffee_score, int drink_score, int dessert_score, int quiet_score, int view_score) {
+			String open_time, String close_time, boolean parking_lot, boolean power_plug, boolean wifi, double mood_score,
+			double coffee_score, double drink_score, double dessert_score, double quiet_score, double view_score) {
 		super();
 		this.cafe_name = cafe_name;
 		this.cafe_location1 = cafe_location1;
@@ -226,62 +226,62 @@ public class CafeSearchResultVO {
 	}
 
 
-	public int getMood_score() {
+	public double getMood_score() {
 		return mood_score;
 	}
 
 
-	public void setMood_score(int mood_score) {
+	public void setMood_score(double mood_score) {
 		this.mood_score = mood_score;
 	}
 
 
-	public int getCoffee_score() {
+	public double getCoffee_score() {
 		return coffee_score;
 	}
 
 
-	public void setCoffee_score(int coffee_score) {
+	public void setCoffee_score(double coffee_score) {
 		this.coffee_score = coffee_score;
 	}
 
 
-	public int getDrink_score() {
+	public double getDrink_score() {
 		return drink_score;
 	}
 
 
-	public void setDrink_score(int drink_score) {
+	public void setDrink_score(double drink_score) {
 		this.drink_score = drink_score;
 	}
 
 
-	public int getDessert_score() {
+	public double getDessert_score() {
 		return dessert_score;
 	}
 
 
-	public void setDessert_score(int dessert_score) {
+	public void setDessert_score(double dessert_score) {
 		this.dessert_score = dessert_score;
 	}
 
 
-	public int getQuiet_score() {
+	public double getQuiet_score() {
 		return quiet_score;
 	}
 
 
-	public void setQuiet_score(int quiet_score) {
+	public void setQuiet_score(double quiet_score) {
 		this.quiet_score = quiet_score;
 	}
 
 
-	public int getView_score() {
+	public double getView_score() {
 		return view_score;
 	}
 
 
-	public void setView_score(int view_score) {
+	public void setView_score(double view_score) {
 		this.view_score = view_score;
 	}
 

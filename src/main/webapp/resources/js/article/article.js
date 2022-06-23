@@ -82,3 +82,48 @@ function deleteReply(reply_row){
 		}
 	});
 }
+
+function searchArticle(contextPath, articleType, chapter, pageNum){
+	var sortingOptionSelector = document.getElementById("sortingOptions");
+	var sortingOptions = sortingOptionSelector.children;
+	var sortingOption;
+	for(var i=0; i<sortingOptions.length; i++){
+		if(sortingOptions[i].selected){
+			sortingOption = sortingOptions[i].value;
+		}
+	}
+	
+	
+	var searchOptionSelector = document.getElementById("searchConditions");
+	var searchOptions=searchOptionSelector.children;
+	var searchOption;
+	for(var i=0; i<searchOptions.length; i++){
+		if(searchOptions[i].selected){
+			searchOption = searchOptions[i].value;
+		}
+	}
+	
+	var searchWordBox = document.getElementById("searchKewordBox");
+	var searchWord = searchWordBox.value;
+	
+	
+	//send Search Condition
+	var searchForm = document.createElement("form");
+	searchForm.method="post";
+	searchForm.url=contextPath+"/"+articleType+"/search.do";
+	
+	var formContent = 
+		"<input type='hidden' name='sortingOption' value='"+sortingOption+"'>"+
+		"<input type='hidden' name='searchCondition' value='"+searchOption+"'>"+
+		"<input type='hidden' name='searchWords' value='"+searchWord+"'>"
+		;
+		
+	if(chapter!=undefined && pageNum!=undefined){
+		formContent +=
+		"<input type='hidden' name='chapter' value='"+chapter+"'>"+
+		"<input type='hidden' name='pageNum' value='"+pageNum+"'>"
+	}
+	searchForm.innerHTML=formContent;
+	document.body.appendChild(searchForm);
+	searchForm.submit();
+}

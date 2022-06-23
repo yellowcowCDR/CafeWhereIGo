@@ -55,6 +55,19 @@ public class GroupSeatServiceImpl implements GroupSeatService {
 		return groupSeatPhotoInfoList;
 	}
 
+	
+	
+	@Override
+	public int registerGroupSeat(GroupSeatVO groupSeat) {
+		// TODO Auto-generated method stub
+		groupSeatDAO.insertGroupSeat(groupSeat);
+		int groupSeat_id = groupSeatDAO.getRecentGroupSeatId();
+		
+		return groupSeat_id;
+	}
+
+
+
 	@Override
 	public void deleteGroupSeat(int groupseat_id) {
 		// TODO Auto-generated method stub
@@ -68,14 +81,27 @@ public class GroupSeatServiceImpl implements GroupSeatService {
 	}
 
 	@Override
+	public void modifyGroupSeat(GroupSeatVO groupSeat) {
+		// TODO Auto-generated method stub
+		groupSeatDAO.updateGroupSeat(groupSeat);
+	}
+	
+	@Override
 	public List<GroupSeatVO> getGroupSeatList(int cafe_id) {
 		// TODO Auto-generated method stub
 		 List<GroupSeatVO> groupSeatList = groupSeatDAO.selectGroupSeat(cafe_id);
 		return groupSeatList;
 	}
+	
+	@Override
+	public GroupSeatVO getOneGroupSeat(int groupseat_id) {
+		GroupSeatVO groupseat = groupSeatDAO.selectOneGroupSeat(groupseat_id);
+		return groupseat;
+	}
+	
 
 	@Override
-	public void resgisterGroupSeatPhoto(GroupSeatPhotoVO groupseatPhoto) {
+	public void registerGroupSeatPhoto(GroupSeatPhotoVO groupseatPhoto) {
 		// TODO Auto-generated method stub
 		groupSeatDAO.insertGroupSeatPhoto(groupseatPhoto);
 	}
@@ -87,9 +113,9 @@ public class GroupSeatServiceImpl implements GroupSeatService {
 	}
 
 	@Override
-	public GroupSeatPhotoVO getGroupSeatPhoto(int goods_id) {
+	public GroupSeatPhotoVO getGroupSeatPhoto(int groupSeat_id) {
 		// TODO Auto-generated method stub
-		GroupSeatPhotoVO groupSeatPhoto = groupSeatDAO.selectGroupSeatPhoto(goods_id);
+		GroupSeatPhotoVO groupSeatPhoto = groupSeatDAO.selectGroupSeatPhoto(groupSeat_id);
 		return groupSeatPhoto;
 	}
 

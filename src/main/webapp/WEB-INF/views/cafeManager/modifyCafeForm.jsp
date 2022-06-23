@@ -3,7 +3,9 @@
     isELIgnored="false"  
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
@@ -14,6 +16,12 @@
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 	    
+	    <!-- jquery -->
+	    <script src="${contextPath}/resources/js/jquery-3.6.0.min.js"></script>
+	    
+	    
+	    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script type="text/javascript" charset="utf-8" src="${contextPath}/resources/js/cafe/modifyCafe.js"></script>
 		<style>
 			#register_section{
 				margin-left:150px;
@@ -245,9 +253,17 @@
 			.photo_file_input{
 				display:none;
 			}
+			.numberInput{
+				width:70px;
+			}
 		</style>
 		
+		
 		<script>
+			
+			var cafeLocation1 = "${cafeInfo.cafe_location1}";
+			var phonenum1 = "${cafeInfo.phonenum1}";
+			
 			function select_profilePhoto(){
 				var profile_preview = document.getElementById("profilePhoto_preview");
 				var profilePhoto = document.getElementById("profilePhoto");
@@ -295,20 +311,21 @@
 						</ul>
 					</div>
 					<div class="form_wrapper">
-						<form id="register_form">
+						<form id="register_form" method="post" action="${contextPath}/cafe/modifyCafe.do?cafe_id=${cafeInfo.cafe_id}" enctype="multipart/form-data">
 						<div class="form_wrapper-inner">		
 								<div class="image_container">
 									<a href="javascript:select_profilePhoto();">
-										<img id="profilePhoto_preview" class="profilePhoto_preview" name="profilePhoto_preview" src="${contextPath}/resources/image/add_picture.svg">
+										<img id="profilePhoto_preview" class="profilePhoto_preview" name="profilePhoto_preview" src="${contextPath}/cafe/downloadCafeMainImage.do?cafe_id=${cafeInfo.cafe_id}" onerror="this.src='${contextPath}/resources/image/add_picture.svg'">
 									</a>
 								</div>
 							<div class="input_container_outer">
 							<div class="input_container">
 								<div class="input_container_inner">
 									<table id="userinfo_input_table">
-										<tr>
+										<tr> 
 											<td>
-												<input type="file" id="profilePhoto" name="profilePhoto" onchange="on_profilePhoto_changed(this)">
+												<input type="file" id="profilePhoto" name="cafeMainPhoto" onchange="on_profilePhoto_changed(this)">
+												<input type="hidden" name="imageFilename" value="${cafoMainPhoto.filename}">
 											</td>
 										</tr>
 										<tr>
@@ -318,7 +335,7 @@
 										</tr>
 										<tr>
 											<td>
-												<input type="text" id="cafe_name" class="input_box" disabled>
+												<input type="text" id="cafe_name" name="cafe_name" class="input_box" value="${cafeInfo.cafe_name}">
 											</td>
 										</tr>
 										<tr>
@@ -329,23 +346,41 @@
 										</tr>
 										<tr>
 											<td>
-												<input type="text" id="address1" class="input_box" placeholder="주소">
+												<select id="region1" onchange="sidoChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region1" name="cafe_region1">
+													
+													<select id="region2" onchange="sigoonChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region2" name="cafe_region2">
+													
+													<select id="region3" onchange="dongChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region3" name="cafe_region3">
+													
+													<select id="region4"  onchange="leeChanged(this)">
+														<option>선택</option>
+													</select>
+													<input type="hidden" id="cafe_region4" name="cafe_region4">
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<input type="text" id="address1" class="input_box" placeholder="상세주소">
+												<input type="text" id="address2" class="input_box" name="cafe_location2" value="${cafeInfo.cafe_location2}" placeholder="상세주소">
 											</td>
 										</tr>
 										
 										<tr>
 											<td>
-												<label class="register_label" for="user_name">이름</label>
+												<label class="register_label" for="user_name">점주명</label>
 											</td>
 										</tr>
 										<tr>
 											<td>
-												<input type="text" id="user_name" class="input_box">
+												<input type="text" id="user_name" class="input_box" value="${user_name}" disabled>
 											</td>
 										</tr>
 										<tr>
@@ -355,7 +390,7 @@
 										</tr>
 										<tr>
 											<td>
-												<select style="height:25px;" id="user_phone_number1" name="user_phone_num1">
+												<select style="height:25px;" id="user_phone_number1" name="phonenum1">
 													<option value="010">010</option>
 													<option value="011">011</option>
 													<option value="016">016</option>
@@ -378,9 +413,49 @@
 													<option value="064">064</option>
 												</select>
 												-
-												<input class="phonenum-input" type="text" name="user_phone_num2" class="input_box">
+												<input class="phonenum-input" type="text" name="phonenum2" value="${cafeInfo.phonenum2}" class="input_box">
 												-
-												<input class="phonenum-input" type="text" name="user_phone_num3" class="input_box">
+												<input class="phonenum-input" type="text" name="phonenum3" value="${cafeInfo.phonenum3}" class="input_box">
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label class="register_label">영업시간</label>
+												
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<c:set var="opentimeTokens1" value="${fn:split(cafeInfo.open_time,':')}" />
+												<input type="number" style="display:inline-block;" name="openTime1" value="${opentimeTokens1[0]}" min="0" max="12">:
+												<c:set var="opentimeTokens2" value="${fn:split(opentimeTokens1[1],' ')}" />
+												<c:set var="opentimeSelectorValue" value="${opentimeTokens2[1]}"/>
+												
+												<input type="number" style="display:inline-block;" name="openTime2" value="${opentimeTokens2[0]}" min="0" max="59">
+												
+												<select style="display:inline-block;" name="openTime3">	
+													<c:if test="${opentimeSelectorValue == 'am'}">	
+														<option value="am" selected>am</option>
+													</c:if>
+													<c:if test="${opentimeSelectorValue == 'pm'}">
+														<option value="pm" selected>pm</option>
+													</c:if>
+												</select>
+												
+												~
+												<c:set var="closetimeTokens1" value="${fn:split(cafeInfo.close_time,':')}" />
+												<input type="number" style="display:inline-block;" name="closeTime1" value="${closetimeTokens1[0]}" min="0" max="12">:
+												<c:set var="closetimeTokens2" value="${fn:split(closetimeTokens1[1],' ')}" />
+												<c:set var="closetimeSelectorValue" value="${closetimeTokens2[1]}"/>
+												<input type="number" style="display:inline-block;" name="closeTime2" value="${closetimeTokens2[0]}" min="0" max="59">
+												<select style="display:inline-block;" name="closeTime3">
+													<c:if test="${closetimeSelectorValue == 'am'}">
+														<option value="am">am</option>
+													</c:if>
+													<c:if test="${closetimeSelectorValue == 'pm'}">
+														<option value="pm">pm</option>
+													</c:if>
+												</select>
 											</td>
 										</tr>	
 										<tr>
@@ -390,12 +465,46 @@
 										</tr>
 										<tr>
 											<td>
-												<label class="checkbox_label">주차장</label>
-												<input type="checkbox" value="parking_lot_exist">
-												<label class="checkbox_label">콘센트</label>
-												<input type="checkbox" value="plug_sokcet_exist">
-												<label class="checkbox_label">Wi-Fi</label>
-												<input type="checkbox" value="wifi_exist">
+												
+												<c:if test="${facilityInfo != null}">
+						 							<label class="checkbox_label">주차장</label>
+						 							<c:if test="${facilityInfo.parking_lot == true}">
+						 								<input type="checkbox" name="parking_lot" checked>
+						 							</c:if>
+						 							<c:if test="${facilityInfo.parking_lot == false}">
+						 								<input type="checkbox" name="parking_lot" >
+						 							</c:if>
+					 							
+													<label class="checkbox_label">콘센트</label>
+													<c:if test="${facilityInfo.power_plug == true}">
+						 								<input type="checkbox" name="power_plug" checked>
+						 							</c:if>
+													<c:if test="${facilityInfo.power_plug == false}">
+						 								<input type="checkbox" name="power_plug">
+						 							</c:if>
+													
+													<label class="checkbox_label">Wi-Fi</label>
+													<c:if test="${facilityInfo.wifi == true}">
+						 								<input type="checkbox" name="wifi"  checked>
+						 							</c:if>
+													<c:if test="${facilityInfo.wifi == false}">
+						 								<input type="checkbox" name="wifi" >
+						 							</c:if>
+					 							</c:if>
+												<c:if test="${facilityInfo == null}"> 
+					 								<label class="checkbox_label">주차장</label>
+													<input type="checkbox" name="parking_lot" >
+													<label class="checkbox_label">콘센트</label>
+													<input type="checkbox" name="power_plug" >
+													<label class="checkbox_label">Wi-Fi</label>
+													<input type="checkbox" name="wifi" >
+					 							</c:if>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label class="register_label">좌석수</label>
+												<input type="number" class="numberInput" name="numberOfSeat" value="${cafeInfo.number_of_seat}" min=0 value=0>
 											</td>
 										</tr>
 									</table>
@@ -411,13 +520,15 @@
 									</th>
 								</tr>
 								<tr>
-									<td><textarea rows="10" style="width:100%;"></textarea></td>
+									<td>
+										<textarea rows="10" style="width:100%;" name="homeArticle_content">${cafeHomeArticle.article_content}</textarea>
+									</td>
 								</tr>
 							</table>
 							<table align="center" id="orderTable">
 								<tr>
 									<th colspan=3 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black">
+										<a onclick="addGoods('${contextPath}',this.parentNode.parentNode.parentNode);return false;" class="add_cafe_button no-text-decoration link-text-always-black">
 											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>메뉴등록
 										</a>
 									</th>
@@ -429,30 +540,36 @@
 										</div>
 									</th>
 								</tr>
-								<tr>
-									<td width="80px">
-										<a id="menu1" href="#" onclick="select_goods_photo(this); return false;">
-											<img class="product_image" id="menu1_img" src="${contextPath}/resources/image/add_picture.svg">
-										</a>
-										<input id="menu1_photo_file_input" class="photo_file_input" name="menu1_photo_file" type="file" onchange="on_goods_photo_changed(this)">
-									</td>
-									<td width="420px">
-										<div>
-											<input type="text" id="productName1" placeholder="상품명">
-											<input type="text" id="productPrice1" placeholder="상품가격(원)">
-											<textarea rows="2" style="width:100%; margin-top:5px" placeholder="상품설명"></textarea>
-										</div>
-									</td>									
-									
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
+								<c:forEach var="goodsMap" items="${goodsMapList}" varStatus="status">
+									<c:if test="${status.index>0}">
+										<tr id="hrRow${status.count}"><td colspan="100"><hr></td></tr>
+									</c:if>
+									<tr id="productRow${status.count}">
+										<td width="80px">
+											<a id="menu${status.count}" href="#" onclick="select_goods_photo(this); return false;">
+												<img class="product_image" id="menu${status.count}_img" src="${contextPath}/cafe/downloadGoodsPhoto.do?cafe_id=${cafeInfo.cafe_id}&goods_id=${goodsMap.goods.goods_id}" onerror="this.src='${contextPath}/resources/image/add_picture.svg'">
+											</a>
+											<input id="menu${status.count}_photo_file_input" class="photo_file_input" name="menu${status.count}_photo_file" type="file" onchange="on_goods_photo_changed(this)">
+											<input type="hidden" id="goods${status.count}_id" name="goods${status.count}_id" value="${goodsMap.goods.goods_id}">
+											<input type="hidden" id="goodsPhotoName${status.count}" name="goodsPhotoName${status.count}" value="${goodsMap.goodsPhoto.filename}">
+											<input type='hidden' name='goodsIndex' value="${status.count}">
+										</td>
+										<td width="420px">
+											<div>
+												<input type="text" id="productName${status.count}" name="productName${status.count}" value="${goodsMap.goods.goods_name}" placeholder="상품명">
+												<input type="text" id="productPrice${status.count}" name="productPrice${status.count}" value="${goodsMap.goods.price}" placeholder="상품가격(원)">
+												<textarea rows="2" id="productDescription${status.count}" name="productDescription${status.count}" style="width:100%; margin-top:5px" placeholder="상품설명">${goodsMap.goods.description}</textarea>
+											</div>
+										</td>									
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deleteGoods(this.parentNode.parentNode)" value="삭제"></td>
+									</tr>
+								</c:forEach>
 							</table>
 							
-							<table align="center" id="orderTable">
-								<tr>
+							<table align="center" id="orderTable" varStatus="status">
+								<tr id="groupSeatRow${status.index}">
 									<th colspan=3 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" id="group_seat1" class="add_cafe_button no-text-decoration link-text-always-black">
+										<a href="#" onclick="addGroupSeat('${contextPath}',this.parentNode.parentNode.parentNode);return false;" id="group_seat1" class="add_cafe_button no-text-decoration link-text-always-black">
 											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>단체석등록
 										</a>
 									</th>
@@ -460,28 +577,35 @@
 								<tr class="tableHeaderRow">
 									<th colspan="3" class="tableHeader"><h4 class="tableTitle no-margin">단체석</h4></th>
 								</tr>
-								<tr>
-									<td width="80px">
-										<a id="groupSeat1" href="#" onclick="select_goods_photo(this); return false;">
-											<img id="groupSeat1_img" class="product_image" src="${contextPath}/resources/image/add_picture.svg">
-										</a>
-										<input id="groupSeat1_photo_file_input" class="photo_file_input" name="groupSeat1_photo_file_input" type="file" onchange="on_goods_photo_changed(this)">
-									</td>
-									<td width="420px">
-										<div>
-											<input type="text" id="groupSeatName1" placeholder="상품명">
-											<input type="text" id="groupSeatPrice1" placeholder="상품가격(원)">
-											<textarea rows="2" style="width:100%; margin-top:5px" placeholder="상품설명"></textarea>
-										</div>
-									</td>
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
+								<c:forEach var="groupSeatMap" items="${groupSeatMapList}" varStatus="status">
+									<c:if test="${status.index>0}">
+										<tr id="groupSeatHrRow${status.count}"><td colspan="100"><hr></td></tr>
+									</c:if>
+									<tr id="groupSeatRow${status.count}">
+										<td width="80px">
+											<a id="groupSeat${status.count}" href="#" onclick="select_goods_photo(this); return false;">
+												<img id="groupSeat${status.count}_img" class="product_image" src="${contextPath}/cafe/downloadGroupSeatPhoto.do?cafe_id=${cafeInfo.cafe_id}&groupSeat_id=${groupSeatMap.groupSeat.groupseat_id}" onerror="this.src='${contextPath}/resources/image/add_picture.svg'">
+											</a>
+											<input id="groupSeat${status.count}_photo_file_input" class="photo_file_input" name="groupSeat${status.count}_photo_file_input" type="file" onchange="on_goods_photo_changed(this)">
+											<input type="hidden" id="groupSeatPhotoName${status.count}" name="groupSeatPhotoName${status.count}" value="${groupSeatMap.groupSeatPhoto.filename}">
+											<input type="hidden" id="groupSeat${status.count}_id" name="groupSeat${status.count}_id" value="${groupSeatMap.groupSeat.groupseat_id}">
+											<input type='hidden' name='groupSeatIndex' value="${status.count}">
+										</td>
+										<td width="420px">
+											<div>
+												<input type="text" id="groupSeatName${status.count}" name="groupSeatName${status.count}" value="${groupSeatMap.groupSeat.seat_name}" placeholder="상품명">
+												<input type="text" id="groupSeatPrice${status.count}" name="groupSeatPrice${status.count}" value="${groupSeatMap.groupSeat.price}" placeholder="상품가격(원)">
+												<textarea rows="2" style="width:100%; margin-top:5px" id="groupSeatDescription${status.count}" name="groupSeatDescription${status.count}" placeholder="상품설명">${groupSeatMap.groupSeat.description}</textarea>
+											</div>
+										</td>
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deleteGroupSeat(this.parentNode.parentNode);" value="삭제"></td>
+									</tr>
+								</c:forEach>
 							</table>
 							<table align="center" id="orderTable">
 								<tr>
 									<th colspan=3 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black">
+										<a href="#" class="add_cafe_button no-text-decoration link-text-always-black" onclick="addPhoto('${contextPath}',this.parentNode.parentNode.parentNode);return false;">
 											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>사진추가
 										</a>
 									</th>
@@ -493,21 +617,50 @@
 										</div>
 									</th>
 								</tr>
-								<tr>
-									<td width="80px">
-										<a id="cafe1" href="#" onclick="select_goods_photo(this); return false;">
-											<img class="product_image" id="cafe1_img" src="${contextPath}/resources/image/add_picture.svg">
-										</a>
-										<input id="cafe1_photo_file_input"  name="cafe1_photo_file" type="file" onchange="on_goods_photo_changed(this)">
-									</td>
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
+								<c:forEach var="cafePhotoMap" items="${cafePhotoMapList}" varStatus="status">
+									<c:if test="${cafePhotoMap.photo_type == 'cafePhoto'}">
+										<c:if test="${status.index>0}">
+											<tr id='cafePhotoHrRow${status.count}'>
+												<td colspan="100"><hr></td>
+											</tr>
+										</c:if>
+										<tr id="cafePhotoRow${status.count}">
+											<td width="80px">
+												<a id="cafePhoto${status.count}" onclick="select_goods_photo(this); return false;">
+													<img class="product_image" id="cafe${status.count}_img" src="${contextPath}/cafe/downloadCafeImage.do?cafe_id=${cafePhotoMap.cafe_id}&photo_id=${cafePhotoMap.photo_id}"  onerror="src='${contextPath}/resources/image/add_picture.svg'">
+												</a>
+												<input type="hidden" id="cafePhoto${status.count}_id" name="cafePhoto${status.count}_id" value="${cafePhotoMap.photo_id}" >
+												<input type="hidden" name="cafePhotoIndex" value="${status.count}">
+											</td>
+											<td width="420px">
+												<c:set var="photoname" value=""/>
+												<c:set var="photonameTokens" value="${fn:split(cafePhotoMap.photo_name,'_')}" />
+												<c:forEach var="photonameToken" items="${photonameTokens}" varStatus="g">
+													<c:if test="${g.index>0}">
+														<c:if test="${g.index==1}">
+															<c:set var="photoname" value="${photoname}${photonameToken}"/>
+														</c:if>
+														<c:if test="${g.index>1}">
+															<c:set var="photoname" value="${photoname}_${photonameToken}"/>
+														</c:if>
+														
+													</c:if>
+												</c:forEach>
+												<input style="display:inline-block;" type="button" onclick="select_cafe_photo_with_button(${status.count}); return false;" value="파일선택">
+												<p style="display:inline-block;">${photoname}</p> 
+												<input style="display:none"id="cafe${status.count}_photo_file_input" name="cafe${status.count}_photo_file_input" type="file" onchange="on_goods_photo_changed(this)">
+												<input type="hidden" name="cafePhotoName${status.count}" value="${cafePhotoMap.photo_name}">
+											</td>
+											<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deletePhoto(this.parentNode.parentNode);" value="삭제"></td>
+											
+										</tr>
+									</c:if>
+								</c:forEach>
 							</table>
 							<table align="center" id="orderTable">
 								<tr>
 									<th colspan=2 style="text-align:right;">
-										<a href="${contextPath}/cafeManager/addCafeForm.do" class="add_cafe_button no-text-decoration link-text-always-black">
+										<a href="#" onclick="addParkingLot(this.parentNode.parentNode.parentNode);return false;" class="add_cafe_button no-text-decoration link-text-always-black">
 											<img style="margin-right:2px;" class="icon" src="${contextPath}/resources/image/cafe_add_icon.svg"/>주차장추가
 										</a>
 									</th>
@@ -519,24 +672,40 @@
 										</div>
 									</th>
 								</tr>
-								<tr>
-									<td width="80px">
-										<table width="550px">
-											<tr><td><h3 class="productName no-top_bottom_margin margin-left-10px">주차장1</h3></td></tr>
-											<tr><td><input type="text" width="550px" class="address_input_box" placeholder="주차장명"></td></tr>
-											<tr><td><input type="text" width="550px" class="address_input_box" placeholder="주소"><button onclick="return false;">주소찾기</button></td></tr>
-											<tr><td><input type="text" width="100%" class="address_input_box" placeholder="상세주소"></td></tr>
-												
-										</table>
-									</td>
-									<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" value="취소"></td>
-									
-								</tr>
+								<c:forEach var="parkingLot" items="${parkingLotList}" varStatus="status">
+									<c:if test="${status.index>0}">
+										<tr id="parkingLotHrRow${status.count}">
+											<td colspan="100"><hr></td>
+										</tr>
+									</c:if>
+									<tr id="parkingLotRow${status.count}">
+										<td width="80px">
+											<table width="550px">
+													<tr>
+														<td>
+															<h3 id="parinkingLotIndicator${status.count}" class="productName no-top_bottom_margin margin-left-10px">주차장1</h3>
+															<input type="hidden" name="parkingLot${status.index+1}_id" value="${parkingLot.parking_lot_id}">
+															<input type="hidden" name="parkingLotIndex" value="${status.count}">
+														</td>
+													</tr>
+													<tr><td><input type="text" width="550px" class="address_input_box" id="parkingLot${status.index+1}_name" name="parkingLot${status.index+1}_name" value="${parkingLot.parking_lot_name}" placeholder="주차장명"></td></tr>
+													<tr><td><input type="text" width="550px" class="address_input_box" id="parkingLot${status.index+1}_location1" name="parkingLot${status.index+1}_location1" value="${parkingLot.parking_lot_location1}" placeholder="주소"><button onclick="setParkingLotAddress1(${status.count});return false;">주소찾기</button></td></tr>
+													<tr><td><input type="text" width="100%" class="address_input_box" id="parkingLot${status.index+1}_location2" name="parkingLot${status.index+1}_location2" value="${parkingLot.parking_lot_location2}" placeholder="상세주소"></td></tr>
+											</table>
+										</td>
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deleteParkingLot(this.parentNode.parentNode)" value="삭제"></td>
+									</tr>
+								</c:forEach>
 							</table>
 							<div id="submit_button_wrapper">
 								<input class="submit_button" type="submit" value="점포정보수정">
 							</div>
 							</div>
+							
+							<input type="hidden" id="goodsSize" name="goodsSize" value="${goodsMapList.size()}">
+							<input type="hidden" id="groupSeatSize" name="groupSeatSize" value="${groupSeatMapList.size()}">
+							<input type="hidden" id="photoSize" name="photoSize" value="${cafePhotoMapList.size()}">
+							<input type="hidden" id="parkingLotSize" name="parkingLotSize" value="${parkingLotList.size()}">
 						</form>
 					</div>
 				</div>

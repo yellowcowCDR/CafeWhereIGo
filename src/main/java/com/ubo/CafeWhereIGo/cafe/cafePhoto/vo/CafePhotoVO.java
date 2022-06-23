@@ -12,6 +12,12 @@ public class CafePhotoVO {
 		super();
 	}
 	
+	public CafePhotoVO(String filename, int cafe_cafe_id) {
+		super();
+		this.filename = filename;
+		this.cafe_cafe_id = cafe_cafe_id;
+	}
+	
 	public CafePhotoVO(String filename, String photo_type, int cafe_cafe_id) {
 		super();
 		this.filename = filename;

@@ -56,11 +56,19 @@ public class GoodsServiceImpl implements GoodsService{
 		}
 		return goodsPhotoInfoList;
 	}
-
 	@Override
-	public void deleteGoods(int goodsNO) {
+	public int registerGoods(GoodsVO goods) {
 		// TODO Auto-generated method stub
+		goodsDAO.insertGoods(goods);
+		int goods_id = goodsDAO.getRecentGoodsId(); 
 		
+		return goods_id;
+	}
+	
+	@Override
+	public void deleteGoods(int goods_id) {
+		// TODO Auto-generated method stub
+		goodsDAO.deleteGoodsByGoodsId(goods_id);
 	}
 
 	@Override
@@ -69,6 +77,12 @@ public class GoodsServiceImpl implements GoodsService{
 		
 	}
 
+	@Override
+	public void modifyGoods(GoodsVO goods) {
+		// TODO Auto-generated method stub
+		goodsDAO.updateGoods(goods);
+	}
+	
 	@Override
 	public List<GoodsVO> getGoods(int cafe_id) {
 		// TODO Auto-generated method stub
@@ -92,13 +106,13 @@ public class GoodsServiceImpl implements GoodsService{
 	@Override
 	public void registerGoodsPhoto(GoodsPhotoVO goodsPhoto) {
 		// TODO Auto-generated method stub
-		
+		goodsPhotoDAO.insertGoodsPhoto(goodsPhoto);
 	}
 
 	@Override
 	public void modifyGoodsPhoto(GoodsPhotoVO goodsPhoto) {
 		// TODO Auto-generated method stub
-		
+		goodsPhotoDAO.modifyGoodsPhoto(goodsPhoto);
 	}
 
 	@Override

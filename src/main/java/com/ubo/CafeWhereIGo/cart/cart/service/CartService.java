@@ -1,5 +1,6 @@
 package com.ubo.CafeWhereIGo.cart.cart.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import com.ubo.CafeWhereIGo.cart.goodsCart.vo.GoodsCartSearchResultVO;
@@ -17,8 +18,8 @@ public interface CartService {
 	
 	// Group Seat Cart
 	public void addGroupSeatCart(GroupSeatCartVO groupSeatCart);
-	public List<GroupSeatCartSearchResultVO> getGroupSeatCartListbyUserId(String user_id);
-	public List<GroupSeatCartSearchResultVO> getGroupSeatCartListbyCafeId(int cafe_id);
+	public List<GroupSeatCartSearchResultVO> getGroupSeatCartListbyUserId(String user_id) throws ParseException;
+	public List<GroupSeatCartSearchResultVO> getGroupSeatCartListbyCafeId(int cafe_id) throws ParseException;
 	public void modifyGroupSeatCart(GroupSeatCartVO groupSeatCart);
 	public void deleteGroupSeatCart(int cart_id);
 	

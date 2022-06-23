@@ -141,9 +141,9 @@
 								</tr>
 							</table>
 						</form>
-						<hr class="solid">
+						<!-- <hr class="solid">
 						<button class="sns-login-button sns-kakao-login-button">카카오로그인</button>
-						<button class="sns-login-button sns-naver-login-button">네이버로그인</button>
+						<button class="sns-login-button sns-naver-login-button">네이버로그인</button> -->
 					</div>
 				</div>
 			</div>

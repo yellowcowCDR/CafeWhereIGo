@@ -8,6 +8,7 @@
 	<resultMap id="cafeResult" type="CafeVO">
 		<result property="cafe_id" column="cafe_id"/>
 		<result property="cafe_name" column="cafe_name"/>
+		<result property="number_of_seat" column="number_of_seat"/>
 		<result property="cafe_location1" column="cafe_location1"/>
 		<result property="cafe_location2" column="cafe_location2"/>
 		<result property="user_user_id" column="user_user_id"/>
@@ -46,6 +47,12 @@
 		<result property="quiet_score" column="quiet_score"/>
 		<result property="view_score" column="view_score"/>
 	</resultMap>
+	<resultMap id="likeCafeResult" type="LikedCafeVO">
+		<result property="liked_cafe_id" column="liked_cafe_id"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="created_date" column="created_date"/>
+	</resultMap>
 	
 	<insert id="insertCafe" parameterType="CafeVO">
 		<![CDATA[insert into cafe(
@@ -77,7 +84,190 @@
 		]]>
 	</insert>
 	
-	<select id="selectCafeList" resultMap = "cafeSearchResult">
+	<select id="selectCafeList" parameterType="CafeSearchParameterVO" resultMap = "cafeSearchResult">
+		<![CDATA[
+			select * from (
+	        select @rownum := @rownum+1 as rownum, t.* 
+	        from(
+				select 
+				    c.cafe_id as cafe_id,
+				    c.cafe_name as cafe_name,
+				    c.number_of_seat as number_of_seat, 
+				    c.cafe_location1 as cafe_location1, 
+				    c.cafe_location2 as cafe_location2,
+				    c.`user_user_id` as user_user_id,
+				    c.phonenum1 as phonenum1,
+				    c.phonenum2 as phonenum2,
+				    c.phonenum3 as phonenum3,
+				    c.created_date as created_date,
+				    c.business_state as business_state,
+				    c.shutdown_date as shutdown_date,
+				    c.open_time as open_time,
+				    c.close_time as close_time,
+				    ifnull(f.parking_lot,false) as parking_lot,
+				    ifnull(f.power_plug,false) as power_plug,
+				    ifnull(f.wifi,false) as wifi,
+				
+				    round(ifnull(ts.coffee_score,0),1) as coffee_score,
+				    round(ifnull(ts.drink_score,0),1) as drink_score,
+				    round(ifnull(ts.dessert_score,0),1) as dessert_score,
+				    round(ifnull(ts.view_score,0),1) as view_score,
+				    round(ifnull(ts.mood_score,0),1) as mood_score,
+				    round(ifnull(ts.quiet_score,0),1) as quiet_score
+				from `cafe` as c
+				left join `facilityinfo` f
+				    on f.`cafe_cafe_id` = c.cafe_id
+				left join (
+				    select 
+				        cafe_cafe_id, 
+				        avg(coffee_score) as coffee_score, 
+				        avg(drink_score) as drink_score, 
+				        avg(dessert_score) as dessert_score, 
+				        avg(view_score) as view_score, 
+				        avg(mood_score) as mood_score, 
+				        avg(quiet_score) as quiet_score
+				    from `themescore`
+				    group by `cafe_cafe_id`
+				) ts
+			    on ts.cafe_cafe_id = c.cafe_id
+		    	
+		]]>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			
+			<if test ="business_state!=null and business_state!=''">
+				<![CDATA[
+					and
+					c.business_state = #{business_state}
+				]]>
+			</if>
+			<if test="dontCare == false">
+				<if test="power_plug == true">
+					<![CDATA[
+						and
+						f.`power_plug` = #{power_plug}
+					]]>
+				</if>
+				<if test="parking_lot == true">
+					<![CDATA[
+						and
+			        	f.`parking_lot` = #{parking_lot}
+					]]>
+				</if>
+				<if test="wifi == true">
+					<![CDATA[
+						and
+			        	f.`wifi` = #{wifi}
+					]]>
+				</if>
+			</if>
+			<if test="number_of_seat != 0">
+			    <![CDATA[
+			        and
+			        `number_of_seat` >= #{number_of_seat}
+			    ]]>
+			</if>
+			<if test="searchKeyword!=null and searchKeyword!=''">
+			    <![CDATA[
+			        and
+			        c.cafe_name like concat('%',#{searchKeyword},'%')
+			    ]]>
+			</if>
+			<if test="cafe_location1!=null and cafe_location1!='' and cafe_location1!='선택'">
+			    <![CDATA[
+			        and
+			        cafe_location1 like concat(#{cafe_location1}
+			    ]]>
+			    <if test="cafe_location2!=null and cafe_location2!='' and cafe_location2!='선택'">
+			        <![CDATA[
+			            ' ', #{cafe_location2}
+			        ]]>
+			        <if test="cafe_location3!=null and cafe_location3!='' and cafe_location3!='선택'">
+				        <![CDATA[
+				           ' ', #{cafe_location3}
+				        ]]>
+				        <if test="cafe_location4!=null and cafe_location4!='' and cafe_location4!='선택'">
+					        <![CDATA[
+					            ' ', #{cafe_location4}
+					        ]]>
+					    </if>
+				    </if>
+			    </if>  
+			    <![CDATA[
+			        ,'%')
+			    ]]>
+			</if>
+		</trim>
+		<![CDATA[
+        order by
+    	]]>
+   	<if test="theme != null and theme!=''">
+	    <if test="theme == 'coffee'">
+	        <![CDATA[
+	            ts.`coffee_score` desc,
+	        ]]>
+	    </if>
+	    <if test="theme == 'drink'">
+	        <![CDATA[
+	            ts.`drink_score` desc,
+	        ]]>
+	    </if>
+	    <if test="theme == 'dessert'">
+	        <![CDATA[
+	            ts.`dessert_score` desc,
+	        ]]>
+	    </if>
+	    <if test="theme == 'view'">
+	        <![CDATA[
+	            ts.`view_score` desc,
+	        ]]>
+	    </if>
+	    <if test="theme == 'mood'">
+	        <![CDATA[
+	            ts.`mood_score` desc,
+	        ]]>
+	    </if>
+	    <if test="theme == 'quiet'">
+	        <![CDATA[
+	            ts.`quiet_score` desc,
+	        ]]>
+	    </if>
+	</if> 	
+	<if test="sortingOption != null">
+	    <if test="sortingOption == 'recent'">
+	        <![CDATA[
+	            c.`created_date` desc
+	        ]]>
+	    </if>
+	    <if test="sortingOption == 'numOfSeat'">
+	        <![CDATA[
+	            c.number_of_seat asc
+	        ]]>
+	    </if>
+	    <if test="sortingOption == 'cafename'">
+	        <![CDATA[
+	            c.`cafe_name` asc
+	        ]]>
+	    </if>
+	</if>
+		<![CDATA[		
+		        )t, (select @rownum := 0) B
+		    ) D
+		    where
+		]]>
+		
+		<if test="(chapter!=null and chapter!=0) and (pageNum!=null and pageNum!=0)">				
+		    <![CDATA[
+		    	rownum between (#{chapter}-1)*50+ (#{pageNum}-1)*10+1 and (#{chapter}-1)*50+(#{pageNum})*10
+	    	]]>
+		</if>
+		<if test="(chapter==null or chapter==0) or (pageNum==null or pageNum==0)">
+		    <![CDATA[
+		    	rownum between (1-1)*50+ (1-1)*10+1 and (1-1)*50+(1)*10
+	    	]]>
+		</if>
+	</select>
+	
+	<!-- <select id="selectCafeList" resultMap = "cafeSearchResult">
 		<![CDATA[
 			select c.*, f.parking_lot, f.power_plug, f.wifi, t.mood_score, t.coffee_score, t.drink_score, t.dessert_score, t.quiet_score, t.view_score
 			from cafe as c
@@ -91,7 +281,7 @@
 			left join facilityinfo as f
 			on c.cafe_id = f.cafe_cafe_id
 		]]>
-	</select>
+	</select> -->
 	<select id="selectCafe" resultType = "CafeVO">
 		<![CDATA[
 			select *
@@ -100,20 +290,74 @@
 		]]>
 	</select>
 	
+	<select id="selectCafeForSiteManagement" resultType="hashmap">
+		<![CDATA[
+			select *
+			from (
+			select @rownum := @rownum + 1 as rownum, t.*
+			from(
+					select 
+						c.cafe_id as cafe_id,
+						c.cafe_name as cafe_name, 
+						u.user_name as user_name, 
+						c.cafe_location1 as cafe_location1, 
+						c.cafe_location2 as cafe_location2, 
+						c.phonenum1 as phonenum1, 
+						c.phonenum2 as phonenum2, 
+						c.phonenum3 as phonenum3, 
+						u.company_registration_number as company_registration_number, 
+						c.created_date as create_date, 
+						c.business_state as business_state
+					from cafe c
+					left join user u
+					on c.user_user_id = u.user_id	
+		]]>
+
+		<![CDATA[
+			) t,
+				(
+					select @rownum := 0
+				) B
+			)D
+			where rownum between (1 -1) * 50 + (1 -1) * 10 + 1 and (1 -1) * 50 +(1) * 10
+		]]>
+	</select>
+	
 	<update id="updateCafe" parameterType="CafeVO">
 		update `cafe`
-		set
-		cafe_name=#{cafe_name}
-		cafe_location1=#{cafe_location1}
-		cafe_location2=#{cafe_location2}
-		phonenum1=#{phonenum1}
-		phonenum2=#{phonenum2}
-		phonenum3=#{phonenum3}
-		business_state=#{business_state}
-		open_time=#{open_time}
-		close_time=#{close_time}
-		where cafe_id = #{cafe_id}
+		<trim prefix="set" suffixOverrides=",">
+			<if test="cafe_name!=null and cafe_name!=''">
+		        cafe_name=#{cafe_name},
+		    </if>
+		    <if test="cafe_location1!=null and cafe_location1!=''">
+		        cafe_location1=#{cafe_location1},
+		    </if>
+		    <if test="cafe_location2!=null and cafe_location2!=''">
+		        cafe_location2=#{cafe_location2},
+		    </if>
+		    <if test="phonenum1!=null and phonenum1!=''">
+		        phonenum1=#{phonenum1},
+		    </if>
+		    <if test="phonenum2!=null and phonenum2!=''">
+		        phonenum2=#{phonenum2},
+		    </if>
+		    <if test="phonenum3!=null and phonenum3!=''">
+		        phonenum3=#{phonenum3},
+		    </if>
+		    <if test="business_state!=null and business_state!=''">
+		        business_state=#{business_state},
+		    </if>
+		    <if test="open_time!=null and open_time!=''">
+		        open_time=#{open_time},
+		    </if>
+		    <if test="close_time!=null and close_time!=''">
+		        close_time=#{close_time},
+		    </if>
+		    	number_of_seat=#{number_of_seat}
+	    </trim>
+			where cafe_id = #{cafe_id}
 	</update>
+	
 	<delete id="deleteCafe" parameterType="CafeVO">
 		delete 
 		from `cafe`
@@ -127,5 +371,79 @@
 			order by created_date desc
 			limit 1;
 		]]>
+	</select>
+	
+	<select id="selectLikeCafeList" parameterType="string" resultMap="cafeSearchResult">
+		<![CDATA[
+			select 
+				lc.cafe_cafe_id as cafe_id, 
+				c.cafe_name as cafe_name,
+				c.number_of_seat as number_of_seat, 
+			    c.cafe_location1 as cafe_location1, 
+			    c.cafe_location2 as cafe_location2,
+			    lc.`user_user_id` as user_user_id,
+			    c.phonenum1 as phonenum1,
+			    c.phonenum2 as phonenum2,
+			    c.phonenum3 as phonenum3,
+			    c.created_date as created_date,
+			    c.business_state as business_state,
+			    c.shutdown_date as shutdown_date,
+			    c.open_time as open_time,
+			    c.close_time as close_time,
+			    f.parking_lot as parking_lot,
+			    f.power_plug as power_plug,
+			    f.wifi as wifi,
+			   
+			    ts.coffee_score as coffee_score,
+			    ts.drink_score as drink_score,
+			    ts.dessert_score as dessert_score,
+			    ts.view_score as view_score,
+				ts.mood_score as mood_score,
+			    ts.quiet_score as quiet_score
+			from `likedcafe` as lc
+			left join `cafe` as c
+				on lc.cafe_cafe_id = c.cafe_id
+			left join `facilityinfo` f
+				on f.`cafe_cafe_id` = lc.cafe_cafe_id
+			left join (
+				select 
+					cafe_cafe_id, 
+			        avg(coffee_score) as coffee_score, 
+			        avg(drink_score) as drink_score, 
+			        avg(dessert_score) as dessert_score, 
+			        avg(view_score) as view_score, 
+			        avg(mood_score) as mood_score, 
+			        avg(quiet_score) as quiet_score
+				from `themescore`
+				group by cafe_cafe_id 
+			) ts
+				on ts.cafe_cafe_id = lc.cafe_cafe_id
+			where lc.`user_user_id` = #{user_id}
+			order by created_date desc;
+		]]>
+	</select>
+	
+	<insert id="addLikeCafe" parameterType="LikedCafeVO">
+		<![CDATA[
+			insert 
+			into `likedcafe`(`user_user_id`, `cafe_cafe_id`)
+			values(#{user_user_id}, #{cafe_cafe_id});
+		]]>
+	</insert>
+	<delete id="deleteLikeCafe" parameterType="LikedCafeVO">
+		delete 
+		from `likedcafe`
+		where 
+			user_user_id=#{user_user_id}
+			and
+			cafe_cafe_id=#{cafe_cafe_id}
+	</delete>
+	<select id="selectIsLikeCafe" parameterType="LikedCafeVO" resultType="boolean">
+		select if(count(*)>0,true,false)
+		from `likedcafe`
+		where 
+			user_user_id=#{user_user_id}
+			and
+			cafe_cafe_id=#{cafe_cafe_id}
 	</select>
 </mapper>

@@ -15,6 +15,7 @@ public class GroupSeatCartSearchResultVO {
 	private Date reservation_date;
 	private String start_time;
 	private String end_time;
+	private int totalPrice;
 	private Date cart_date;
 	private String cart_state;
 	private String user_user_id;
@@ -141,5 +142,15 @@ public class GroupSeatCartSearchResultVO {
 
 	public void setCafe_cafe_id(int cafe_cafe_id) {
 		this.cafe_cafe_id = cafe_cafe_id;
+	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}	
+	
+	
 }

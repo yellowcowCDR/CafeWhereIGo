@@ -6,7 +6,7 @@ public class GoodsCartVO {
 	private int cart_id;
 	private int goods_id;
 	private int quantity;
-	private boolean is_Takeout;
+	private boolean is_takeout;
 	private Date cart_date;
 	private String cart_state;
 	private String user_user_id;
@@ -16,12 +16,12 @@ public class GoodsCartVO {
 		super();
 	}	
 	
-	public GoodsCartVO(int goods_id, int quantity, boolean is_Takeout, String cart_state, String user_user_id,
+	public GoodsCartVO(int goods_id, int quantity, boolean is_takeout, String cart_state, String user_user_id,
 			int cafe_cafe_id) {
 		super();
 		this.goods_id = goods_id;
 		this.quantity = quantity;
-		this.is_Takeout = is_Takeout;
+		this.is_takeout = is_takeout;
 		this.cart_state = cart_state;
 		this.user_user_id = user_user_id;
 		this.cafe_cafe_id = cafe_cafe_id;
@@ -29,13 +29,13 @@ public class GoodsCartVO {
 
 	
 
-	public GoodsCartVO(int cart_id, int goods_id, int quantity, boolean is_Takeout, Date cart_date, String cart_state,
+	public GoodsCartVO(int cart_id, int goods_id, int quantity, boolean is_takeout, Date cart_date, String cart_state,
 			String user_user_id, int cafe_cafe_id) {
 		super();
 		this.cart_id = cart_id;
 		this.goods_id = goods_id;
 		this.quantity = quantity;
-		this.is_Takeout = is_Takeout;
+		this.is_takeout = is_takeout;
 		this.cart_date = cart_date;
 		this.cart_state = cart_state;
 		this.user_user_id = user_user_id;
@@ -122,12 +122,14 @@ public class GoodsCartVO {
 		this.cafe_cafe_id = cafe_cafe_id;
 	}
 
-	public boolean is_Takeout() {
-		return is_Takeout;
+	
+	
+	public boolean getIs_takeout() {
+		return is_takeout;
 	}
 
-	public void setIs_Takeout(boolean is_Takeout) {
-		this.is_Takeout = is_Takeout;
+	public void setIs_Takeout(boolean is_takeout) {
+		this.is_takeout = is_takeout;
 	}
 	
 	

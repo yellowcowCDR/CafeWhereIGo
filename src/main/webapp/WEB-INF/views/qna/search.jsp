@@ -20,7 +20,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-		
+		<script src="${contextPath}/resources/js/article/article.js"></script>
 		<style>
 		
 			#top_menu{
@@ -151,7 +151,7 @@
 				var chapter = "${searchCondition.chapter}";
 				var pageNum = "${searchCondition.pageNum}"
 				
-				location.href = "${contextPath}/qna/search.do?chapter="+chapter+"&pageNum="+pageNum+"&sortingOption="+sortingOption;
+				searchArticle("${contextPath}","${articleType}");
 			}
 			function initSortingOption(){
 				let sortingOptionSeletor= document.getElementById("sortingOptions");
@@ -182,6 +182,7 @@
 			}
 			window.onload = function(){
 				initSortingOption();
+				initSearchOption();
 				initSearchWord();
 			}
 		</script>
@@ -235,30 +236,29 @@
 								</tr>
 							</c:forEach>
 						</table>
-						<form>
-							<div id="search_form_wrapper">
-								
-									<select id="searchConditions" name="searchCondition">
-										<option value="all">전체검색</option>
-										<option value="title">제목</option>
-										<option value="writer">작성자</option>
-									</select>
-									<input id="searchKewordBox" name="searchWords" type="text">
-									<input id="searchButton" type="submit" value="검색">
-							</div>
-						</form>
+						
+						<div id="search_form_wrapper">
+							
+								<select id="searchConditions" name="searchCondition">
+									<option value="title">제목</option>
+									<option value="writer">작성자</option>
+								</select>
+								<input id="searchKewordBox" name="searchWords" type="text">
+								<input id="searchButton" type="button" onclick="searchArticle('${contextPath}', '${articleType}')" value="검색">
+						</div>
+						
 						<div class="pagination_wrapper">
 							<ul class="pagination pagination-sm">
 								<c:if test="${searchCondition.chapter<=1}">
 							    	<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
 							    </c:if>
 							    <c:if test="${searchCondition.chapter>1}">
-							    	<li class="page-item"><a class="page-link" href="${contextPath}/qna/search.do?chapter=${searchCondition.chapter-1}&pageNum=5">Previous</a></li>
+							    	<li class="page-item"><a class="page-link" onclick="searchArticle('${contextPath}', '${articleType}', ${searchCondition.chapter-1}, 5)">Previous</a></li>
 							    </c:if>
 							    <c:forEach begin="1" end="5" step="1" varStatus="status">
-							   		<li class="page-item"><a class="page-link" href="${contextPath}/qna/search.do?chapter=1&pageNum=${status.index}">${status.index}</a></li>
+							   		<li class="page-item"><a class="page-link" onclick="searchArticle('${contextPath}', '${articleType}', 1, ${status.index})">${status.index}</a></li>
 							    </c:forEach>
-							    <li class="page-item"><a class="page-link" href="${contextPath}/qna/search.do?chapter=${searchCondition.chapter+1}&pageNum=1">Next</a></li>
+							    <li class="page-item"><a class="page-link" onclick="searchArticle('${contextPath}', '${articleType}', ${searchCondition.chapter+1}, 1)">Next</a></li>
 							</ul>
 						</div>
 					</div>

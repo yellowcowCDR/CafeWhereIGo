@@ -31,7 +31,14 @@
 			select *
 			from `cafephoto`
 			where cafe_cafe_id = #{cafe_cafe_id}
-			and photo_type <> `main`
+			and photo_type <> 'main'
+		]]>
+	</select>
+	<select id="selectOneCafePhoto" parameterType="_int" resultType="CafePhotoVO">
+		<![CDATA[
+			select *
+			from `cafephoto`
+			where `photo_id` = #{photo_id}
 		]]>
 	</select>
 	<select id="selectCafeMainPhoto" parameterType="_int" resultType="CafePhotoVO">

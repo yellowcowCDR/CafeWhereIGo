@@ -12,6 +12,16 @@ public class ParkingLotVO {
 	public ParkingLotVO() {
 		super();
 	}
+		
+	public ParkingLotVO(int parking_lot_id, String parking_lot_name, String parking_lot_location1,
+			String parking_lot_location2) {
+		super();
+		this.parking_lot_id = parking_lot_id;
+		this.parking_lot_name = parking_lot_name;
+		this.parking_lot_location1 = parking_lot_location1;
+		this.parking_lot_location2 = parking_lot_location2;
+	}
+
 	public ParkingLotVO(String parking_lot_name, String parking_lot_location1, String parking_lot_location2,
 			int cafe_cafe_id) {
 		super();

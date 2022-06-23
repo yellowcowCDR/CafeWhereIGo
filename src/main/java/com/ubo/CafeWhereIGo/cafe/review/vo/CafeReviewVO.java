@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class CafeReviewVO {
 	private int review_id;
 	private String review_content;
+	private String[] review_content_list;
 	private Date created_date;
 	private int cafe_cafe_id;
 	private String user_user_id;
@@ -61,6 +62,14 @@ public class CafeReviewVO {
 	}
 	public void setOrderAndReservation_OrderAndReservation_id(int orderAndReservation_OrderAndReservation_id) {
 		OrderAndReservation_OrderAndReservation_id = orderAndReservation_OrderAndReservation_id;
+	}
+
+	public String[] getReview_content_list() {
+		return review_content_list;
+	}
+
+	public void setReview_content_list(String[] review_content_list) {
+		this.review_content_list = review_content_list;
 	}
 	
 	

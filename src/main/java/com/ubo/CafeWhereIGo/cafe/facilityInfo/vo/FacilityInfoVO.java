@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class FacilityInfoVO {
 	private int cafe_cafe_id;
-	private boolean parking_lot;
-	private boolean power_plug;
-	private boolean wifi;
+	private boolean parking_lot=false;
+	private boolean power_plug=false;
+	private boolean wifi = false;
 	
 	public FacilityInfoVO() {
 		super();

@@ -5,22 +5,24 @@
 
 <mapper namespace="mapper.goodsCart">
 	<!-- 리절트 맵 정의 -->		
-	<resultMap id="groupSeatCartSearchResult" type="GoodsCartSearchResultVO">
+	<resultMap id="goodsCartSearchResult" type="GoodsCartSearchResultVO">
 		<result property="cart_id" column="cart_id"/>
 		<result property="goods_id" column="goods_id"/>
 		<result property="goods_name" column="goods_name"/>
 		<result property="price" column="price"/>
 		<result property="quantity" column="quantity"/>
+		<result property="is_takeout" column ="is_takeout"/>
 		<result property="description" column="description"/>
         <result property="user_user_id" column="user_user_id"/>
         <result property="cafe_cafe_id" column="cafe_cafe_id"/>
 	</resultMap>
 	
-	<insert id="insertGoodsCart" parameterType="GroupSeatCartVO">
+	<insert id="insertGoodsCart" parameterType="GoodsCartVO">
 		<![CDATA[
 			insert into `cart_goods`(
 				goods_id,
 				quantity,
+				is_takeout,
 				cart_state,
 				user_user_id,
 				cafe_cafe_id
@@ -28,13 +30,14 @@
 			values(
 				#{goods_id},
 				#{quantity},
+				#{is_takeout},
 				#{cart_state},
 				#{user_user_id},
 				#{cafe_cafe_id}
 			)
 		]]>
 	</insert>
-	<select id="selectGoodsCartByCafeId" parameterType="_int" resultMap="groupSeatCartSearchResult">
+	<select id="selectGoodsCartByCafeId" parameterType="_int" resultMap="goodsCartSearchResult">
 		<![CDATA[
 			select 
 				c.cart_id as cart_id,
@@ -42,6 +45,7 @@
 				g.goods_name as goods_name,
 				c.quantity as quantity,
 				g.price as price,
+				c.is_takeout as is_takeout,
 				g.description as description,
 				c.user_user_id as user_user_id,
 				c.cafe_cafe_id as cafe_cafe_id
@@ -51,7 +55,7 @@
 			where c.cafe_cafe_id = #{cafe_id}
 		]]>
 	</select>
-	<select id="selectGoodsCartByUserId" parameterType="string" resultMap="groupSeatCartSearchResult">
+	<select id="selectGoodsCartByUserId" parameterType="string" resultMap="goodsCartSearchResult">
 		<![CDATA[
 			select 
 				c.cart_id as cart_id,
@@ -59,6 +63,7 @@
 				g.goods_name as goods_name,
 				c.quantity as quantity,
 				g.price as price,
+				c.is_takeout as is_takeout,
 				g.description as description,
 				c.user_user_id as user_user_id,
 				c.cafe_cafe_id as cafe_cafe_id
@@ -68,20 +73,20 @@
 			where user_user_id = #{user_id}
 		]]>
 	</select>
-	<select id="selectOneGoodsCart" parameterType="_int" resultType="GroupSeatCartVO">
+	<select id="selectOneGoodsCart" parameterType="_int" resultType="GoodsCartVO">
 		<![CDATA[
 			select *
 			from `cart_goods`
 			where cart_id = #{cart_id}
 		]]>
 	</select>
-	<update id="updateGoodsCart" parameterType="GroupSeatCartVO">
+	<update id="updateGoodsCart" parameterType="GoodsCartVO">
 		<![CDATA[
 			update `cart_goods`
 			set
-			quantity = #{quantity},
-			cart_state = #{cart_state}
-			where goods_id = #{goods_id}
+				is_takeout = #{is_takeout},
+				quantity = #{quantity}
+			where cart_id = #{cart_id}
 		]]>
 	</update>
 	<delete id="deleteGoodsCart" parameterType="_int">

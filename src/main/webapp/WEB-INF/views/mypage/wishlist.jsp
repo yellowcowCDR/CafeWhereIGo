@@ -4,6 +4,7 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
@@ -236,6 +237,9 @@
 			.icon_text{
 				margin-right:5px;
 			}
+			#formRow{
+				text-align:right;
+			}
 		</style>
 		
 		<script>
@@ -263,26 +267,28 @@
 						<div id="search_condition_form_container">
 						<form>
 							<table>
-								<tr id="formRow">
-									<td>
-										<label id="inputLabel" for="region1">지역1</label>
-										<select id="region1">
-											<option value="서울">서울</option>
-										</select>	
-									</td>
-									
-									<td>
-										<label id="inputLabel" for="region2">지역2</label>
-										<select id="region2">
-											<option value="강남구">강남구</option>
-										</select>	
-									</td>
-									
-									<td>
-										<label id="inputLabel" for="region3">지역3</label>
-										<select id="region3">
-											<option value="논현동">논현동</option>
-										</select>	
+								<tr id="formRow1">
+									<td colspan="100">
+										<label class="inputLabel" for="region1">지역1</label>
+										<select id="region1" name="cafe_location1_selector" onchange="sidoChanged(this)">
+											<option>선택</option>
+										</select>
+										<input type="hidden" id="cafe_region1_value">
+										<label class="inputLabel" for="region2">지역2</label>
+										<select id="region2" name="cafe_location2_selector" onchange="sigoonChanged(this)">
+											<option>선택</option>
+										</select>
+										<input type="hidden" id="cafe_region2_value">
+										<label class="inputLabel" for="region3">지역3</label>
+										<select id="region3" name="cafe_location3_selector" onchange="dongChanged(this)">
+											<option>선택</option>
+										</select>
+										<input type="hidden" id="cafe_region3_value">
+										<label class="inputLabel" for="region3">지역4</label>
+										<select id="region4" name="cafe_location4_selector">
+											<option>선택</option>
+										</select>
+										<input type="hidden" id="cafe_region4_value">
 									</td>
 								</tr>
 								<tr id="formRow">
@@ -345,49 +351,50 @@
 					<div id="tableWrapper">
 						<table class="result_table">
 							<tr>
-								<th></th>
 								<th>카페명</th>
 								<th>주소</th>
 								<th width="70px">좌석수</th>
 								<th width="80px">시설</th>
 								<th>카페지수</th>
 								<th width="100px">등록일</th>
-								<th width="70px" style="text-align:center;"></th>
 							</tr>
-							<tr>
-								<td style="text-align:center;">
-									<input type="checkbox">
+							
+							<c:forEach var="cafe" items="${likedCafeList}">
+							<tr class="resultRow">
+								<td>
+									<a class="no-margin-top-bottom" href="${contextPath}/cafe/cafe_detail.do?cafe_id=${cafe.cafe_id}">${cafe.cafe_name}</a>
 								</td>
 								<td>
-									<a class="no-margin-top-bottom" href="${contextPath}/cafe/cafe_detail.do">카페 블루</a>
+									<p class="no-margin-top-bottom">${cafe.cafe_location1} ${cafe.cafe_location2}</p>
 								</td>
 								<td>
-									<p class="no-margin-top-bottom">대전 서구 둔산동</p>
-								</td>
-								<td>
-									<p class="no-margin-top-bottom">50+</p>
+									<p class="no-margin-top-bottom">${cafe.number_of_seat}</p>
 								</td>
 								<td id="facilityInfo">
-									<img class="tiny_icon" src="${contextPath}/resources/image/parking_icon.svg">
-									<img class="tiny_icon" src="${contextPath}/resources/image/socket_icon.svg">
-									<img class="tiny_icon" src="${contextPath}/resources/image/wifi_icon.svg">
+									<c:if test="${cafe.parking_lot == true}"><img class="tiny_icon" src="${contextPath}/resources/image/parking_icon.svg"></c:if>
+									<c:if test="${cafe.parking_lot == false}"><img class="tiny_icon" src="${contextPath}/resources/image/parking_icon_unavailable.svg"></c:if>
+									
+									<c:if test="${cafe.power_plug == true}"><img class="tiny_icon" src="${contextPath}/resources/image/socket_icon.svg"></c:if>
+									<c:if test="${cafe.power_plug == false}"><img class="tiny_icon" src="${contextPath}/resources/image/socket_icon_unavailable.svg"></c:if>
+									
+									<c:if test="${cafe.wifi == true}"><img class="tiny_icon" src="${contextPath}/resources/image/wifi_icon.svg"></c:if>
+									<c:if test="${cafe.wifi == false}"><img class="tiny_icon" src="${contextPath}/resources/image/wifi_icon_unavilable.svg"></c:if>
 								</td>
 								<td style="width:120px;">
 									<div style="display:flex;">
-										<img class="theme_score_icon" src="${contextPath}/resources/image/coffee_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-										<img class="theme_score_icon" src="${contextPath}/resources/image/dessert_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-										<img class="theme_score_icon" src="${contextPath}/resources/image/scenery_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-										<img class="theme_score_icon" src="${contextPath}/resources/image/socket_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-										<img class="theme_score_icon" src="${contextPath}/resources/image/wifi_icon.svg"><p class="icon_text no-margin-top-bottom">70</p>
-									</div>	
+										<img class="theme_score_icon" src="${contextPath}/resources/image/coffee_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.coffee_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/drink_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.drink_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/dessert_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.dessert_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/scenery_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.view_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/atmosphere_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.mood_score}</p>
+										<img class="theme_score_icon" src="${contextPath}/resources/image/mute_icon.svg"><p class="icon_text no-margin-top-bottom">${cafe.quiet_score}</p>
+									</div>
 								</td>
 								<td>
-									<p class="no-margin-top-bottom">2022.04.21</p>
-								</td>
-								<td style="text-align:center;">
-									<button class="wishlistDeleteButton">삭제</button>
+									<p class="no-margin-top-bottom"><fmt:formatDate value="${cafe.created_date}" pattern="YYYY.MM.dd"/></p>
 								</td>
 							</tr>
+							</c:forEach>
 						</table>
 						<div class="pagination_wrapper">
 							<ul class="pagination pagination-sm">

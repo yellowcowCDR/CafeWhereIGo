@@ -49,7 +49,7 @@ function addGoods(contextPath, menuTable){
 
 function addGroupSeat(contextPath, groupSeatTable){
 	//numOfGroupSeat++;
-	var numOfGroupSeat = ++goodsSize.value;
+	var numOfGroupSeat = ++groupSeatSize.value;
 	var element = `<tr id="hrRow${numOfGroupSeat}"><td colspan="100"><hr style="width:100%; color:#a8a2a2;"></td></tr>
 					<tr id="groupSeatRow${numOfGroupSeat}">
 						<td width="80px">

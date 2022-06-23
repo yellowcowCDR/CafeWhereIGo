@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ArticleSearchConditionVO {
-	private String searchCondition="all";
+	private String searchCondition;
 	private String searchWords;
 	private String articleType;
 	private String sortingOption = "recent";

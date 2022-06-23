@@ -26,13 +26,13 @@ public class GoodsPhotoDAOImpl implements GoodsPhotoDAO {
 	}
 
 	@Override
-	public void modifyGoods(GoodsPhotoVO goodsPhoto) {
+	public void modifyGoodsPhoto(GoodsPhotoVO goodsPhoto) {
 		// TODO Auto-generated method stub
-		
+		sqlSession.update("mapper.cafeGoodsPhoto.updateGoodsPhoto", goodsPhoto);
 	}
 
 	@Override
-	public void deleteGoods(int goods_id) {
+	public void deleteGoodsPhoto(int goods_id) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -15,28 +15,28 @@ public class ParkingLotDAOImpl implements ParkingLotDAO{
 	SqlSession sqlSession;
 
 	@Override
-	public void insertParkingLot(ParkingLotVO facilityInfo) {
+	public void insertParkingLot(ParkingLotVO parkingLotInfo) {
 		// TODO Auto-generated method stub
-		sqlSession.insert("mapper.cafeParkingLot.insertParkingLotInfo",facilityInfo);
+		sqlSession.insert("mapper.cafeParkingLot.insertParkingLotInfo",parkingLotInfo);
 	}
 
 	@Override
-	public void updateParkingLot(ParkingLotVO facilityInfo) {
+	public void updateParkingLot(ParkingLotVO parkingLotInfo) {
 		// TODO Auto-generated method stub
-		sqlSession.update("mapper.cafeParkingLot.updateParkingLotInfo",facilityInfo);
+		sqlSession.update("mapper.cafeParkingLot.updateParkingLotInfo",parkingLotInfo);
 	}
 
 	@Override
 	public List<ParkingLotVO> selectParkingLot(int cafe_id) {
 		// TODO Auto-generated method stub
-		List<ParkingLotVO> parkingLotList = sqlSession.selectList("mapper.cafeParkingLot.insertParkingLotInfo",cafe_id);
+		List<ParkingLotVO> parkingLotList = sqlSession.selectList("mapper.cafeParkingLot.selectParkingLotInfo",cafe_id);
 		return parkingLotList;
 	}
 
 	@Override
-	public void deleteParkingLot(int cafe_id) {
+	public void deleteParkingLot(int parkingLot_id) {
 		// TODO Auto-generated method stub
-		sqlSession.delete("mapper.cafeParkingLot.deleteParkingLotInfo",cafe_id);
+		sqlSession.delete("mapper.cafeParkingLot.deleteParkingLotInfo",parkingLot_id);
 	}
 	
 	

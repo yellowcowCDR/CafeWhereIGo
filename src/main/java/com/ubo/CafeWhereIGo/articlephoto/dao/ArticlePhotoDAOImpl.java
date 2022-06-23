@@ -80,7 +80,7 @@ public class ArticlePhotoDAOImpl implements ArticlePhotoDAO{
 	@Override
 	public boolean isFileExists(int article_photo_id) {
 		// TODO Auto-generated method stub
-		boolean isFileExists = (boolean) sqlSession.selectOne("mapper.articlephoto.isFileExists", article_photo_id);
+		boolean isFileExists = (Boolean) sqlSession.selectOne("mapper.articlephoto.isFileExists", article_photo_id);
 		
 		return isFileExists;
 	}

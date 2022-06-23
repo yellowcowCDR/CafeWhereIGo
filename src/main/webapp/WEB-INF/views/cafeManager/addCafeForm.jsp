@@ -520,7 +520,7 @@
 												<textarea rows="2" style="width:100%;  margin-top:5px" name="groupSeat1_description" placeholder="상품설명"></textarea>
 											</div>
 										</td>
-										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton"onclick="deleteGroupSeat(this.parentNode.parentNode);" value="삭제"></td>
+										<td width="28px" style="text-align:center;"><input type="button" class="orderDeleteButton" onclick="deleteGroupSeat(this.parentNode.parentNode);" value="삭제"></td>
 									</tr>
 								</table>
 								<table align="center" id="cafePhotoTable" class="inputTable">

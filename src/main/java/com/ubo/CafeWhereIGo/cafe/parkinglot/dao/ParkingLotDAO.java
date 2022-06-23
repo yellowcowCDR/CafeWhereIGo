@@ -5,8 +5,8 @@ import java.util.List;
 import com.ubo.CafeWhereIGo.cafe.parkinglot.vo.ParkingLotVO;
 
 public interface ParkingLotDAO {
-	public void insertParkingLot(ParkingLotVO facilityInfo);
-	public void updateParkingLot(ParkingLotVO facilityInfo);
+	public void insertParkingLot(ParkingLotVO parkingLotInfo);
+	public void updateParkingLot(ParkingLotVO parkingLotInfo);
 	public List<ParkingLotVO> selectParkingLot(int cafe_id);
-	public void deleteParkingLot(int cafe_id);
+	public void deleteParkingLot(int parkingLot_id);
 }

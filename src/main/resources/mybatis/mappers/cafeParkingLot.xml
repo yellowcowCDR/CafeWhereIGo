@@ -41,7 +41,7 @@
 			update `parkinglot`
 			set `parking_lot_name`=#{parking_lot_name},
 				`parking_lot_location1`=#{parking_lot_location1},
-				`parking_lot_location2`=#{parking_lot_location2},
+				`parking_lot_location2`=#{parking_lot_location2}
 			where `parking_lot_id` = #{parking_lot_id}
 		]]>
 	</update>

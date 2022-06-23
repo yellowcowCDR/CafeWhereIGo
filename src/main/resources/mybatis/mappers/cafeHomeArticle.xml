@@ -38,9 +38,8 @@
 		<![CDATA[
 			update `cafehomearticle`
 			set `article_content`=#{article_content},
-				`cafe_cafe_id`=#{cafe_cafe_id},
-				`user_user_id`#{user_user_id}
-			where cafe_cafe_id = #{cafe_id}
+				`user_user_id`=#{user_user_id}
+			where cafe_cafe_id = #{cafe_cafe_id}
 		]]>
 	</update>
 	<delete id="deleteHomeArticle" parameterType="_int">

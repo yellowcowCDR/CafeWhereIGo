@@ -20,10 +20,27 @@ public class GoodsOrderVO {
 	private int OrderAndReservation_OrderAndReservation_id;
 	
 	
-	public GoodsOrderVO() {
+	public GoodsOrderVO(int order_id, String order_state) {
 		super();
+		this.order_id = order_id;
+		this.order_state = order_state;
 	}
 	
+	public GoodsOrderVO() {
+		
+	}
+	
+	public GoodsOrderVO(int goods_goods_id, int order_quantity, boolean is_takeout, String order_state,
+			String user_user_id, int cafe_cafe_id) {
+		super();
+		this.goods_goods_id = goods_goods_id;
+		this.order_quantity = order_quantity;
+		this.is_takeout = is_takeout;
+		this.order_state = order_state;
+		this.user_user_id = user_user_id;
+		this.cafe_cafe_id = cafe_cafe_id;
+	}
+
 	public GoodsOrderVO(int goods_goods_id, String goods_name, int goods_price, String[] goods_description,
 			int order_quantity, boolean is_takeout, String order_state, String user_user_id, int cafe_cafe_id) {
 		super();

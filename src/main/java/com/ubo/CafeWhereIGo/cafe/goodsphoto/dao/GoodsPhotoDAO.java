@@ -10,6 +10,6 @@ import com.ubo.CafeWhereIGo.cafe.goodsphoto.vo.GoodsPhotoVO;
 public interface GoodsPhotoDAO {
 	public GoodsPhotoVO insertGoodsPhoto(GoodsPhotoVO goodsPhoto);
 	public GoodsPhotoVO selectGoodsPhoto(int goods_id);
-	public void modifyGoods(GoodsPhotoVO goodsPhoto);
-	public void deleteGoods(int goods_id);
+	public void modifyGoodsPhoto(GoodsPhotoVO goodsPhoto);
+	public void deleteGoodsPhoto(int goods_id);
 }

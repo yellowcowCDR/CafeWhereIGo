@@ -30,6 +30,16 @@ public class GroupSeatVO {
 		this.price = price;
 		this.cafe_cafe_id = cafe_cafe_id;
 	}
+	
+	
+	
+	public GroupSeatVO(int groupseat_id, String seat_name, int price, String description) {
+		super();
+		this.groupseat_id = groupseat_id;
+		this.seat_name = seat_name;
+		this.price = price;
+		this.description = description;
+	}
 	public GroupSeatVO(int groupseat_id, String seat_name, String description, int price, int cafe_cafe_id,
 			Date created_date) {
 		super();

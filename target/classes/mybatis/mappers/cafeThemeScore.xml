@@ -52,7 +52,7 @@
 		<![CDATA[
 			select *
 			from `themescore`
-			where review_review_id = #{review_id}
+			where review_review_id = #{review_review_id}
 		]]>
 	</select>
 	<update id="updateThemeScore" parameterType="ThemeScoreVO">
@@ -61,11 +61,11 @@
 			set 
 				coffee_score=#{coffee_score},
 				dessert_score=#{dessert_score},
-				drink_score=#{drink_score}
+				drink_score=#{drink_score},
 				mood_score=#{mood_score},
 				quiet_score=#{quiet_score},
 				view_score=#{view_score}
-			where review_review_id = #{review_id}
+			where review_review_id = #{review_review_id}
 		]]>
 	</update>
 	<delete id="deleteThemeScore" parameterType="_int">

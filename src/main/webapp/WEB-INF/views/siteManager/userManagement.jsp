@@ -4,6 +4,7 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,8 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-	    
+	    <script src="${contextPath}/resources/js/jquery-3.6.0.min.js"></script>
+	    <script src="${contextPath}/resources/js/siteManager/usermanagement.js"></script>
 		<style>
 			#register_section{
 				margin-left:150px;
@@ -207,13 +209,28 @@
 			    border: 1px solid white;
 			    border-radius:5px;
 			}
+			#selectedElementReturnButton{
+				
+				background-color:#00ff80;
+				font-family: 'Jua', sans-serif;
+			    font-size:17px;
+			    color:white;
+			    border: 1px solid white;
+			    border-radius:5px;
+			}
 		</style>
 		
 		<script>
-			function select_profile_photo(){
-				var profile_preview = document.getElementById("profile_photo_preview");
-				var profile_photo = document.getElementById("profile_photo");
-				profile_photo.click();
+			var prevSearchWords = "${userSearchParameter.searchWords}";
+			var prevSearchCondition = "${userSearchParameter.searchCondition}";
+			var prevJoin_stateOption = "${userSearchParameter.join_state}";
+			var sortingOption = "${userSearchParameter.sortingOption}";
+			
+			window.onload= function(){
+				initSearchWords();
+				initSearchCondition();
+				initJoin_stateOption();
+				initSortingOption();
 			}
 		</script>
 	</head>
@@ -227,75 +244,94 @@
 							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/userManagement.do">회원관리</a></li>
 							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/cafeManagerManagement.do">점주관리</a></li>
 							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/cafeManagement.do">점포관리</a></li>
-							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/mainPageManagement.do">메인페이지관리</a></li>
+							<%-- <li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/mainPageManagement.do">메인페이지관리</a></li> --%>
 						</ul>
 					</div>
 					<div class="form_wrapper">
 						<div class="searchFormWrapper">
 							<label>정렬</label>
-							<select>
-								<option>최근가입순</option>
-								<option>이름순</option>
-								<option>ID순</option>
+							<select id="sortingOptionSelector">
+								<option value="recent">최근가입순</option>
+								<option value="name">이름순</option>
+								<option value="userId">ID순</option>
 							</select>
 							<label>가입현황</label>
-							<select>
-								<option>전체</option>
-								<option>회원가입</option>
-								<option>회원탈퇴</option>
-								<option>강퇴</option>
+							<select id="joinStateSelector">
+								<option value="all">전체</option>
+								<option value="joined">회원가입</option>
+								<option value="quited">회원탈퇴</option>
+								<option value="banned">강퇴</option>
 							</select>
 							<label>검색</label>
-							<select>
-								<option>전체</option>
-								<option>ID</option>
-								<option>이름</option>
-								<option>이메일</option>
-								<option>전화번호</option>
+							<select id="searchOptionSelector">
+								<option value="userId">ID</option>
+								<option value="userName">이름</option>
+								<option value="userEmail">이메일</option>
+								<option value="userPhoneNum">전화번호</option>
 							</select>
 							<input id="searchInputBox" type="text">
-							<button id="searchButton">검색</button>
+							<button type="button" id="searchButton" onclick="searchUser('${contextPath}')">검색</button>
 						</div>
 						<div style="float:left;">
-							<button id="selectedElementCancelButton">선택회원강퇴</button>
+							<button id="selectedElementCancelButton">선택회원강제탈퇴</button>
+							<button id="selectedElementReturnButton">선택회원상태복귀</button>
 						</div>
 						<div class="tableWrapper">
 						<table id="orderListTable">
 							<tr>
-								<th></th>
-								<th>No.</th>
-								<th>ID</th>
-								<th>이름</th>
-								<th>이메일</th>
-								<th>전화번호</th>
-								<th width="160px">가입일</th>
-								<th width="110px">가입상태</th>
-								<th></th>
-								<th></th>
+								<th width="20px"></th>
+								<th width="30px">No.</th>
+								<th width="90px">ID</th>
+								<th width="50px">이름</th>
+								<th width="200px">이메일</th>
+								<th width="90px">전화번호</th>
+								<th width="120px">가입일</th>
+								<th width="50px">가입상태</th>
+								<th width="60px"></th>
+								<th width="60px"></th>
 							</tr>
-							<tr>
-								<td style="text-align:center;"><input type="checkbox"></td>
-								<td>1</td>
-								<td>rlatjdals12</td>
-								<td>김성민</td>
-								<td>rlatjdals12@gmail.com</td>
-								<td>010-2342-5345</td>
-								<td>2022.03.31 17:00:25</td>
-								<td>회원가입</td>
-								<td class="cancelbutton_td"><a href="#"><button class="memberDeleteButton">강퇴</button></a></td>
-								<td class="cancelbutton_td"><a href="#"><button class="memberReturnButton">복귀</button></a></td>
-							</tr>
+							<c:forEach var="user" items='${userList}'>
+								<tr>
+									<td style="text-align:center;"><input type="checkbox"></td>
+									<td><fmt:formatNumber type="number" value="${user.rownum}"></fmt:formatNumber></td>
+									<td>${user.user_id}</td>
+									<td>${user.user_name}</td>
+									<td>${user.user_email}</td>
+									<td>${user.phonenum1}-${user.phonenum2}-${user.phonenum3}</td>
+									<td>
+										<fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${user.join_date}" />
+										<input type="hidden" name="user_id" value="${user.user_id}">
+									</td>
+									<td class="join_status_td">
+										<c:if test="${user.join_state=='joined'}">
+											회원가입
+										</c:if>
+										<c:if test="${user.join_state=='quited'}">
+											회원탈퇴
+										</c:if>
+										<c:if test="${user.join_state=='banned'}">
+											강제탈퇴
+										</c:if>
+										
+									</td>
+									<td class="cancelbutton_td"><button class="memberDeleteButton" onclick="banUser('${contextPath}', this.parentNode.parentNode)">강제탈퇴</button></td>
+									<td class="cancelbutton_td"><button class="memberReturnButton" onclick="reRegisterUser('${contextPath}', this.parentNode.parentNode)">상태복귀</button></td>
+								</tr>
+							</c:forEach>
 						</table>
 						</div>
 						<div class="pagination_wrapper">
 							<ul class="pagination pagination-sm">
-							    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-							    <li class="page-item"><a class="page-link" href="#">1</a></li>
-							    <li class="page-item"><a class="page-link" href="#">2</a></li>
-							    <li class="page-item"><a class="page-link" href="#">3</a></li>
-							    <li class="page-item"><a class="page-link" href="#">4</a></li>
-							    <li class="page-item"><a class="page-link" href="#">5</a></li>
-							    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+							   <c:if test="${searchCondition.chapter<=1}">
+							    	<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+							    </c:if>
+							    <c:if test="${searchCondition.chapter>1}">
+							    	<li class="page-item"><a class="page-link" onclick="searchUser('${contextPath}', ${searchCondition.chapter-1}, 5)">Previous</a></li>
+							    </c:if>
+							    <c:forEach begin="1" end="5" step="1" varStatus="status">
+							   		<li class="page-item"><a class="page-link" onclick="searchUser('${contextPath}', 1, ${status.index})">${status.index}</a></li>
+							    </c:forEach>
+							    <li class="page-item"><a class="page-link" onclick="searchUser('${contextPath}', ${searchCondition.chapter+1}, 1)">Next</a></li>
 							</ul>
 						</div>
 					</div>

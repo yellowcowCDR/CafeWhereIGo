@@ -4,15 +4,20 @@
 
 <configuration>
   <typeAliases>
-    <typeAlias type="com.ubo.CafeWhereIGo.user.vo.UserVO" alias="userVO" />
-    <typeAlias type="com.ubo.CafeWhereIGo.userProfilePhoto.vo.UserProfilePhotoVO" alias="userProfilePhotoVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.user.vo.UserVO" alias="userVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.user.vo.UserSearchParameterVO" alias="userSearchParameterVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.userProfilePhoto.vo.UserProfilePhotoVO" alias="userProfilePhotoVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.mileage.vo.MileageHistoryVO" alias="mileageHistoryVO" />
     <typeAlias type="com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO" alias="articlePhotoVO" />
     <typeAlias type="com.ubo.CafeWhereIGo.article.vo.ArticleVO" alias="articleVO" />
     <typeAlias type="com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO" alias="articleSearchConditionVO" />
     <typeAlias type="com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO" alias="articleReplyVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO" alias="likedArticleVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeVO" alias="cafeVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeSearchParameterForManagementVO" alias="cafeSearchParameterForManagementVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeSearchParameterVO" alias="cafeSearchParameterVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeSearchResultVO" alias="cafeSearchResultVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.likedcafe.vo.LikedCafeVO" alias="likedCafeVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.cafe.facilityInfo.vo.FacilityInfoVO" alias="facilityInfoVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.cafeHomeArticle.vo.CafeHomeArticleVO" alias="cafeHomeArticleVO" />
 	<typeAlias type="com.ubo.CafeWhereIGo.cafe.parkinglot.vo.ParkingLotVO" alias="parkingLotVO" />

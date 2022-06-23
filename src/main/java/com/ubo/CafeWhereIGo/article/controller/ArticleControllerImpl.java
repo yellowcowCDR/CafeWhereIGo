@@ -40,7 +40,7 @@ import com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO;
 import com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO;
 import com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO;
 import com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO;
-import com.ubo.CafeWhereIGo.user.vo.UserVO;
+import com.ubo.CafeWhereIGo.user.user.vo.UserVO;
 
 
 @Controller("articleController")
@@ -221,7 +221,6 @@ public class ArticleControllerImpl implements ArticleController {
 			}else if(name.equals("article_body")) {
 				articleVO.setArticle_content(value);
 			}
-			
 		}
 		HttpSession session = multipartRequest.getSession();
 		UserVO userInfo = (UserVO)session.getAttribute("loginSession");
@@ -297,12 +296,13 @@ public class ArticleControllerImpl implements ArticleController {
 		logger.debug("[@ArticleController] pageNumber: " + condition.getPageNum());
 		
 		logger.debug("[@ArticleController] Search Condition: " + condition.getSearchCondition());
-		
+		logger.debug("[@ArticleController] Search words: " + condition.getSearchWords());
 		condition.setArticleType(articleType);
 		List<ArticleVO> articleList = articleService.getArticleList(condition);
 		
 		String viewName = "/"+articleType+"/search";
 		mav.setViewName(viewName);
+		mav.addObject("articleType", articleType);
 		mav.addObject("articleList", articleList);
 		mav.addObject("searchCondition", condition);
 		return mav;

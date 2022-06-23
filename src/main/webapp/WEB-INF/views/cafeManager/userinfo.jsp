@@ -198,7 +198,7 @@
 						<div class="form_wrapper-inner">		
 								<div class="image_container">
 									<a href="javascript:select_profile_photo();">
-										<img class="profile_photo_preview" name="profile_photo_preview" src="${contextPath}/resources/image/blank-profile-picture.svg">
+										<img class="profile_photo_preview" name="profile_photo_preview" src="${contextPath}/user/download.do?user_id=${loginSession.user_id}" onerror='this.src="${contextPath}/resources/image/blank-profile-picture.svg"'>
 									</a>
 								</div>
 							<div class="input_container_outer">

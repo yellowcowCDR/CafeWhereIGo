@@ -30,13 +30,199 @@
 		<result property="quit_date" column="quit_date" />
 		<result property="company_registration_number" column="company_registration_number" />
 	</resultMap>	
-
+	
+	<resultMap id="userResultMap" type="HashMap">
+		<result property="rownum" column="rownum"/>
+		<result property="user_id" column="user_id" />
+		<result property="user_pw" column="user_pw" />
+		<result property="user_name" column="user_name" />
+		
+		<result property="tel1" column="tel1" />
+		<result property="tel2" column="tel2" />
+		<result property="tel3" column="tel3" />
+		
+		<result property="hp1" column="hp1" />
+		<result property="hp2" column="hp2" />
+		<result property="hp3" column="hp3" />
+		<result property="email1" column="email1" />
+		<result property="email2" column="email2" />
+		<result property="emailsts_yn" column="emailsts_yn" />
+		
+		<result property="mileage" column="mileage" />
+		
+		<result property="roadAddress" column="roadAddress" />
+		<result property="user_role" column="user_role" />
+		<result property="join_date" column="join_date" />
+		<result property="join_state" column="join_state" />
+		<result property="quit_date" column="quit_date" />
+		<result property="company_registration_number" column="company_registration_number" />
+	</resultMap>
+	
 	<select id="login" resultMap="userResult"  parameterType="UserVO">
 	    <![CDATA[
 			select * from `user` 
 			 where user_id=#{user_id}
 			 and user_pw=#{user_pw}				 
 		]]>
+	</select>
+	<select id="selectJoinStatus" resultType="string"  parameterType="string">
+	    <![CDATA[
+			select join_state 
+			from `user` 
+			where 
+				user_id=#{user_id}	 
+		]]>	
+	</select>
+	<select id="selectCafeManagerList" resultMap="userResultMap"  parameterType="UserSearchParameterVO">
+	    <![CDATA[
+	    	select * from (
+	        select @rownum := @rownum+1 as rownum, t.* 
+	        from(
+				select user_id, user_name, user_email, `phonenum1`, `phonenum2`, `phonenum3`, `join_date`, `join_state`, user_role, company_registration_number
+				from `user`
+		]]>
+		<![CDATA[
+			where
+			`user_role` = 'cafe_manager'
+		]]>
+		<if test="join_state!=null and join_state!='' and join_state!='all'">
+			and
+			join_state=#{join_state}
+		</if>
+		<if test="searchWords!=null and searchWords!=''">
+			<if test="searchCondition == 'userId'">
+				<![CDATA[
+					and
+					user_id = #{searchWords}
+				]]>
+			</if>
+			<if test="searchCondition == 'userName'">
+				<![CDATA[
+					and
+					user_name = #{searchWords}
+				]]>
+			</if>
+			<if test="searchCondition == 'userEmail'">
+				<![CDATA[
+					and
+					user_email = #{searchWords}
+				]]>
+			</if>
+			<if test="searchCondition == 'userPhoneNum'">
+				<trim prefixOverrides=" ">
+					<![CDATA[
+						and
+						(
+							concat(phonenum1,'-',phonenum2,'-',phonenum3) = #{searchWords}
+							OR
+							concat(phonenum1,phonenum2,phonenum3) = #{searchWords}
+						)
+					]]>
+				</trim>
+			</if>
+		</if>
+		
+		<if test="sortingOption == 'recent'">
+			order by join_date asc
+		</if>
+		<if test="sortingOption == 'name'">
+			order by user_name asc
+		</if>
+		<if test="sortingOption == 'userId'">
+			order by user_id asc
+		</if>
+		<![CDATA[		
+		        )t, (select @rownum := 0) B
+		    ) D
+		    where
+		]]>
+		
+		<if test="(chapter!=null and chapter!=0) and (pageNum!=null and pageNum!=0)">				
+		    <![CDATA[
+		    	rownum between (#{chapter}-1)*50+ (#{pageNum}-1)*10+1 and (#{chapter}-1)*50+(#{pageNum})*10
+	    	]]>
+		</if>
+		<if test="(chapter==null or chapter==0) or (pageNum==null or pageNum==0)">
+		    <![CDATA[
+		    	rownum between (1-1)*50+ (1-1)*10+1 and (1-1)*50+(1)*10
+	    	]]>
+		</if>
+	</select>
+	<select id="selectUserList" resultMap="userResultMap"  parameterType="UserSearchParameterVO">
+	    <![CDATA[
+	    	select * from (
+	        select @rownum := @rownum+1 as rownum, t.* 
+	        from(
+				select user_id, user_name, user_email, `phonenum1`, `phonenum2`, `phonenum3`, `join_date`, `join_state`, user_role
+				from `user`
+			 	 
+		]]>
+		<![CDATA[
+			where
+			`user_role` = 'normal_user'
+		]]>
+		<if test="join_state!=null and join_state!='' and join_state!='all'">
+			and
+			join_state=#{join_state}
+		</if>
+		<if test="searchWords!=null and searchWords!=''">
+			<if test="searchCondition == 'userId'">
+				<![CDATA[
+					and
+					user_id = #{searchWords}
+				]]>
+			</if>
+			<if test="searchCondition == 'userName'">
+				<![CDATA[
+					and
+					user_name = #{searchWords}
+				]]>
+			</if>
+			<if test="searchCondition == 'userEmail'">
+				<![CDATA[
+					and
+					user_email = #{searchWords}
+				]]>
+			</if>
+			<if test="searchCondition == 'userPhoneNum'">
+				<trim prefixOverrides=" ">
+					<![CDATA[
+						and
+						(
+							concat(phonenum1,'-',phonenum2,'-',phonenum3) = #{searchWords}
+							OR
+							concat(phonenum1,phonenum2,phonenum3) = #{searchWords}
+						)
+					]]>
+				</trim>
+			</if>
+		</if>
+		
+		<if test="sortingOption == 'recent'">
+			order by join_date asc
+		</if>
+		<if test="sortingOption == 'name'">
+			order by user_name asc
+		</if>
+		<if test="sortingOption == 'userId'">
+			order by user_id asc
+		</if>
+		<![CDATA[		
+		        )t, (select @rownum := 0) B
+		    ) D
+		    where
+		]]>
+		
+		<if test="(chapter!=null and chapter!=0) and (pageNum!=null and pageNum!=0)">				
+		    <![CDATA[
+		    	rownum between (#{chapter}-1)*50+ (#{pageNum}-1)*10+1 and (#{chapter}-1)*50+(#{pageNum})*10
+	    	]]>
+		</if>
+		<if test="(chapter==null or chapter==0) or (pageNum==null or pageNum==0)">
+		    <![CDATA[
+		    	rownum between (1-1)*50+ (1-1)*10+1 and (1-1)*50+(1)*10
+	    	]]>
+		</if>
 	</select>
 	<insert id="register" parameterType="UserVO">
 		
@@ -62,6 +248,53 @@
 							 
 		
 	</insert>
+	<update id="update" parameterType="UserVO">
+		<![CDATA[
+			update `user`
+			set
+		]]>
+		<if test="user_role == 'normal_user'">
+			<if test="user_pw!=null and user_pw!=''">
+				<![CDATA[
+					user_pw=#{user_pw},
+				]]>
+			</if>
+			
+			<![CDATA[
+				
+				user_name=#{user_name},
+				phonenum1=#{phonenum1},
+				phonenum2=#{phonenum2},
+				phonenum3=#{phonenum3},
+				user_email=#{user_email}
+			]]>
+		</if>
+		<if test="user_role == 'cafe_manager'">
+			<if test="user_pw!=null and user_pw!=''">
+				<![CDATA[
+					user_pw=#{user_pw},
+				]]>
+			</if>
+			<![CDATA[
+				user_name=#{user_name},
+				phonenum1=#{phonenum1},
+				phonenum2=#{phonenum2},
+				phonenum3=#{phonenum3},
+				user_email=#{user_email},
+				company_registration_number=#{company_registration_number}
+			]]>
+		</if>
+		<![CDATA[	
+			where user_id = #{user_id}
+		]]>
+	</update>
+	
+	<update id="updateUserJoinStatus" parameterType="hashmap">
+		update `user`
+		set `join_state` = #{join_state}
+		where user_id = #{user_id}
+	</update>
+	
 	<select id="userOverlapCheck" resultType="string"  parameterType="UserVO">
 	    <![CDATA[
 			select (case count(*)
@@ -90,4 +323,18 @@
 		</if>
 	
 	</select>
+	<select id="selectUserMileage" resultType="string" parameterType="_int">
+		<![CDATA[
+				select `mileage`
+				from `user`
+				where user_id = #{user_id}
+		]]>
+	</select>
+	<update id="updateUserMileage" parameterType="UserVO">
+		<![CDATA[
+			update `user`
+			set `mileage` = #{mileage}
+			where `user_id` = #{user_id}
+		]]>
+	</update>
 </mapper>

@@ -15,6 +15,8 @@
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 	    
+	    <script src="${contextPath}/resources/js/main/main.js"></script>
+	    
 		<style>
 			.body_container{
 				margin:50px;
@@ -68,31 +70,33 @@
 					</c:forEach>
 				</c:if>
 			}
+			
+			
 		</script>
 		
 	</head>
 	<body>
 		<section class="body_container">
 			<section class="d-flex justify-content-between cafe-theme-section">
-				<a href="http://www.daum.net">
+				<a onclick="searchCafeHome('${contextPath}', 'view'); return false;">
 					<div class="card bg-dark text-white cafe-theme-card-first">
-					  <img src="${contextPath}/resources/image/cafe1.jpg" class="card-img cafe-theme-card-img" alt="...">
+					  <img src="${contextPath}/resources/image/mainPageImage/viewGood.jpg" class="card-img cafe-theme-card-img" alt="...">
 					  <div class="card-img-overlay">
 					    <h5 class="card-title cafe-theme-card-title">#뷰가좋은카페</h5>
 					  </div>
 					</div>
 				</a>
-				<a href="http://www.daum.net">
+				<a onclick="searchCafeHome('${contextPath}', 'coffee'); return false;">
 					<div class="card bg-dark text-white cafe-theme-card-second">
-					  <img src="${contextPath}/resources/image/cafe1.jpg" class="card-img cafe-theme-card-img" alt="...">
+					  <img src="${contextPath}/resources/image/mainPageImage/coffeeGood.jpg" class="card-img cafe-theme-card-img" alt="...">
 					  <div class="card-img-overlay">
 					    <h5 class="card-title cafe-theme-card-title">#커피장인</h5>
 					  </div>
 					</div>
 				</a>
-				<a href="http://www.daum.net">
+				<a onclick="searchCafeHome('${contextPath}', 'dessert'); return false;">
 					<div class="card bg-dark text-white cafe-theme-card-third">
-					  <img src="${contextPath}/resources/image/cafe1.jpg" class="card-img cafe-theme-card-img" alt="...">
+					  <img src="${contextPath}/resources/image/mainPageImage/dessertGood.jpg" class="card-img cafe-theme-card-img" alt="...">
 					  <div class="card-img-overlay">
 					    <h5 class="card-title cafe-theme-card-title">#맛있는디저트</h5>
 					  </div>
@@ -111,18 +115,18 @@
 					</div>
 					<div class="carousel-inner">
 					  <div class="carousel-item active">
-					  	<a href="http://www.daum.net">
-							<img src="${contextPath}/resources/image/today-cafe1.jpg" class="d-block w-100 today-cafe-slide-img" alt="...">
+					  	<a href="${contextPath}/cafeEvent/detail.do?article_id=68">
+							<img src="${contextPath}/resources/image/dessert_banner.jpg" class="d-block w-100 today-cafe-slide-img" alt="...">
 						</a>
 					  </div>
 					  <div class="carousel-item">
-					  	<a href="http://www.daum.net">
-							<img src="${contextPath}/resources/image/today-cafe1.jpg" class="d-block w-100 today-cafe-slide-img" alt="...">
+					  	<a href="${contextPath}/cafeEvent/detail.do?article_id=76">
+							<img src="${contextPath}/resources/image/smoothie_banner.jpg" class="d-block w-100 today-cafe-slide-img" alt="...">
 						</a>
 					  </div>
 					  <div class="carousel-item">
-					  	<a href="http://www.daum.net">
-							<img src="${contextPath}/resources/image/today-cafe1.jpg" class="d-block w-100 today-cafe-slide-img" alt="...">
+					  	<a href="${contextPath}/cafeEvent/detail.do?article_id=77">
+							<img src="${contextPath}/resources/image/cake_banner.jpg" class="d-block w-100 today-cafe-slide-img" alt="...">
 						</a>
 					  </div>
 					</div>

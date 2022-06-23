@@ -46,6 +46,33 @@
 			where user_user_id = #{user_id}
 		]]>
 	</select>
+	<select id="selectGoodsOrderByOrderId" parameterType="_int" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where `OrderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
+	<select id="selectGoodsOrderByUserIdAndOrderId" parameterType="hashmap" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where user_user_id = #{user_id}
+			and `OrderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
+	<select id="selectGoodsOrderForReview" parameterType="hashmap" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where 
+				user_user_id = #{user_id}
+				and
+				cafe_cafe_id = #{cafe_id}
+				and
+				`OrderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
 	<select id="selectGoodsOrderByCafeId" parameterType="_int" resultMap="goodsOrderResult">
 		<![CDATA[
 			select *
@@ -57,14 +84,20 @@
 		<![CDATA[
 			update `goodsorder`
 			set order_quantity=#{order_quantity},
-				is_takeout=#{is_takeout},
-				order_state=#{order_state}
+				is_takeout=#{is_takeout}
 			where order_id = #{order_id}
 		]]>
 	</update>
 	<delete id="deleteGoodsOrder" parameterType="_int">
 		<![CDATA[
 			delete from `goodsorder`
+			where order_id = #{order_id}
+		]]>
+	</delete>
+	<delete id="updateGoodsOrderState" parameterType="GoodsOrderVO">
+		<![CDATA[
+			update `goodsorder`
+			set `order_state` = #{order_state}
 			where order_id = #{order_id}
 		]]>
 	</delete>

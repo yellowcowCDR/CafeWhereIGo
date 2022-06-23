@@ -4,6 +4,7 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
@@ -210,11 +211,7 @@
 		</style>
 		
 		<script>
-			function select_profile_photo(){
-				var profile_preview = document.getElementById("profile_photo_preview");
-				var profile_photo = document.getElementById("profile_photo");
-				profile_photo.click();
-			}
+			
 		</script>
 	</head>
 	<body>
@@ -227,29 +224,30 @@
 							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/userManagement.do">회원관리</a></li>
 							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/cafeManagerManagement.do">점주관리</a></li>
 							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/cafeManagement.do">점포관리</a></li>
-							<li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/mainPageManagement.do">메인페이지관리</a></li>
+							<%-- <li class="list-style-none"><a class="a-no-text-decoration a-color-black left-nav_font-style" href="${contextPath}/siteManager/mainPageManagement.do">메인페이지관리</a></li> --%>
 						</ul>
 					</div>
 					<div class="form_wrapper">
 						<div class="searchFormWrapper">
 							<label>정렬</label>
-							<select>
-								<option>최근순</option>
+							<select id="orderOptionSelector">
+								<!-- <option value="recent">최근등록순</option> -->
+								<option value="username">점포명순</option>
+								<option value="cafename">점주명순</option>
 							</select>
 							<label>등록현황</label>
-							<select>
+							<select id="businessStateSelector">
 								<option>전체</option>
-								<option>점포등록</option>
-								<option>점포삭제</option>
-								<option>점포강퇴</option>
+								<option value="open">영업</option>
+								<option value="close">휴업</option>
+								<option value="banned">강제휴업</option>
 							</select>
 							<label>검색</label>
-							<select>
-								<option>전체</option>
-								<option>점포명</option>
-								<option>점주명</option>
-								<option>전화번호</option>
-								<option>사업자번호</option>
+							<select id="searchConditionSelector">
+								<option value="all">전체</option>
+								<option value="cafename">점포명</option>
+								<option value="username">점주명</option>
+								<option value="business_number">사업자번호</option>
 							</select>
 							<input id="searchInputBox" type="text">
 							<button id="searchButton">검색</button>
@@ -267,24 +265,26 @@
 								<th>주소</th>
 								<th>전화번호</th>
 								<th>사업자번호</th>
-								<th width="160px">등록일</th>
+								<!-- <th width="160px">등록일</th> -->
 								<th width="110px">등록현황</th>
 								<th></th>
 								<th></th>
 							</tr>
-							<tr>
+							<c:forEach var="cafe" items="${cafeList}">
+								<tr>
 								<td style="text-align:center;"><input type="checkbox"></td>
-								<td>1</td>
-								<td><a href="${contextPath}/cafe/cafe_detail.do">카페 블루</a></td>
-								<td>김성민</td>
-								<td>대전 서구 둔산동 1350</td>
-								<td>010-2222-2222</td>
-								<td>000-00-00000</td>
-								<td>2022.03.31 17:00:25</td>
+								<td><fmt:formatNumber type="number" value="${cafe.rownum}"></fmt:formatNumber></td>
+								<td><a href="${contextPath}/cafe/cafe_detail.do?cafe_id=${cafe.cafe_id}">${cafe.cafe_name}</a></td>
+								<td>${cafe.user_name}</td>
+								<td>${cafe.cafe_location1} ${cafe.cafe_location2}</td>
+								<td>${cafe.phonenum1}-${cafe.phonenum2}-${cafe.phonenum3}</td>
+								<td>${cafe.company_registration_number}</td>
+								<%-- <td><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${cafe.orderDate}" /></td> --%>
 								<td>점포등록</td>
 								<td class="cancelbutton_td"><a href="#"><button class="cafeDeleteButton">삭제</button></a></td>
 								<td class="cancelbutton_td"><a href="#"><button class="cafeReturnButton">복귀</button></a></td>
 							</tr>
+							</c:forEach>
 						</table>
 						</div>
 						<div class="pagination_wrapper">

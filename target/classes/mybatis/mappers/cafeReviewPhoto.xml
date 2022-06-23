@@ -6,7 +6,7 @@
 <mapper namespace="mapper.cafeReviewPhoto">
 	<!-- 리절트 맵 정의 -->	
 	<resultMap id="cafeReviewPhotoResult" type="CafeReviewPhotoVO">
-		<result property="CafeReview_review_id" column="CafeReview_review_id"/>
+		<result property="cafeReview_review_id" column="CafeReview_review_id"/>
 		<result property="filename" column="filename"/>
 	</resultMap>	
 
@@ -17,23 +17,30 @@
 				filename
 			)
 			values(
-				#{CafeReview_review_id},
+				#{cafeReview_review_id},
 				#{filename}
 			)
 		]]>
 	</insert>
-	<select id="selectCafeReviewPhoto" parameterType="_int" resultMap="cafeReviewPhotoResult">
+	<select id="selectCafeReviewPhoto" parameterType="_int" resultType="CafeReviewPhotoVO">
 		<![CDATA[
 			select *
 			from `cafereviewphoto`
 			where cafeReview_review_id = #{review_id}
 		]]>
 	</select>
+	<select id="selectCafeReviewPhotos" parameterType="_int" resultMap="cafeReviewPhotoResult">
+		<![CDATA[
+			select *
+			from `cafereviewphoto`
+			where cafeReview_review_id = #{cafe_id}
+		]]>
+	</select>
 	<update id="updateCafeReviewPhoto" parameterType="CafeReviewPhotoVO">
 		<![CDATA[
 			update `cafereviewphoto`
 			set filename=#{filename}
-			where CafeReview_review_id = #{review_id}
+			where CafeReview_review_id = #{cafeReview_review_id}
 		]]>
 	</update>
 	<delete id="deleteCafeReviewPhoto" parameterType="_int">

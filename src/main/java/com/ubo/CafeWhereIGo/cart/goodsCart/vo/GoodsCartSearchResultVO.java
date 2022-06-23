@@ -1,6 +1,7 @@
 package com.ubo.CafeWhereIGo.cart.goodsCart.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -9,10 +10,11 @@ public class GoodsCartSearchResultVO {
 	private int cart_id;
 	private int goods_id;
 	private String goods_name;
+	boolean is_takeout;
 	private int price;
 	private int quantity;
 	private String description;
-	private String[] descriptionList;
+	private List<String> descriptionList;
 	private Date cart_date;
 	private String cart_state;
 	private String user_user_id;
@@ -36,8 +38,8 @@ public class GoodsCartSearchResultVO {
 
 
 
-	public GoodsCartSearchResultVO(int cart_id, int goods_id, String goods_name, int price, int quantity,
-			String description, String[] descriptionList, Date cart_date, String cart_state, String user_user_id,
+	public GoodsCartSearchResultVO(int cart_id, int goods_id, String goods_name, int price, int quantity, boolean is_takeout,
+			String description, List<String> descriptionList, Date cart_date, String cart_state, String user_user_id,
 			int cafe_cafe_id) {
 		super();
 		this.cart_id = cart_id;
@@ -45,6 +47,7 @@ public class GoodsCartSearchResultVO {
 		this.goods_name = goods_name;
 		this.price = price;
 		this.quantity = quantity;
+		this.is_takeout = is_takeout;
 		this.description = description;
 		this.descriptionList = descriptionList;
 		this.cart_date = cart_date;
@@ -100,12 +103,11 @@ public class GoodsCartSearchResultVO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String[] getDecriptionList() {
+	
+	public List<String> getDescriptionList() {
 		return descriptionList;
 	}
-
-	public void setDescriptionList(String[] descriptionList) {
+	public void setDescriptionList(List<String> descriptionList) {
 		this.descriptionList = descriptionList;
 	}
 
@@ -140,4 +142,12 @@ public class GoodsCartSearchResultVO {
 	public void setCafe_cafe_id(int cafe_cafe_id) {
 		this.cafe_cafe_id = cafe_cafe_id;
 	}
+	public boolean isIs_takeout() {
+		return is_takeout;
+	}
+	public void setIs_takeout(boolean is_takeout) {
+		this.is_takeout = is_takeout;
+	}
+	
+	
 }

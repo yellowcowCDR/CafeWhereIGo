@@ -25,9 +25,13 @@
 	    <link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+	    
 	    <!-- BootStrap -->
 	    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	    
+	    <script type="text/javascript" src="${contextPath}/resources/js/cafe/searchCafe.js"></script>
+	    
 		<style>
 			header{
 				display:flex;
@@ -156,8 +160,8 @@
 						<a class="main_menu_button" href="${contextPath}/cafeTourReview/search.do">카페탐방후기</a>
 					</li>
 				</ul>
-				<form id="QuickSearchForm" class="d-flex">
-					<input class="form-control me-2" type="search" placeholder="카페찾기">
+				<form id="QuickSearchForm" action="${contextPath}/cafe/search.do" method="post" class="d-flex">
+					<input id='quickSearchWordInput' name="searchKeyword"  class="form-control me-2" type="search" placeholder="카페찾기">
 					<input class="btn btn-light" type="submit" value="검색">
 				</form>
 			</div>
@@ -193,7 +197,7 @@
 							</c:if>
 							<c:if test="${loginSession.user_role eq 'site_manager' }">
 								<li class="main_menu_li">
-									<a class="main_menu_button-underline"  href="${contextPath}/siteManager/userManagement.do">${loginSession.user_id}님</a>
+									<a class="main_menu_button-underline"  href="${contextPath}/siteManager/userManagement.do">${loginSession.user_name}님</a>
 								</li>
 							</c:if>
 							<li class="main_menu_li">

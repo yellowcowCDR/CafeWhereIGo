@@ -14,8 +14,8 @@
 		<result property="reservation_state" column="reservation_state"/>
 		<result property="user_user_id" column="user_user_id"/>
 		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
-		<result property="OrderAndReservation_OrderAndReservation_id" column="OrderAndReservation_OrderAndReservation_id"/>
-		<result property="Groupseat_groupseat_id" column="Groupseat_groupseat_id"/>
+		<result property="orderAndReservation_OrderAndReservation_id" column="orderAndReservation_OrderAndReservation_id"/>
+		<result property="groupseat_groupseat_id" column="groupseat_groupseat_id"/>
 	</resultMap>	
 
 	<insert id="insertReservation" parameterType="ReservationVO">
@@ -24,7 +24,6 @@
 				reservation_date,
 				start_time,
 				end_time,
-				reservation_add_date,
 				reservation_state,
 				user_user_id,
 				cafe_cafe_id,
@@ -35,7 +34,6 @@
 				#{reservation_date},
 				#{start_time},
 				#{end_time},
-				#{reservation_add_date},
 				#{reservation_state},
 				#{user_user_id},
 				#{cafe_cafe_id},
@@ -51,11 +49,38 @@
 			where user_user_id = #{user_id}
 		]]>
 	</select>
+	<select id="selectReservationByOrderId" parameterType="_int" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where `orderAndReservation_OrderAndReservation_id` = #{order_id};
+		]]>
+	</select>
+	<select id="selectReservationByUserIdAndOrderId" parameterType="hashmap" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where user_user_id = #{user_id}
+			and `orderAndReservation_OrderAndReservation_id` = #{order_id};
+		]]>
+	</select>
 	<select id="selectReservationByCafeId" parameterType="_int" resultMap="reservationResult">
 		<![CDATA[
 			select *
 			from `reservation`
 			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<select id="selectReservationForReview" parameterType="hashmap" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where 
+				user_user_id = #{user_id}
+				and
+				cafe_cafe_id = #{cafe_id}
+				and
+				`orderAndReservation_OrderAndReservation_id`= #{order_id}
 		]]>
 	</select>
 	<select id="selectOneReservation" parameterType="_int" resultType="ReservationVO">
@@ -69,13 +94,20 @@
 			set reservation_date=#{reservation_date},
 				start_time=#{start_time},
 				end_time=#{end_time}
-			where order_id = #{order_id}
+			where reservation_id = #{reservation_id}
 		]]>
 	</update>
 	<delete id="deleteReservation" parameterType="_int">
 		<![CDATA[
 			delete from `reservation`
-			where order_id = #{order_id}
+			where reservation_id = #{reservation_id}
 		]]>
 	</delete>
+	<update id="updateReservationState" parameterType="ReservationVO">
+		<![CDATA[
+			update `reservation`
+			set reservation_state = #{reservation_state}
+			where reservation_id = #{reservation_id}
+		]]>
+	</update>
 </mapper>

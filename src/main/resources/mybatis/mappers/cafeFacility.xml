@@ -41,7 +41,7 @@
 			set parking_lot=#{parking_lot},
 				power_plug=#{power_plug},
 				wifi=#{wifi}
-			where cafe_cafe_id = #{cafe_id}
+			where cafe_cafe_id = #{cafe_cafe_id}
 		]]>
 	</update>
 	<delete id="deleteFacility" parameterType="_int">

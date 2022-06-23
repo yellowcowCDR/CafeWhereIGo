@@ -33,7 +33,7 @@
 		<![CDATA[
 			update `goodsphoto`
 			set filename=#{filename}
-			where goods_goods_id = #{goods_id}
+			where goods_goods_id = #{goods_goods_id}
 		]]>
 	</update>
 	<delete id="deleteGoodsPhoto" parameterType="_int">

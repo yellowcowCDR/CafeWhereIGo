@@ -13,7 +13,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-	    
+	    <script type="text/javascript" src="${contextPath}/resources/js/mypage/userInfo.js"></script>
 		<style>
 			#register_section{
 				margin-left:150px;
@@ -59,6 +59,7 @@
 			.profile_photo_preview{
 				width: 140px;
 				height: 140px;
+				object-fit: cover;
 			}
 			.submit_button{
 				width:300px;
@@ -96,7 +97,7 @@
 				margin-bottom:50px;
 			}
 			
-			#profile_photo{
+			#profile_photo_file_input{
 				display:none;
 			}
 			#register_form{
@@ -153,14 +154,7 @@
 				margin-left:40px;
 			}
 		</style>
-		
-		<script>
-			function select_profile_photo(){
-				var profile_preview = document.getElementById("profile_photo_preview");
-				var profile_photo = document.getElementById("profile_photo");
-				profile_photo.click();
-			}
-		</script>
+
 	</head>
 	<body>
 		<section id="register_section">
@@ -176,11 +170,12 @@
 						</ul>
 					</div>
 					<div class="form_wrapper">
-						<form id="register_form">
+						<form id="register_form" method="post" action="${contextPath}/user/modifyUser.do" enctype="multipart/form-data">
 						<div class="form_wrapper-inner">		
 								<div class="image_container">
 									<a href="javascript:select_profile_photo();">
-										<img class="profile_photo_preview" name="profile_photo_preview" src="${contextPath}/resources/image/blank-profile-picture.svg">
+										<%-- <img class="profile_photo_preview" name="profile_photo_preview" src="${contextPath}/resources/image/blank-profile-picture.svg"> --%>
+										<img id="profile_img_preview" class="profile_photo_preview" name="profile_photo_preview" src="${contextPath}/user/download.do?user_id=${loginSession.user_id}" onerror="this.src='${contextPath}/resources/image/blank-profile-picture.svg'">
 									</a>
 								</div>
 							<div class="input_container_outer">
@@ -189,7 +184,7 @@
 									<table id="userinfo_input_table">
 										<tr>
 											<td>
-												<input type="file" id="profile_photo" name="profile_photo" accept="image/*">
+												<input type="file" id="profile_photo_file_input" name="profile_photo" accept="image/*" onchange="on_profile_photo_changed(this)">
 											</td>
 										</tr>
 										<tr>
@@ -214,7 +209,7 @@
 										</tr>
 										<tr>
 											<td>
-												<input type="password" id="user_pw" class="input_box">
+												<input type="password" id="user_pw" class="input_box" name="user_pw" onKeyUp="passwordValidation()">
 											</td>
 										</tr>
 										<tr>
@@ -224,7 +219,12 @@
 										</tr>
 										<tr>
 											<td>
-												<input type="password" id="user_pw_repeat" class="input_box">
+												<input type="password" id="user_pw_repeat" class="input_box" onKeyUp="passwordValidation()">
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<p id="pwValidationResult" class="no-top_bottom_margin" style="display:none;"></p>
 											</td>
 										</tr>
 										<tr>
@@ -234,7 +234,7 @@
 										</tr>
 										<tr>
 											<td>
-												<input type="text" id="user_name" class="input_box" value="${loginSession.user_name}">
+												<input type="text" id="user_name" class="input_box" name="user_name" value="${loginSession.user_name}">
 											</td>
 										</tr>
 										<tr>
@@ -253,9 +253,9 @@
 													<option value="019">019</option>
 												</select>
 												-
-												<input class="phonenum-input" type="text" name="user_phone_num2" class="input_box">
+												<input class="phonenum-input" type="text" name="user_phone_num2" class="input_box" value="${loginSession.phonenum2}">
 												-
-												<input class="phonenum-input" type="text" name="user_phone_num3" class="input_box">
+												<input class="phonenum-input" type="text" name="user_phone_num3" class="input_box" value="${loginSession.phonenum3}">
 											</td>
 										</tr>
 										<tr>
@@ -265,7 +265,7 @@
 										</tr>
 										<tr>
 											<td>
-												<input type="email" id="user_email" class="input_box" value="${loginSession.user_email}">
+												<input type="email" id="user_email" class="input_box" name="user_email" value="${loginSession.user_email}">
 											</td>
 										</tr>
 										<tr>

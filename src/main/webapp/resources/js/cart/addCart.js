@@ -13,7 +13,7 @@ function addGoodsCart(contextPath, goodsRow){
 	
 	var isTakeout = elements['is_takeout'].checked;
 	
-	var totalPriceInput = elements['totalPrice'];
+	var totalPriceInput = elements['goods_unit_totalPrice'];
 	var totalPrice = totalPriceInput.value;
 	
 	$.ajax({
@@ -43,7 +43,7 @@ function addGroupSeatCart(contextPath, groupSeatRow){
 	
 	var cafe_id = document.getElementsByName('cafe_id')[0].value;
 	
-	var groupSeat_id = elements['groupseat_id'].value;
+	var groupSeat_id = elements['seat_id'].value;
 	var reservation_date = elements['reservation_date'].value;
 	var start_time = elements['start_time'].value;
 	var end_time = elements['end_time'].value;

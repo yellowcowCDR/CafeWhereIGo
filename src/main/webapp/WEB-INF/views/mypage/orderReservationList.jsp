@@ -4,15 +4,23 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  /> 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
 		<title>카페어디가-마이페이지</title>
+		
+		<!-- google font -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 	    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+	    
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	    
+	    <!-- user defined -->
+	    <script type="text/javascript" src="${contextPath}/resources/js/mypage/orderHistory.js"></script>
 	    
 		<style>
 			#register_section{
@@ -190,6 +198,17 @@
 				width:200px;
 				height:25px;
 			}
+			.orderLink{
+				margin-left:3px;
+			}
+			.orderPriceIndicator{
+				margin-left:3px;
+				margin-bottom:0px;
+			}
+			.orderDateIndicator{
+				margin-left:3px;
+				margin-bottom:0px;
+			}
 		</style>
 		
 		<script>
@@ -216,20 +235,15 @@
 					<div class="form_wrapper">
 						<div class="searchFormWrapper">
 							<label>정렬</label>
-							<select>
+							<select id="sortingOptionSelector">
 								<option>최근순</option>
 							</select>
 							<label>주문현황</label>
-							<select>
+							<select id="orderStatusSelector">
 								<option>전체</option>
 								<option>결제완료</option>
 								<option>주문처리중</option>
 								<option>주문처리완료</option>
-							</select>
-							<label>검색</label>
-							<select>
-								<option>주문/예약명</option>
-								<option>점포명</option>
 							</select>
 							<input id="searchInputBox" type="text">
 							<button id="searchButton">검색</button>
@@ -239,21 +253,29 @@
 							<tr>
 								<th>No.</th>
 								<th>주문/예약명</th>
-								<th>점포명</th>
-								<th>결제금액</th>
-								<th width="160px">결제시각</th>
+								<th width="110px">결제금액</th>
+								<th width="170px">결제시각</th>
 								<th width="110px">주문현황</th>
 								<th></th>
 							</tr>
-							<tr>
-								<td>1</td>
-								<td><a href="${contextPath}/orderAndReservation/orderAndReservation.do">아메리카노 외 1건</a></td>
-								<td>카페 블루</td>
-								<td>10000</td>
-								<td>2022.03.31 17:00:25</td>
-								<td>결제완료</td>
-								<td class="cancelbutton_td"><a href="#"><button class="orderlistDeleteButton">취소</button></a></td>
-							</tr>
+							<c:forEach var="orderMap" items="${orderMapList}" varStatus="status">
+								<tr>
+									<!-- <td>1</td> -->
+									<td>${status.count}</td>
+									<td><a class="orderLink" href="${contextPath}/orderAndReservation/OrderAndReservationDetail.do?orderAndReservation_id=${orderMap.order_id}">${orderMap.representedOrderName}</a></td>
+									<td><p class="orderPriceIndicator">${orderMap.totalPrice}</p></td>
+									<td><p class="orderDateIndicator"><fmt:formatDate pattern="yyyy.MM.dd HH:mm:ss" value="${orderMap.orderDate}" /></p></td>
+									<td>
+										<c:if test="${orderMap.orderStatus=='completed'}">
+											결제완료
+										</c:if>
+										<c:if test="${orderMap.orderStatus=='canceled'}">
+											주문취소
+										</c:if>
+									</td>
+									<td class="cancelbutton_td"><button class="orderlistDeleteButton" onclick="cancelOrderAndReservation('${contextPath}', ${orderMap.order_id})">취소</button></td>
+								</tr>
+							</c:forEach>
 						</table>
 						</div>
 						<div class="pagination_wrapper">

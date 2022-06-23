@@ -50,7 +50,7 @@
 			.profile_img_preview{
 				width: 230px;
 				height: 230px;
-				object-fit: scale-down;
+				object-fit: cover;
 			}
 			.submit_button{
 				width:300px;

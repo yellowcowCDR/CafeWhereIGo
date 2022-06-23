@@ -68,6 +68,7 @@
 			}
 			#orderTable{
 				width:908px;
+				padding:15px;
 			}
 			#reservationTable{
 				margin-top:10px;
@@ -199,25 +200,14 @@
 										</div>
 									</th>
 								</tr>
-								<tr>
-									<td width="13px"><input class="checkboxInput" type="checkbox"></td>
-									<td width="80px"><img class="product_image" src="${contextPath}/resources/image/americano.jpeg"></td>
-									<td width="420px">
-										<div>
-											<h3 class="productName no-top_bottom_margin margin-left-10px">아메리카노(ice)</h3>
-											<p class="productDescription no-top_bottom_margin margin-left-10px">아라비카산 원두로 로스팅하여 만든 아메리카노</p>
-										</div>
-									</td>
-									<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
-									<td width="45px"><p class="no-top_bottom_margin">수량</p></td>
-									<td>
-										<input class="numberInput" type="number" min=0 value=0>
-									</td>
-									<td width="70px"><p class="no-top_bottom_margin">3500원</p></td>
-									<td width="28px"><input type="button" class="orderModifyButton" value="변경"></td>
-									<td width="28px"><input type="button" class="orderDeleteButton" value="취소"></td>
-								</tr>
-								<c:forEach var="goodsCart" items="${goodsCartList}">
+								<c:forEach var="goodsCart" items="${goodsCartList}" varStatus="status">
+									<c:if test=${status.index>0}>
+										<tr>
+											<td colspan=100>
+												<hr>
+											</td>
+										</tr>
+									</c:if>
 									<tr>
 									<td width="13px"><input class="checkboxInput" type="checkbox"></td>
 									<td width="80px"><img class="product_image" src="${contextPath}/resources/image/americano.jpeg"></td>
@@ -242,7 +232,7 @@
 							</table>
 							<table align="center" id="reservationTable">
 								<tr class="tableHeaderRow">
-									<th colspan="7" class="tableHeader"><h4 id="tableTitle" class="no-margin">예약</h4></th>
+									<th colspan="100" class="tableHeader"><h4 id="tableTitle" class="no-margin">예약</h4></th>
 								</tr>
 								<tr>
 									<td width="13px"><input class="checkboxInput" type="checkbox"></td>
@@ -274,7 +264,7 @@
 									<td width="28px"><input type="button" class="orderDeleteButton" value="취소"></td>
 									
 								</tr>
-								<c:forEach var="goodsCart" items="${groupSeatCartList}">
+								<c:forEach var="groupSeatCart" items="${groupSeatCartList}">
 								</c:forEach>
 							</table>
 						</div>

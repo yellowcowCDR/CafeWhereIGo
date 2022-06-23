@@ -34,6 +34,13 @@ public class CafePhotoDAOImpl implements CafePhotoDAO{
 	}
 
 	@Override
+	public CafePhotoVO selectOneCafePhoto(int photo_id) {
+		// TODO Auto-generated method stub
+		CafePhotoVO cafePhoto = (CafePhotoVO)sqlSession.selectOne("mapper.cafePhoto.selectOneCafePhoto", photo_id);
+		return cafePhoto;
+	}
+	
+	@Override
 	public void updateCafePhoto(CafePhotoVO cafePhoto) {
 		// TODO Auto-generated method stub
 		sqlSession.update("mapper.cafePhoto.updateCafePhoto", cafePhoto);

@@ -17,9 +17,9 @@
 	<insert id="insertCafeReview" parameterType="CafeReviewVO">
 		<![CDATA[
 			insert into `cafereview`(
-				review_content
-				cafe_cafe_id
-				user_user_id
+				review_content,
+				cafe_cafe_id,
+				user_user_id,
 				OrderAndReservation_OrderAndReservation_id
 			)
 			values(
@@ -30,7 +30,14 @@
 			)
 		]]>
 	</insert>
-	<select id="selectCafeReview" parameterType="_int" resultMap="cafeReviewResult">
+	<select id="selectCafeReview" parameterType="_int" resultType="CafeReviewVO">
+		<![CDATA[
+			select *
+			from `cafereview`
+			where review_id = #{review_id}
+		]]>
+	</select>
+	<select id="selectCafeReviewList" parameterType="_int" resultMap="cafeReviewResult">
 		<![CDATA[
 			select *
 			from `cafereview`
@@ -40,7 +47,7 @@
 	<update id="updateCafeReview" parameterType="CafeReviewVO">
 		<![CDATA[
 			update `cafereview`
-			set review_content=#{review_content},
+			set review_content=#{review_content}
 			where review_id = #{review_id}
 		]]>
 	</update>
@@ -64,4 +71,5 @@
 			limit 1
 		]]>
 	</select>
+	
 </mapper>
