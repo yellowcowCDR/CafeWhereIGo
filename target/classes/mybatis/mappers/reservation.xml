@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.reservation">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="reservationResult" type="ReservationVO">
+		<result property="reservation_id" column="reservation_id"/>
+		<result property="reservation_date" column="reservation_date"/>
+		<result property="start_time" column="start_time"/>
+		<result property="end_time" column="end_time"/>
+		<result property="reservation_add_date" column="reservation_add_date"/>
+		<result property="reservation_state" column="reservation_state"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="orderAndReservation_OrderAndReservation_id" column="orderAndReservation_OrderAndReservation_id"/>
+		<result property="groupseat_groupseat_id" column="groupseat_groupseat_id"/>
+	</resultMap>	
+
+	<insert id="insertReservation" parameterType="ReservationVO">
+		<![CDATA[
+			insert into `reservation`(
+				reservation_date,
+				start_time,
+				end_time,
+				reservation_state,
+				user_user_id,
+				cafe_cafe_id,
+				orderAndReservation_OrderAndReservation_id,
+				groupseat_groupseat_id
+			)
+			values(
+				#{reservation_date},
+				#{start_time},
+				#{end_time},
+				#{reservation_state},
+				#{user_user_id},
+				#{cafe_cafe_id},
+				#{orderAndReservation_OrderAndReservation_id},
+				#{groupseat_groupseat_id}
+			)
+		]]>
+	</insert>
+	<select id="selectReservationByUserId" parameterType="string" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where user_user_id = #{user_id}
+		]]>
+	</select>
+	<select id="selectReservationByOrderId" parameterType="_int" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where `orderAndReservation_OrderAndReservation_id` = #{order_id};
+		]]>
+	</select>
+	<select id="selectReservationByUserIdAndOrderId" parameterType="hashmap" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where user_user_id = #{user_id}
+			and `orderAndReservation_OrderAndReservation_id` = #{order_id};
+		]]>
+	</select>
+	<select id="selectReservationByCafeId" parameterType="_int" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<select id="selectReservationForReview" parameterType="hashmap" resultMap="reservationResult">
+		<![CDATA[
+			select *
+			from `reservation`
+			where 
+				user_user_id = #{user_id}
+				and
+				cafe_cafe_id = #{cafe_id}
+				and
+				`orderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
+	<select id="selectOneReservation" parameterType="_int" resultType="ReservationVO">
+			select *
+			from `reservation`
+			where reservation_id = #{reservation_id}
+	</select>
+	<update id="updateReservation" parameterType="ReservationVO">
+		<![CDATA[
+			update `reservation`
+			set reservation_date=#{reservation_date},
+				start_time=#{start_time},
+				end_time=#{end_time}
+			where reservation_id = #{reservation_id}
+		]]>
+	</update>
+	<delete id="deleteReservation" parameterType="_int">
+		<![CDATA[
+			delete from `reservation`
+			where reservation_id = #{reservation_id}
+		]]>
+	</delete>
+	<update id="updateReservationState" parameterType="ReservationVO">
+		<![CDATA[
+			update `reservation`
+			set reservation_state = #{reservation_state}
+			where reservation_id = #{reservation_id}
+		]]>
+	</update>
+</mapper>

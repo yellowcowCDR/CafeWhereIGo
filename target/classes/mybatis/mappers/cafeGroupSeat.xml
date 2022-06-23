@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafeGroupSeat">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="groupSeatResult" type="GroupSeatVO">
+		<result property="groupseat_id" column="groupseat_id"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="seat_name" column="seat_name"/>
+		<result property="price" column="price"/>
+		<result property="description" column="description"/>
+		<result property="created_date" column="created_date"/>
+	</resultMap>	
+
+	<insert id="insertGroupSeat" parameterType="GroupSeatVO">
+		<![CDATA[
+			insert into `groupseat`(
+				cafe_cafe_id,
+				seat_name,
+				price,
+				description
+			)
+			values(
+				#{cafe_cafe_id},
+				#{seat_name},
+				#{price},
+				#{description}
+			)
+		]]>
+	</insert>
+	<select id="selectGroupSeat" parameterType="_int" resultMap="groupSeatResult">
+		<![CDATA[
+			select *
+			from `groupseat`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<select id="selectOneGroupSeat" parameterType="_int" resultType="GroupSeatVO">
+		<![CDATA[
+			select *
+			from `groupseat`
+			where `groupseat_id` = #{seat_id}
+		]]>
+	</select>
+	<update id="updateGroupSeat" parameterType="GroupSeatVO">
+		<![CDATA[
+			update `groupseat`
+			set seat_name=#{seat_name},
+				price=#{price},
+				description=#{description}
+			where groupseat_id = #{groupseat_id}
+		]]>
+	</update>
+	<delete id="deleteGroupSeat" parameterType="_int">
+		<![CDATA[
+			delete from `groupseat`
+			where groupseat_id = #{groupseat_id}
+		]]>
+	</delete>
+	<delete id="deleteGroupSeatByCafeId" parameterType="_int">
+		<![CDATA[
+			delete from `groupseat`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</delete>
+	<select id="selectRecentGroupSeatId" resultType="_int">
+		<![CDATA[
+			select groupseat_id
+			from `groupseat`
+			order by created_date desc
+			limit 1
+		]]>
+	</select>
+</mapper>

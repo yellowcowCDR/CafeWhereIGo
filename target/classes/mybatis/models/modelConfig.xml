@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+  <typeAliases>
+    <typeAlias type="com.ubo.CafeWhereIGo.user.user.vo.UserVO" alias="userVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.user.vo.UserSearchParameterVO" alias="userSearchParameterVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.userProfilePhoto.vo.UserProfilePhotoVO" alias="userProfilePhotoVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.user.mileage.vo.MileageHistoryVO" alias="mileageHistoryVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.articlephoto.vo.ArticlePhotoVO" alias="articlePhotoVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.article.vo.ArticleVO" alias="articleVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.article.vo.ArticleSearchConditionVO" alias="articleSearchConditionVO" />
+    <typeAlias type="com.ubo.CafeWhereIGo.articleReply.vo.ArticleReplyVO" alias="articleReplyVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.likedArticle.vo.LikedArticleVO" alias="likedArticleVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeVO" alias="cafeVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeSearchParameterForManagementVO" alias="cafeSearchParameterForManagementVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeSearchParameterVO" alias="cafeSearchParameterVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafe.vo.CafeSearchResultVO" alias="cafeSearchResultVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.likedcafe.vo.LikedCafeVO" alias="likedCafeVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.facilityInfo.vo.FacilityInfoVO" alias="facilityInfoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafeHomeArticle.vo.CafeHomeArticleVO" alias="cafeHomeArticleVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.parkinglot.vo.ParkingLotVO" alias="parkingLotVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.goods.vo.GoodsVO" alias="goodsVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.goodsphoto.vo.GoodsPhotoVO" alias="goodsPhotoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.groupseat.vo.GroupSeatVO" alias="groupSeatVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.groupseatphoto.vo.GroupSeatPhotoVO" alias="groupSeatPhotoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.cafePhoto.vo.CafePhotoVO" alias="cafePhotoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.themescore.vo.ThemeScoreVO" alias="themeScoreVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.review.vo.CafeReviewVO" alias="cafeReviewVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cafe.reviewPhoto.vo.CafeReviewPhotoVO" alias="cafeReviewPhotoVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.orderAndReservation.vo.OrderAndReservationVO" alias="orderAndReservationVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.orderAndReservation.goodsOrder.vo.GoodsOrderVO" alias="goodsOrderVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.orderAndReservation.reservation.vo.ReservationVO" alias="reservationVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cart.goodsCart.vo.GoodsCartVO" alias="goodsCartVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cart.goodsCart.vo.GoodsCartSearchResultVO" alias="goodsCartSearchResultVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cart.groupSeatCart.vo.GroupSeatCartVO" alias="groupSeatCartVO" />
+	<typeAlias type="com.ubo.CafeWhereIGo.cart.groupSeatCart.vo.GroupSeatCartSearchResultVO" alias="groupSeatCartSearchResultVO" />
+		
+  </typeAliases>
+</configuration>
+
+
+

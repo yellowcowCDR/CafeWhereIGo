@@ -1,0 +1,241 @@
+@charset "UTF-8";
+
+#mainContainer{
+	display:flex;
+	justify-content:center;
+}
+#mainWrapper{
+	margin-top:50px;
+	width:1200px;
+}
+#cafeinfoWrapper{
+	display:flex;
+	justify-content:flex-start;
+}
+#infowapper{
+	display:block;
+	margin-left: 10px;
+}
+#infowapper *{
+	margin-bottom: 0px;
+	
+	
+}
+.img_scaleDown{
+	object-fit: scale-down;
+}
+#mainImage{
+	width:340px;
+	height:300px;
+}
+#wish_wrapper{
+	display: flex;
+}
+#wish_wrapper_link{
+	text-decoration: none;
+}
+#wish_icon{
+	height: 30px;
+}
+.cafe_name{
+	font-weight:bold;
+}
+.theme_score_icon{
+	height:20px;
+	margin:0px;
+}
+.facility_icon{
+	height:20px;
+	margin:0px;
+}
+.icon_text{
+	margin-right:5px;
+}
+.container{
+    width: 100%;
+    height: 500px;
+    margin: 0;
+    padding:0;
+   }
+   ul.tabs{
+       margin: 0px;
+       padding: 0px;
+       list-style: none;
+       background-color: #1F364B;
+   }
+   ul.tabs li{
+       background: none;
+       color: white;
+       display: inline-block;
+       padding: 10px 15px;
+       cursor: pointer;
+   }
+
+   ul.tabs li.current{
+       /* background: #ededed; */
+       color: white;
+       text-decoration:underline;
+       text-underline-position:under;
+   }
+ul.tabs li.current:text-decoration{
+	color:white;
+}
+   .tab-content{
+   	height:440px;
+       display: none;
+       background: white;
+       border: 1px solid #b9b9b9;
+
+       padding: 15px;
+   }
+
+   .tab-content.current{
+       display: inherit;
+   }
+   .tab-menu-font{
+   	font-family: 'Jua', sans-serif;
+	font-size:23px;
+	/* font-weight:bold; */
+   }
+   .product_image{
+	width:90px;
+	height:90px;
+	object-fit: scale-down;
+}
+.no-top_bottom_margin{
+	margin-top:0px;
+	margin-bottom:0px;
+			
+}
+.productName{
+	font-family: 'Jua', sans-serif;
+	font-size:27px;
+	font-weight:bold;
+	
+}
+.productDescription{
+	font-weight: bold;
+	padding-left: 5px;
+}
+.cartAddButton{
+	width: 35px;
+	background-color:#1F364B;
+	font-family: 'Jua', sans-serif;
+    font-size:17px;
+    color:white;
+    border: none;
+    border-radius:5px;
+}
+.orderAddButton{
+	width: 35px;
+	background-color:#1F364B;
+	font-family: 'Jua', sans-serif;
+    font-size:17px;
+    color:white;
+    border: none;
+    border-radius:5px;
+    margin-left:5px;
+    margin-right:5px;
+}
+.cancelButton{
+	width: 35px;
+	background-color:#E50F0F;
+	font-family: 'Jua', sans-serif;
+    font-size:17px;
+    color:white;
+    border: none;
+    border-radius:5px;
+    margin-left:5px;
+    margin-right:5px;
+}
+.productrow_under_line{
+	width:100%;
+	color: gray;
+}
+.price-text{
+	margin-left:10px;
+}
+.reply-content-td{
+	vertical-align:top;
+}
+.margin-right-10px{
+	margin-right:10px;
+}
+.margin-left-5px{
+	margin-left:5px;
+}
+.margin-left-10px{
+	margin-left:10px;
+}
+.margin-left-20px{
+	margin-left:10px;
+}
+.margin-left-30px{
+	margin-left:30px;
+}
+.cafe_photo{
+	width:163px;
+	height:163px;
+	overflow:hidden;
+	
+}
+.photo_spacer{
+	margin-right:5px;
+}
+.scrollable{
+	 overflow-y: scroll;
+}
+.vertical-align-center{
+	vertical-align:center;
+}
+.vertical-align-top{
+	vertical-align:top;
+}
+.margin-right-5px{
+	margin-right:5px;
+}
+.takeout_check_td{
+	width:100px;
+}
+.score_inputbox{
+	width: 60px;
+}
+.reviewPhotoIndicator{
+	margin-bottom: 0px;
+	font-weight:bold;
+}
+.reviewPhotoSelectButton{
+	width:97px;
+	background-color:#1F364B;
+	font-family: 'Jua', sans-serif;
+    font-size:17px;
+    color:white;
+    border: none;
+    border-radius:5px;
+    margin-left:10px;
+}
+#review_photo{
+	display:none;
+}
+.reviewPhotoChangeButton{
+    display: inline-block;
+    width: 43px;
+    background-color:#1F364B;
+	font-family: 'Jua', sans-serif;
+    font-size:17px;
+    color:white;
+	border: none;
+    border-radius:5px;
+    margin-left: 10px;
+}
+.reviewPhotoDeleteButton{
+	display: inline-block;
+    width: 43px;
+    background-color: #E50F0F;
+    font-family: 'Jua', sans-serif;
+    font-size: 17px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+}

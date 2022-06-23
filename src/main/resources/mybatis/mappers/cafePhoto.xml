@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafePhoto">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="cafePhotoResult" type="CafePhotoVO">
+		<result property="photo_id" column="photo_id"/>
+		<result property="filename" column="filename"/>
+		<result property="photo_type" column="photo_type"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+	</resultMap>	
+
+	<insert id="insertCafePhoto" parameterType="CafePhotoVO">
+		<![CDATA[
+			insert into `cafephoto`(
+				filename,
+				photo_type,
+				cafe_cafe_id
+			)
+			values(
+				#{filename},
+				#{photo_type},
+				#{cafe_cafe_id}
+			)
+		]]>
+	</insert>
+	<select id="selectCafePhoto" parameterType="_int" resultMap="cafePhotoResult">
+		<![CDATA[
+			select *
+			from `cafephoto`
+			where cafe_cafe_id = #{cafe_cafe_id}
+			and photo_type <> 'main'
+		]]>
+	</select>
+	<select id="selectOneCafePhoto" parameterType="_int" resultType="CafePhotoVO">
+		<![CDATA[
+			select *
+			from `cafephoto`
+			where `photo_id` = #{photo_id}
+		]]>
+	</select>
+	<select id="selectCafeMainPhoto" parameterType="_int" resultType="CafePhotoVO">
+		<![CDATA[
+			select *
+			from `cafephoto`
+			where cafe_cafe_id = #{cafe_cafe_id}
+			and photo_type = 'main'
+		]]>
+	</select>
+	<update id="updateCafePhoto" parameterType="CafePhotoVO">
+		<![CDATA[
+			update `cafephoto`
+			set filename=#{filename},
+			photo_type =#{photo_type}
+			where photo_id = #{photo_id}
+		]]>
+	</update>
+	<delete id="deleteCafePhoto" parameterType="_int">
+		<![CDATA[
+			delete from `cafephoto`
+			where photo_id = #{photo_id}
+		]]>
+	</delete>
+</mapper>

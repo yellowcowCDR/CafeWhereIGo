@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 512 512"
+   style="enable-background:new 0 0 512 512;"
+   xml:space="preserve"
+   sodipodi:docname="socket_icon_unavailable.svg"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs311"><marker
+     markerWidth="0.52499998"
+     markerHeight="0.99999994"
+     refX="0"
+     refY="0"
+     orient="auto-start-reverse"
+     id="marker1870"
+     viewBox="0 0 0.525 1"
+     inkscape:stockid="pin"
+     style="overflow:visible"
+     preserveAspectRatio="xMidYMid"
+     inkscape:isstock="true"
+     inkscape:collect="always"><path
+       id="path1868"
+       style="fill:context-stroke;stroke-linecap:butt"
+       d="M 0,-1 1,0 0,1 -0.05,0 Z"
+       sodipodi:nodetypes="sssssscsss"
+       transform="scale(0.5)" /></marker><marker
+     markerWidth="0.52499998"
+     markerHeight="0.99999994"
+     refX="0"
+     refY="0"
+     orient="auto-start-reverse"
+     id="CapTriangle"
+     viewBox="0 0 0.525 1"
+     inkscape:stockid="pin"
+     style="overflow:visible"
+     preserveAspectRatio="xMidYMid"
+     inkscape:isstock="true"
+     inkscape:collect="always"><path
+       id="path7813"
+       style="fill:context-stroke;stroke-linecap:butt"
+       d="M 0,-1 1,0 0,1 -0.05,0 Z"
+       sodipodi:nodetypes="sssssscsss"
+       transform="scale(0.5)" /></marker></defs><sodipodi:namedview
+   id="namedview309"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   inkscape:deskcolor="#d1d1d1"
+   showgrid="false"
+   inkscape:zoom="7.0976002"
+   inkscape:cx="-8.1717762"
+   inkscape:cy="18.245604"
+   inkscape:window-width="1440"
+   inkscape:window-height="795"
+   inkscape:window-x="0"
+   inkscape:window-y="25"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Layer_1" />
+<g
+   transform="translate(1 1)"
+   id="g276">
+	<g
+   id="g274">
+		<g
+   id="g272">
+			<path
+   d="M391.533-1H118.467c-28.16,0-51.2,23.04-51.2,51.2v409.6c0,28.16,23.04,51.2,51.2,51.2h273.067     c28.16,0,51.2-23.04,51.2-51.2V50.2C442.733,22.04,419.693-1,391.533-1z M425.667,459.8c0,18.773-15.36,34.133-34.133,34.133     H118.467c-18.773,0-34.133-15.36-34.133-34.133V50.2c0-18.773,15.36-34.133,34.133-34.133h273.067     c18.773,0,34.133,15.36,34.133,34.133V459.8z"
+   id="path256" />
+			<path
+   d="M378.733,33.133H131.267C115.053,33.133,101.4,46.787,101.4,63v384c0,16.213,13.653,29.867,29.867,29.867h247.467     c16.213,0,29.867-13.653,29.867-29.867V63C408.6,46.787,394.947,33.133,378.733,33.133z M391.533,447     c0,6.827-5.973,12.8-12.8,12.8H131.267c-6.827,0-12.8-5.973-12.8-12.8V63c0-6.827,5.973-12.8,12.8-12.8h247.467     c6.827,0,12.8,5.973,12.8,12.8V447z"
+   id="path258" />
+			<path
+   d="M229.4,135.533c-9.387,0-17.067,7.68-17.067,17.067c0,9.387,7.68,17.067,17.067,17.067     c9.387,0,17.067-7.68,17.067-17.067C246.467,143.213,238.787,135.533,229.4,135.533z"
+   id="path260" />
+			<path
+   d="M280.6,135.533c-9.387,0-17.067,7.68-17.067,17.067c0,9.387,7.68,17.067,17.067,17.067s17.067-7.68,17.067-17.067     C297.667,143.213,289.987,135.533,280.6,135.533z"
+   id="path262" />
+			<path
+   d="M229.4,340.333c-9.387,0-17.067,7.68-17.067,17.067s7.68,17.067,17.067,17.067c9.387,0,17.067-7.68,17.067-17.067     S238.787,340.333,229.4,340.333z"
+   id="path264" />
+			<path
+   d="M280.6,340.333c-9.387,0-17.067,7.68-17.067,17.067s7.68,17.067,17.067,17.067s17.067-7.68,17.067-17.067     S289.987,340.333,280.6,340.333z"
+   id="path266" />
+			<path
+   d="M273.773,68.973c-1.707-0.853-5.12,0-6.827,1.707c-2.56,1.707-3.413,4.267-3.413,6.827v15.36h-17.067v-15.36     c0-2.56-0.853-5.12-3.413-5.12c-1.707-1.707-4.267-2.56-6.827-1.707c-39.253,8.533-66.56,42.667-66.56,82.773     c0,40.107,27.307,74.24,66.56,82.773c2.56,0.853,5.12,0,6.827-1.707c2.56-1.707,3.413-4.267,3.413-6.827v-15.36h17.067v15.36     c0,2.56,0,6.827,10.24,6.827c39.253-8.533,66.56-42.667,66.56-82.773C340.333,111.64,313.027,77.507,273.773,68.973z      M280.6,215.747V203.8c0-5.12-3.413-8.533-8.533-8.533h-34.133c-5.12,0-8.533,3.413-8.533,8.533v11.947     c-25.6-10.24-42.667-34.987-42.667-63.147c0-28.16,17.067-52.907,42.667-63.147V101.4c0,5.12,3.413,8.533,8.533,8.533h34.133     c5.12,0,8.533-3.413,8.533-8.533V89.453c25.6,10.24,42.667,34.987,42.667,63.147C323.267,180.76,306.2,205.507,280.6,215.747z"
+   id="path268" />
+			<path
+   d="M273.773,273.773c-1.707-0.853-5.12,0-6.827,1.707c-2.56,1.707-3.413,4.267-3.413,6.827v15.36h-17.067v-13.653     c0-2.56-1.707-5.12-3.413-6.827c-1.707-1.707-4.267-2.56-6.827-1.707c-39.253,8.533-66.56,42.667-66.56,82.773     c0,40.107,27.307,74.24,66.56,82.773c2.56,0.853,5.12,0,6.827-1.707c2.56-1.707,3.413-4.267,3.413-6.827v-15.36h17.067v15.36     c0,2.56-1.707,6.827,10.24,6.827c39.253-8.533,66.56-42.667,66.56-82.773S313.027,282.307,273.773,273.773z M280.6,420.547V408.6     c0-5.12-3.413-8.533-8.533-8.533h-34.133c-5.12,0-8.533,3.413-8.533,8.533v11.947c-25.6-10.24-42.667-34.987-42.667-63.147     s17.067-52.907,42.667-63.147V306.2c0,5.12,3.413,8.533,8.533,8.533h34.133c5.12,0,8.533-3.413,8.533-8.533v-11.947     c25.6,10.24,42.667,34.987,42.667,63.147S306.2,410.307,280.6,420.547z"
+   id="path270" />
+		</g>
+	</g>
+</g>
+<g
+   id="g278">
+</g>
+<g
+   id="g280">
+</g>
+<g
+   id="g282">
+</g>
+<g
+   id="g284">
+</g>
+<g
+   id="g286">
+</g>
+<g
+   id="g288">
+</g>
+<g
+   id="g290">
+</g>
+<g
+   id="g292">
+</g>
+<g
+   id="g294">
+</g>
+<g
+   id="g296">
+</g>
+<g
+   id="g298">
+</g>
+<g
+   id="g300">
+</g>
+<g
+   id="g302">
+</g>
+<g
+   id="g304">
+</g>
+<g
+   id="g306">
+</g>
+<path
+   style="fill:none;stroke:#ff0000;stroke-width:19.7145;stroke-dasharray:none;marker-start:url(#marker1870);marker-end:url(#CapTriangle)"
+   d="M 7.1471081,7.1483802 505.09218,505.0101"
+   id="path1512" /></svg>

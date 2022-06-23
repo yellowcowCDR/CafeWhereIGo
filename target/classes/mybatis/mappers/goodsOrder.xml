@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.goodsOrder">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="goodsOrderResult" type="GoodsOrderVO">
+		<result property="order_id" column="order_id"/>
+		<result property="goods_goods_id" column="goods_goods_id"/>
+		<result property="order_quantity" column="order_quantity"/>
+		<result property="is_takeout" column="is_takeout"/>
+		<result property="order_date" column="order_date"/>
+		<result property="order_state" column="order_state"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+		<result property="OrderAndReservation_OrderAndReservation_id" column="OrderAndReservation_OrderAndReservation_id"/>
+	</resultMap>	
+
+	<insert id="insertGoodsOrder" parameterType="GoodsOrderVO">
+		<![CDATA[
+			insert into `goodsorder`(
+				goods_goods_id,
+				order_quantity,
+				is_takeout,
+				order_state,
+				user_user_id,
+				cafe_cafe_id,
+				orderAndReservation_OrderAndReservation_id
+			)
+			values(
+				#{goods_goods_id},
+				#{order_quantity},
+				#{is_takeout},
+				#{order_state},
+				#{user_user_id},
+				#{cafe_cafe_id},
+				#{orderAndReservation_OrderAndReservation_id}
+			)
+		]]>
+	</insert>
+	<select id="selectGoodsOrderByUserId" parameterType="string" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where user_user_id = #{user_id}
+		]]>
+	</select>
+	<select id="selectGoodsOrderByOrderId" parameterType="_int" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where `OrderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
+	<select id="selectGoodsOrderByUserIdAndOrderId" parameterType="hashmap" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where user_user_id = #{user_id}
+			and `OrderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
+	<select id="selectGoodsOrderForReview" parameterType="hashmap" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where 
+				user_user_id = #{user_id}
+				and
+				cafe_cafe_id = #{cafe_id}
+				and
+				`OrderAndReservation_OrderAndReservation_id`= #{order_id}
+		]]>
+	</select>
+	<select id="selectGoodsOrderByCafeId" parameterType="_int" resultMap="goodsOrderResult">
+		<![CDATA[
+			select *
+			from `goodsorder`
+			where cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<update id="updateGoodsOrder" parameterType="GoodsOrderVO">
+		<![CDATA[
+			update `goodsorder`
+			set order_quantity=#{order_quantity},
+				is_takeout=#{is_takeout}
+			where order_id = #{order_id}
+		]]>
+	</update>
+	<delete id="deleteGoodsOrder" parameterType="_int">
+		<![CDATA[
+			delete from `goodsorder`
+			where order_id = #{order_id}
+		]]>
+	</delete>
+	<delete id="updateGoodsOrderState" parameterType="GoodsOrderVO">
+		<![CDATA[
+			update `goodsorder`
+			set `order_state` = #{order_state}
+			where order_id = #{order_id}
+		]]>
+	</delete>
+</mapper>

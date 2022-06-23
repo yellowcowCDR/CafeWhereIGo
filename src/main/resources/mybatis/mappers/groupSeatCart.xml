@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.groupSeatCart">
+	<!-- 리절트 맵 정의 -->		
+	<resultMap id="groupSeatCartSearchResult" type="GroupSeatCartSearchResultVO">
+		<result property="cart_id" column="cart_id"/>
+		<result property="groupSeat_id" column="groupSeat_id"/>
+		<result property="seat_name" column="seat_name"/>
+		<result property="price" column="price"/>
+		<result property="description" column="description"/>
+		<result property="reservation_date" column="reservation_date"/>
+		<result property="start_time" column="start_time"/>
+		<result property="end_time" column="end_time"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="cafe_cafe_id" column="cafe_cafe_id"/>
+	</resultMap>
+	
+	<insert id="insertGroupSeatCart" parameterType="GoodsCartVO">
+		<![CDATA[
+			insert into `cart_group_seat`(
+				groupSeat_id,
+				reservation_date,
+				start_time,
+				end_time,
+				cart_state,
+				user_user_id,
+				cafe_cafe_id
+			)
+			values(
+				#{groupSeat_id},
+				#{reservation_date},
+				#{start_time},
+				#{end_time},
+				#{cart_state},
+				#{user_user_id},
+				#{cafe_cafe_id}
+			)
+		]]>
+	</insert>
+	<select id="selectGroupSeatCartByCafeId" parameterType="_int" resultMap="groupSeatCartSearchResult">
+		<![CDATA[
+			select 
+				c.cart_id as cart_id,
+				c.groupseat_id as groupseat_id,
+				g.seat_name as seat_name,
+				g.price as price,
+				g.description as description,
+				c.reservation_date as reservation_date,
+				c.start_time as start_time,
+				c.end_time as end_time,
+				c.user_user_id as user_user_id,
+				c.cafe_cafe_id as cafe_cafe_id
+				from `cart_group_seat`c
+				left join `groupseat`g
+				on c.`groupSeat_id` = g.`groupseat_id`
+			where c.cafe_cafe_id = #{cafe_id}
+		]]>
+	</select>
+	<select id="selectGroupSeatCartByUserId" parameterType="string" resultMap="groupSeatCartSearchResult">
+		<![CDATA[
+			select 
+				c.cart_id as cart_id,
+				c.groupseat_id as groupseat_id,
+				g.seat_name as seat_name,
+				g.price as price,
+				g.description as description,
+				c.reservation_date as reservation_date,
+				c.start_time as start_time,
+				c.end_time as end_time,
+				c.user_user_id as user_user_id,
+				c.cafe_cafe_id as cafe_cafe_id
+				from `cart_group_seat`c
+				left join `groupseat`g
+				on c.`groupSeat_id` = g.`groupseat_id`
+			where user_user_id = #{user_id}
+		]]>
+	</select>
+	<select id="selectOneGroupSeatCart" parameterType="_int" resultType="GoodsCartVO">
+		<![CDATA[
+			select *
+			from `cart_group_seat`
+			where cart_id = #{cart_id}
+		]]>
+	</select>
+	<update id="updateGroupSeatCart" parameterType="GoodsCartVO">
+		<![CDATA[
+			update `cart_group_seat`
+			set
+			quantity = #{quantity},
+			cart_state = #{cart_state}
+			where goods_id = #{goods_id}
+		]]>
+	</update>
+	<delete id="deleteGroupSeatCart" parameterType="_int">
+		<![CDATA[
+			delete from `cart_group_seat`
+			where cart_id = #{cart_id}
+		]]>
+	</delete>
+	
+</mapper>

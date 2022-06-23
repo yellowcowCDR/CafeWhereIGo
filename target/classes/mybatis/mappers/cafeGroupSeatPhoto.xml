@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cafeGroupSeatPhoto">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="goodsPhotoResult" type="GroupSeatPhotoVO">
+		<result property="GroupSeat_groupseat_id" column="GroupSeat_groupseat_id"/>
+		<result property="filename" column="filename"/>
+	</resultMap>	
+
+	<insert id="insertGroupSeatPhoto" parameterType="GroupSeatPhotoVO">
+		<![CDATA[
+			insert into `groupseatphoto`(
+				GroupSeat_groupseat_id,
+				filename
+			)
+			values(
+				#{GroupSeat_groupseat_id},
+				#{filename}
+			)
+		]]>
+	</insert>
+	<select id="selectGroupSeatPhoto" parameterType="_int" resultMap="goodsPhotoResult">
+		<![CDATA[
+			select *
+			from `groupseatphoto`
+			where GroupSeat_groupseat_id = #{seat_id}
+		]]>
+	</select>
+	<update id="updateGroupSeatPhoto" parameterType="GroupSeatPhotoVO">
+		<![CDATA[
+			update `groupseatphoto`
+			set filename=#{filename}
+			where GroupSeat_groupseat_id = #{GroupSeat_groupseat_id}
+		]]>
+	</update>
+	<delete id="deleteGroupSeatPhoto" parameterType="_int">
+		<![CDATA[
+			delete from `groupseatphoto`
+			where GroupSeat_groupseat_id = #{seat_id}
+		]]>
+	</delete>
+	
+</mapper>

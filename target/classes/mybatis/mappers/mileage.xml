@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.mileage">
+	<!-- 리절트 맵 정의 -->	
+	<resultMap id="mileageHistoryResult" type="MileageHistoryVO">
+		<result property="mileage_history_id" column="mileage_history_id"/>
+		<result property="mileage_score" column="mileage_score"/>
+		<result property="accumalate_date" column="accumalate_date"/>
+		<result property="user_user_id" column="user_user_id"/>
+		<result property="orderAndReservation_id" column="orderAndReservation_id"/>
+	</resultMap>	
+
+	<insert id="insertMileageHistory" parameterType="MileageHistoryVO">
+		<![CDATA[
+			insert into `mileagehistory`(
+				mileage_score,
+				user_user_id,
+				orderAndReservation_id
+			)
+			values(
+				#{mileage_score},
+				#{user_user_id},
+				#{orderAndReservation_id}
+			)
+		]]>
+	</insert>
+	<select id="selectMileageHistoryByUserId" parameterType="string" resultMap="mileageHistoryResult">
+		<![CDATA[
+			select *
+			from `mileagehistory`
+			where user_user_id = #{user_id}
+		]]>
+	</select>
+	<select id="selectOneMileageHistory" parameterType="_int" resultType="MileageHistoryVO">
+			select *
+			from `mileagehistory`
+			where mileage_history_id = #{mileage_history_id}
+	</select>
+	<update id="updateMileageHistory" parameterType="MileageHistoryVO">
+		<![CDATA[
+			update `mileagehistory`
+			set mileage_score=#{mileage_score},
+			where mileage_history_id = #{mileage_history_id}
+		]]>
+	</update>
+	<delete id="deleteMileageHistory" parameterType="_int">
+		<![CDATA[
+			delete from `mileagehistory`
+			where mileage_history_id = #{mileage_history_id}
+		]]>
+	</delete>
+</mapper>
