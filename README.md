@@ -28,5 +28,5 @@
 
   - <img src="https://img.shields.io/badge/Eclipse-2C2255?style=flat-square&logo=Eclipse&logoColor=white"/>
   - <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
-  - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176233284-31078442-5a34-42db-b728-742975404ce8.png/>
+  - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176233284-31078442-5a34-42db-b728-742975404ce8.png"/>
   - <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
