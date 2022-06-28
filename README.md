@@ -17,7 +17,7 @@
   - <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/>
   - <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jQuery&logoColor=white"/>
   - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176232066-2054dded-192f-4e50-8bbc-29cc038b30bf.png"/>
-  - REST API <img width="80px" src="https://user-images.githubusercontent.com/21366358/176232720-ea52a7b1-59b9-49e0-9ab6-f795cac5be1e.png"/>
+  - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176232720-ea52a7b1-59b9-49e0-9ab6-f795cac5be1e.png"/>
  
 * 사용된 외부 API
   - 카카오맵(주차장 위치표시에 사용)
@@ -30,4 +30,3 @@
   - <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
   - MySQL Workbench
   - <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
-![ajax_logo](https://user-images.githubusercontent.com/21366358/176230667-2525ff3f-b3fb-4c02-bc05-5a783a2238c9.svg)
