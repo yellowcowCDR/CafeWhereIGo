@@ -22,7 +22,7 @@
   - Google Font
 
 * 개발환경
-  - <img src="https://img.shields.io/badge/eclipseide-2C2255?style=flat-square&logo=Eclipse&logoColor=white"/>
+  - <img src="https://img.shields.io/badge/Eclipse-2C2255?style=flat-square&logo=Eclipse&logoColor=white"/>
   - <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
   - MySQL Workbench
   - <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
