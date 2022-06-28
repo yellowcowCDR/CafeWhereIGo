@@ -9,7 +9,7 @@
   * 회원 비밀번호의 경우 BcryptPasswordEncoder로 암호화하여 저장
  
 * 기술스택
- * Spring Framework
+  * Spring Framework
  - MySQL
  - MyBatis
  - JavaScript
