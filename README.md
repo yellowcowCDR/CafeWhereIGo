@@ -1,4 +1,4 @@
-# CafeWhereIGo
+# :coffee:CafeWhereIGo
 * 프로젝트명: 카페어디가?!
 * 프로젝트 개요
   - 기존의 카페 정보검색의 불편함을 개선하는 서비스 개발
