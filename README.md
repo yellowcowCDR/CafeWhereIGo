@@ -9,7 +9,7 @@
   * 회원 비밀번호의 경우 BcryptPasswordEncoder로 암호화하여 저장
  
 * 기술스택
-  * Spring Framework
+  * Spring Framework <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
   - MySQL
   - MyBatis
   - JavaScript
@@ -24,4 +24,4 @@
  
 * 개발기간: 3개월
 
-<img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
+
