@@ -16,7 +16,7 @@
   - <img width="100px" src="https://user-images.githubusercontent.com/21366358/176229524-7fd3671d-a903-4e43-82f5-93394394b58b.png"/>
   - <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/>
   - <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jQuery&logoColor=white"/>
-  - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176230667-2525ff3f-b3fb-4c02-bc05-5a783a2238c9.svg"/>
+  - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176232066-2054dded-192f-4e50-8bbc-29cc038b30bf.png"/>
   - REST API
  
 * 사용된 외부 API
@@ -24,7 +24,8 @@
   - 행정구역 목록 API(카페검색 시 사용)
   - Google Font(사이트 전체 테마폰트 사용)
 
-* 개발도구
+* 개발도구!
+
   - <img src="https://img.shields.io/badge/Eclipse-2C2255?style=flat-square&logo=Eclipse&logoColor=white"/>
   - <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
   - MySQL Workbench
