@@ -18,9 +18,9 @@
   - REST API
  
 * 사용된 외부 API
- - 카카오맵
- - 행정구역 목록 API
- - Google Font
+  - 카카오맵
+  - 행정구역 목록 API
+  - Google Font
  
- * 개발기간: 3개월
+* 개발기간: 3개월
 
