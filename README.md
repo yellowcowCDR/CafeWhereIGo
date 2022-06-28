@@ -29,3 +29,4 @@
   - <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
   - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176233284-31078442-5a34-42db-b728-742975404ce8.png"/>
   - <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
+![cafe_white_24dp 복사본](https://user-images.githubusercontent.com/21366358/176235225-7edf5f25-e3a3-4394-bb60-73469e4bd191.svg)
