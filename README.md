@@ -29,4 +29,3 @@
   - <img src="https://img.shields.io/badge/Visual Studio Code-007ACC?style=flat-square&logo=Visual Studio Code&logoColor=white"/>
   - MySQL Workbench
   - <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
-![mybatis_logo](https://user-images.githubusercontent.com/21366358/176229524-7fd3671d-a903-4e43-82f5-93394394b58b.png)
