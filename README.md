@@ -10,12 +10,12 @@
  
 * 기술스택
   * Spring Framework
- - MySQL
- - MyBatis
- - JavaScript
- - JQuery
- - Ajax
- - REST API
+  - MySQL
+  - MyBatis
+  - JavaScript
+  - JQuery
+  - Ajax
+  - REST API
  
 * 사용된 외부 API
  - 카카오맵
