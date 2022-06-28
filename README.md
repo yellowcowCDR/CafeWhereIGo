@@ -20,9 +20,9 @@
   - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176232720-ea52a7b1-59b9-49e0-9ab6-f795cac5be1e.png"/>
  
 * 사용된 외부 API
-  - 카카오맵(주차장 위치표시에 사용)
-  - 행정구역 목록 API(카페검색 시 사용)
-  - Google Font(사이트 전체 테마폰트 사용)
+  - 카카오맵
+  - 행정구역 목록 API
+  - Google Font
 
 * 개발도구
   - <img src="https://img.shields.io/badge/Eclipse-2C2255?style=flat-square&logo=Eclipse&logoColor=white"/>
