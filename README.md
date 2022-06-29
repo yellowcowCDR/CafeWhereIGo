@@ -1,8 +1,6 @@
 # CafeWhereIGo
 * 프로젝트명: 카페어디가?!
 
-* 홈페이지 주소: http://ec2-18-233-14-146.compute-1.amazonaws.com:8080/CafeWhereIGo/main/main.do
-
 * 프로젝트 진행배경
   - 기존의 카페정보검색 방법의 경우, 주로 포털 사이트를 이용하여 검색하는 경우가 많음
   - 일반적인 카페가 아닌 전통찻집, 키즈카페 등이 검색되는 경우가 있었음(Daum)
@@ -41,3 +39,4 @@
   - <img width="80px" src="https://user-images.githubusercontent.com/21366358/176233284-31078442-5a34-42db-b728-742975404ce8.png"/>
   - <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=Git&logoColor=white"/>
 
+* 홈페이지 주소(AWS EC2): http://ec2-18-233-14-146.compute-1.amazonaws.com:8080/CafeWhereIGo/main/main.do
