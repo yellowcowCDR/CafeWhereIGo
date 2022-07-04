@@ -1,6 +1,8 @@
 # CafeWhereIGo
 * 프로젝트명: <a href="http://ec2-18-233-14-146.compute-1.amazonaws.com:8080/CafeWhereIGo/main/main.do">카페어디가?!</a>
 
+* 진행인원: 1명
+
 * 프로젝트 진행배경
   - 기존의 카페정보검색 방법의 경우, 주로 포털 사이트를 이용하여 검색하는 경우가 많음
   - 일반적인 카페가 아닌 전통찻집, 키즈카페 등이 검색되는 경우가 있었음(Daum)
@@ -18,8 +20,6 @@
   - 음료, 디저트 주문 및 단체석 예약가능
   - 카페관련 커뮤니티 게시판 존재(오늘의 카페, 이벤트, Q&A, 카페탐방후기)
   - 각 게시판에 대한 좋아요 가능
-
-* 프로젝트 구성인원: 1명
   
 * 기술스택
   - <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
