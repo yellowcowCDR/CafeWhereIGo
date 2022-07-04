@@ -1,7 +1,7 @@
 # CafeWhereIGo
 * 프로젝트명: <a href="http://ec2-18-233-14-146.compute-1.amazonaws.com:8080/CafeWhereIGo/main/main.do">카페어디가?!</a>
 
-* 진행인원: 1명
+* 진행인원: 1명(혼자서 진행)
 
 * 프로젝트 진행배경
   - 기존의 카페정보검색 방법의 경우, 주로 포털 사이트를 이용하여 검색하는 경우가 많음
