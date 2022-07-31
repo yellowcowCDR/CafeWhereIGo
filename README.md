@@ -1,5 +1,5 @@
 # CafeWhereIGo
-## 프로젝트 설명
+> ## 프로젝트 설명
 * 프로젝트명: <a href="http://ec2-18-233-14-146.compute-1.amazonaws.com:8080/CafeWhereIGo/main/main.do">카페어디가?!</a>
 
 * 진행인원: 1명
@@ -26,7 +26,7 @@
   
 * 주요기능에 대한설명  
 
-## 사용된 기술스택 및 개발도구
+> ## 사용된 기술스택 및 개발도구
 * 기술스택
   - <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
   - <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
