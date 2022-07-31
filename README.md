@@ -1,5 +1,5 @@
 # CafeWhereIGo
-##프로젝트 설명
+## 프로젝트 설명
 * 프로젝트명: <a href="http://ec2-18-233-14-146.compute-1.amazonaws.com:8080/CafeWhereIGo/main/main.do">카페어디가?!</a>
 
 * 진행인원: 1명
