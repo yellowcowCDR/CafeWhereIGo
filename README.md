@@ -36,7 +36,7 @@
 * 간헐적으로 DB Connection이 끊기는 문제
 
 
-> ## 사용된 기술스택 및 개발도구
+> ## 기술스택 및 개발도구
 * 기술스택
   - <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
   - <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
