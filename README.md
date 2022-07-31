@@ -23,6 +23,8 @@
   - 카페관련 커뮤니티 게시판 존재(오늘의 카페, 이벤트, Q&A, 카페탐방후기)
   - 각 게시판에 대한 좋아요 가능
   
+* 주요기능에 대한설명  
+  
 * 기술스택
   - <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
   - <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
