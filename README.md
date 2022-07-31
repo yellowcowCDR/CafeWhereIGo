@@ -48,7 +48,7 @@
   - <img src="https://img.shields.io/badge/Apache Maven-C71A36?style=flat-square&logo=Apache Maven&logoColor=white"/>
   - <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=flat-square&logo=Amazon EC2&logoColor=white"/>
  
-* 사용된 외부 API
+* 외부 API
   - 카카오맵
   - 행정구역 목록 API(공공데이터)
   - Google Font
