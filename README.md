@@ -28,7 +28,7 @@
 
 
 * DB 설계
-<img width="961" alt="image" src="https://user-images.githubusercontent.com/21366358/182026121-64c8ba97-eb03-40e4-88a9-68dc9441848b.png">
+  <img width="961" alt="image" src="https://user-images.githubusercontent.com/21366358/182026121-64c8ba97-eb03-40e4-88a9-68dc9441848b.png">
 
 
 > ## 문제해결
@@ -48,7 +48,7 @@
     - 시간을 늘려도 언젠가 끊길 가능성 존재
     - 주기적으로 커넥션을 확인하여 커넥션이 끊길 경우 다시 연결시도
     - 커넥션 상태를 확인하는 Validation Query 도입
-    - 일정 시간마다 Validation Query를 날려서 커넥션 상태확인
+    - 일정 시간마다 Validation Query를 날려서 커넥션 상태를 확인하도록 설정
       <img width="902" alt="image" src="https://user-images.githubusercontent.com/21366358/182086751-648984ec-efa2-49e3-9282-b2b6824c236e.png">
 
 > ## 기술스택 및 개발도구
