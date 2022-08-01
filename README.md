@@ -26,7 +26,7 @@
   - 각 게시판에 대한 좋아요 가능
 
 * 설계
-  * Use Case 설계
+  + Use Case 설계
     - 회원관리시스템
       <img width="510" alt="image" src="https://user-images.githubusercontent.com/21366358/182107525-cd3184ad-75e3-4d97-a800-eb377db42100.png">
     - 카페관리시스템
