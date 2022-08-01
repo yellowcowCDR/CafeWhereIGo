@@ -33,11 +33,25 @@
 
 
 > ## 문제해결
-* 간헐적으로 DB Connection이 끊기는 문제
-  * 원인
-    - 간헐적으로 DB Connection이 끊겨서 DB에 접근하지 못하는 문제 발생
-    - 문제가 발생할 때 마다 로그에서 "Unknown Connection"이라는 에러메세지가 발견됨
-    - ㅁㄴㅇㄹ
+* 간헐적으로 DB 커넥션이 끊기는 문제
+  * 증상
+    - 간헐적으로 DB에 접근하지 못하는 문제 발생 
+    - 문제가 발생할 때 마다 로그에서 "Unknown Connection"이라는 에러메세지가 발견됨 
+  * 문제
+    - MySQL에는 MySQL 서버에 대해 설정할 수 있는 System 변수를 제공
+    - 그 중에 사용하지 않는 커넥션을 유지하는 시간을 설정하는 wait_timeout이라는 System 변수가 존재
+    - wait_timeout의 경우, 기본값이 8시간으로 되어있음
+    - 8시간 후 커넥션이 끊겨 DB 접근불가
+    <img width="700" alt="image" src="https://user-images.githubusercontent.com/21366358/182085137-1fa04882-e123-41ce-8e11-72668f9b5c21.png">
+
+  * 문제해결
+    - 커넥션 유지시간을 무한정 늘리는 것은 불가
+    - 시간을 늘려도 언젠가 끊길 가능성 존재
+    - 주기적으로 커넥션을 확인하여 커넥션이 끊길 경우 다시 연결시도
+    - 커넥션 상태를 확인하는 Validation Query 도입
+    - 일정 시간마다 Validation Query를 날려서 커넥션 상태확인
+    <img width="592" alt="image" src="https://user-images.githubusercontent.com/21366358/182083324-3624c008-7a49-45d9-8db0-c8f154ed53cb.png">
+
 > ## 기술스택 및 개발도구
 * 기술스택
   - <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
