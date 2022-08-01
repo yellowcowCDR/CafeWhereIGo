@@ -24,13 +24,10 @@
   - 음료, 디저트 주문 및 단체석 예약가능
   - 카페관련 커뮤니티 게시판 존재(오늘의 카페, 이벤트, Q&A, 카페탐방후기)
   - 각 게시판에 대한 좋아요 가능
-  
-* 주요기능설명  
 
-
-* DB 설계
-  <img width="961" alt="image" src="https://user-images.githubusercontent.com/21366358/182026121-64c8ba97-eb03-40e4-88a9-68dc9441848b.png">
-
+* 설계
+  - DB 설계
+    <img width="961" alt="image" src="https://user-images.githubusercontent.com/21366358/182026121-64c8ba97-eb03-40e4-88a9-68dc9441848b.png">
 
 > ## 문제해결
 * 간헐적으로 DB 커넥션이 끊기는 문제
