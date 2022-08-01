@@ -34,9 +34,10 @@
 
 > ## 문제해결
 * 간헐적으로 DB Connection이 끊기는 문제
-  - 간헐적으로 DB Connection이 끊겨서 DB에 접근하지 못하는 문제 발생
-  
-
+  * 원인
+    - 간헐적으로 DB Connection이 끊겨서 DB에 접근하지 못하는 문제 발생
+    - 문제가 발생할 때 마다 로그에서 "Unknown Connection"이라는 에러메세지가 발견됨
+    - ㅁㄴㅇㄹ
 > ## 기술스택 및 개발도구
 * 기술스택
   - <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/>
