@@ -52,7 +52,7 @@
     - 그 중에 사용하지 않는 커넥션을 유지하는 시간을 설정하는 wait_timeout이라는 System 변수가 존재
     - wait_timeout의 경우, 기본값이 8시간으로 되어있음
     - 8시간 후 커넥션이 끊겨 DB 접근불가
-      <img width="700" alt="image" src="https://user-images.githubusercontent.com/21366358/182143312-72808b75-591d-421d-968e-b380032b687b.png">
+      <img width="700" alt="image" src="https://user-images.githubusercontent.com/21366358/182143426-01bf54d2-0255-475e-9c95-01fedb2a75e0.png">
 
   * 문제해결
     - 커넥션 유지시간을 무한정 늘리는 것은 불가
