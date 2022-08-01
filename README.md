@@ -31,7 +31,7 @@
 <img width="961" alt="image" src="https://user-images.githubusercontent.com/21366358/182026121-64c8ba97-eb03-40e4-88a9-68dc9441848b.png">
 
 
-
+<hr>
 > ## 문제해결
 * 간헐적으로 DB 커넥션이 끊기는 문제
   * 증상
