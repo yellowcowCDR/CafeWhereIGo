@@ -30,7 +30,7 @@
     - 회원관리시스템
       <img width="510" alt="image" src="https://user-images.githubusercontent.com/21366358/182107525-cd3184ad-75e3-4d97-a800-eb377db42100.png">
     - 카페관리시스템
-      <img width="286" alt="image" src="https://user-images.githubusercontent.com/21366358/182107737-05450714-36d9-4765-90af-7895b1dd9890.png">
+      <img width="627" alt="image" src="https://user-images.githubusercontent.com/21366358/182109052-accb7f74-69e9-463b-a3bf-0db56c9b9277.png">
     - 주문/예약관리시스템
       <img width="286" alt="image" src="https://user-images.githubusercontent.com/21366358/182107821-ab7e70f7-195e-4fc7-84dc-bee8eb1b1ce8.png">
     - 게시판관리시스템
