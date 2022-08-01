@@ -50,7 +50,7 @@
     - 주기적으로 커넥션을 확인하여 커넥션이 끊길 경우 다시 연결을 시도하는 방향으로 문제해결
     - 커넥션 상태를 확인하는 Validation Query 도입
     - 일정 시간마다 Validation Query를 날려서 커넥션 상태를 확인하도록 설정
-      <img width="902" alt="image" src="https://user-images.githubusercontent.com/21366358/182086751-648984ec-efa2-49e3-9282-b2b6824c236e.png">
+      <img width="902" alt="image" src="https://user-images.githubusercontent.com/21366358/182088577-716c6d0c-0b1e-447e-991f-2dc5eb367d3d.png">
 
 > ## 기술스택 및 개발도구
 * 기술스택
