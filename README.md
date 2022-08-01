@@ -37,7 +37,7 @@
      <img width="286" alt="image" src="https://user-images.githubusercontent.com/21366358/182107821-ab7e70f7-195e-4fc7-84dc-bee8eb1b1ce8.png">
     
     * 게시판관리시스템
-     <img width="263" alt="image" src="https://user-images.githubusercontent.com/21366358/182108481-bf64d8bc-aef8-4b54-881f-19a1fac78f77.png">
+     <img width="502" alt="image" src="https://user-images.githubusercontent.com/21366358/182110605-a26a4f5c-698d-42a1-8c8b-fbb81304c9eb.png">
 
   * DB 설계
     <img width="961" alt="image" src="https://user-images.githubusercontent.com/21366358/182026121-64c8ba97-eb03-40e4-88a9-68dc9441848b.png">
