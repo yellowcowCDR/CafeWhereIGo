@@ -34,7 +34,7 @@
      <img width="627" alt="image" src="https://user-images.githubusercontent.com/21366358/182109052-accb7f74-69e9-463b-a3bf-0db56c9b9277.png">
     
     * 주문/예약관리시스템
-     <img width="286" alt="image" src="https://user-images.githubusercontent.com/21366358/182107821-ab7e70f7-195e-4fc7-84dc-bee8eb1b1ce8.png">
+     <img width="453" alt="image" src="https://user-images.githubusercontent.com/21366358/182110912-b11589cd-6fc0-495d-b1d2-a8d0629df6ff.png">
     
     * 게시판관리시스템
      <img width="502" alt="image" src="https://user-images.githubusercontent.com/21366358/182110605-a26a4f5c-698d-42a1-8c8b-fbb81304c9eb.png">
